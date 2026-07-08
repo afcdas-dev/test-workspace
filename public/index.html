@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Spy de Criativos — Pesquisa de Concorrentes</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔍</text></svg>" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>🔍 Spy de Criativos</h1>
+    <p>Descreva seu nicho e receba os criativos dos concorrentes desmontados: ângulos, ganchos, CTAs e gatilhos.</p>
+  </header>
+
+  <main>
+    <!-- ONBOARDING -->
+    <section id="onboarding" class="card">
+      <div class="steps-indicator">
+        <span class="step-dot active" data-step="1">1</span>
+        <span class="step-dot" data-step="2">2</span>
+        <span class="step-dot" data-step="3">3</span>
+      </div>
+
+      <form id="onboarding-form">
+        <!-- Etapa 1: nicho -->
+        <div class="step active" data-step="1">
+          <h2>Qual é o seu nicho?</h2>
+          <label>Nicho *
+            <input type="text" name="nicho" placeholder="ex: emagrecimento feminino, cursos de inglês, dropshipping de pets..." required />
+          </label>
+          <label>Descreva seu produto ou serviço
+            <textarea name="descricao" rows="3" placeholder="ex: mentoria de 8 semanas para mulheres 35+ perderem peso sem dieta restritiva..."></textarea>
+          </label>
+          <div class="actions">
+            <button type="button" class="btn primary" data-next="2">Continuar →</button>
+          </div>
+        </div>
+
+        <!-- Etapa 2: público e mercado -->
+        <div class="step" data-step="2">
+          <h2>Público e mercado</h2>
+          <label>Público-alvo
+            <input type="text" name="publico" placeholder="ex: mulheres de 35 a 55 anos, classe B/C, que já tentaram dietas..." />
+          </label>
+          <div class="row">
+            <label>País
+              <select name="pais">
+                <option value="BR" selected>Brasil</option>
+                <option value="US">Estados Unidos</option>
+                <option value="PT">Portugal</option>
+                <option value="MX">México</option>
+                <option value="ES">Espanha</option>
+              </select>
+            </label>
+            <label>Idioma dos anúncios
+              <select name="idioma">
+                <option value="português" selected>Português</option>
+                <option value="inglês">Inglês</option>
+                <option value="espanhol">Espanhol</option>
+              </select>
+            </label>
+          </div>
+          <label>Concorrentes que você já conhece (opcional)
+            <input type="text" name="concorrentes" placeholder="ex: Marca X, @perfil.y, empresaz.com.br" />
+          </label>
+          <div class="actions">
+            <button type="button" class="btn ghost" data-prev="1">← Voltar</button>
+            <button type="button" class="btn primary" data-next="3">Continuar →</button>
+          </div>
+        </div>
+
+        <!-- Etapa 3: plataformas + confirmar -->
+        <div class="step" data-step="3">
+          <h2>Onde buscar?</h2>
+          <div class="checkboxes">
+            <label class="check"><input type="checkbox" name="plataformas" value="facebook" checked /> Facebook</label>
+            <label class="check"><input type="checkbox" name="plataformas" value="instagram" checked /> Instagram</label>
+            <label class="check"><input type="checkbox" name="plataformas" value="tiktok" /> TikTok</label>
+            <label class="check"><input type="checkbox" name="plataformas" value="youtube" /> YouTube</label>
+          </div>
+          <p class="hint" id="fonte-hint"></p>
+          <div class="actions">
+            <button type="button" class="btn ghost" data-prev="2">← Voltar</button>
+            <button type="submit" class="btn primary big">🚀 Buscar criativos</button>
+          </div>
+        </div>
+      </form>
+    </section>
+
+    <!-- PROGRESSO -->
+    <section id="progresso" class="card hidden">
+      <div class="spinner"></div>
+      <p id="progresso-msg">Iniciando...</p>
+      <ul id="progresso-log"></ul>
+    </section>
+
+    <!-- RESULTADOS -->
+    <section id="resultados" class="hidden">
+      <div class="card" id="painel-estrategia"></div>
+      <div class="card" id="painel-insights"></div>
+      <div class="results-header">
+        <h2>Criativos encontrados</h2>
+        <div class="results-tools">
+          <select id="filtro-gancho"><option value="">Todos os ganchos</option></select>
+          <select id="ordenar">
+            <option value="pontuacao">Ordenar por nota</option>
+            <option value="anunciante">Ordenar por anunciante</option>
+          </select>
+          <button class="btn ghost" id="exportar">⬇ Exportar JSON</button>
+          <button class="btn ghost" id="nova-busca">Nova busca</button>
+        </div>
+      </div>
+      <div id="lista-criativos" class="grid"></div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
