@@ -22,6 +22,38 @@ const app = express();
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// ---------- Sessão (cookie) ----------
+const SESSION_COOKIE = 'sid';
+
+function parseCookies(req) {
+  const out = {};
+  for (const part of (req.headers.cookie || '').split(';')) {
+    const idx = part.indexOf('=');
+    if (idx > 0) out[part.slice(0, idx).trim()] = decodeURIComponent(part.slice(idx + 1).trim());
+  }
+  return out;
+}
+
+app.use((req, res, next) => {
+  const token = parseCookies(req)[SESSION_COOKIE];
+  const session = store.getSession(token);
+  req.user = session ? store.getUserById(session.userId) : null;
+  req.sessionToken = session ? token : null;
+  next();
+});
+
+function setSessionCookie(res, token) {
+  res.setHeader(
+    'Set-Cookie',
+    `${SESSION_COOKIE}=${token}; Path=/; HttpOnly; SameSite=Lax; Max-Age=${30 * 24 * 60 * 60}`
+  );
+}
+
+function requireLogin(req, res, next) {
+  if (!req.user) return res.status(401).json({ error: 'Faça login para continuar.' });
+  next();
+}
+
 // ---------- Upload (multer) ----------
 const upload = multer({
   storage: multer.diskStorage({
@@ -52,7 +84,10 @@ function findAlbumOr404(req, res) {
   return album;
 }
 
+// Os noivos são reconhecidos pela sessão de login (dono do álbum) ou,
+// como reserva, pelo token secreto gerado na criação do álbum.
 function isAdmin(req, album) {
+  if (req.user && album.ownerId && req.user.id === album.ownerId) return true;
   const token = req.get('x-admin-token') || req.query.token;
   return Boolean(
     token &&
@@ -85,26 +120,94 @@ app.get('/admin/:slug', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'admin.html'));
 });
 
-// ---------- API ----------
+// ---------- API: autenticação dos noivos ----------
 
-// Cria um novo álbum (usado pelos noivos).
-app.post('/api/albums', (req, res) => {
+app.post('/api/auth/register', (req, res) => {
+  const { email, password, name } = req.body || {};
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return res.status(400).json({ error: 'Informe um e-mail válido.' });
+  }
+  if (!password || password.length < 8) {
+    return res.status(400).json({ error: 'A senha precisa ter pelo menos 8 caracteres.' });
+  }
+  const result = store.createUser({
+    email,
+    password,
+    name: name ? String(name).trim().slice(0, 80) : null,
+  });
+  if (result.error) return res.status(409).json({ error: result.error });
+  setSessionCookie(res, store.createSession(result.user.id));
+  res.status(201).json({ email: result.user.email, name: result.user.name });
+});
+
+app.post('/api/auth/login', (req, res) => {
+  const { email, password } = req.body || {};
+  const user = email && password ? store.getUserByEmail(email) : null;
+  if (!user || !store.verifyPassword(user, password)) {
+    return res.status(401).json({ error: 'E-mail ou senha incorretos.' });
+  }
+  setSessionCookie(res, store.createSession(user.id));
+  res.json({ email: user.email, name: user.name });
+});
+
+app.post('/api/auth/logout', (req, res) => {
+  if (req.sessionToken) store.deleteSession(req.sessionToken);
+  res.setHeader('Set-Cookie', `${SESSION_COOKIE}=; Path=/; HttpOnly; Max-Age=0`);
+  res.json({ ok: true });
+});
+
+app.get('/api/auth/me', (req, res) => {
+  if (!req.user) return res.status(401).json({ error: 'Não autenticado.' });
+  res.json({ email: req.user.email, name: req.user.name });
+});
+
+// Álbuns do casal logado.
+app.get('/api/my/albums', requireLogin, (req, res) => {
+  const albums = store.listAlbumsByOwner(req.user.id).map((a) => ({
+    slug: a.slug,
+    coupleNames: a.coupleNames,
+    weddingDate: a.weddingDate,
+    shared: a.shared,
+    mediaCount: a.media.length,
+    guestUrl: guestUrl(a),
+    adminUrl: `${BASE_URL}/admin/${a.slug}`,
+    createdAt: a.createdAt,
+  }));
+  res.json({ albums });
+});
+
+// ---------- API: álbuns ----------
+
+// Cria um novo álbum (exige login dos noivos).
+app.post('/api/albums', requireLogin, (req, res) => {
   const { coupleNames, weddingDate, welcomeMessage } = req.body || {};
   if (!coupleNames || !coupleNames.trim()) {
     return res.status(400).json({ error: 'Informe os nomes dos noivos.' });
   }
   const album = store.createAlbum({
+    ownerId: req.user.id,
     coupleNames: coupleNames.trim().slice(0, 120),
     weddingDate,
     welcomeMessage: welcomeMessage ? String(welcomeMessage).slice(0, 300) : null,
   });
   res.status(201).json({
     slug: album.slug,
-    adminToken: album.adminToken,
+    // Token reserva: dá acesso ao painel mesmo sem login (ex.: emprestar ao cerimonialista).
+    backupToken: album.adminToken,
     guestUrl: guestUrl(album),
-    adminUrl: `${BASE_URL}/admin/${album.slug}#${album.adminToken}`,
+    adminUrl: `${BASE_URL}/admin/${album.slug}`,
     qrUrl: `${BASE_URL}/api/albums/${album.slug}/qr.png`,
   });
+});
+
+// Confirma se quem chama é o casal dono do álbum (sessão ou token reserva).
+app.get('/api/albums/:slug/admin-check', (req, res) => {
+  const album = findAlbumOr404(req, res);
+  if (!album) return;
+  if (!isAdmin(req, album)) {
+    return res.status(403).json({ error: 'Acesso restrito aos noivos.' });
+  }
+  res.json({ ok: true });
 });
 
 // Informações públicas do álbum (o que o convidado vê).

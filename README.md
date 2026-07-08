@@ -7,11 +7,12 @@ podem liberar a galeria completa para todos os convidados.
 
 ## Como funciona
 
-1. **Os noivos criam o álbum** na página inicial (nomes, data e mensagem de
-   boas-vindas) e recebem:
+1. **Os noivos criam uma conta** (e-mail e senha) e, logados, **criam o álbum**
+   (nomes, data e mensagem de boas-vindas). Eles recebem:
    - o **QR code** para imprimir nas mesas ou enviar aos convidados;
    - o **link do convidado** (`/a/<slug>`), o mesmo destino do QR code;
-   - o **link secreto do painel dos noivos** (`/admin/<slug>#<token>`).
+   - o **painel dos noivos** (`/admin/<slug>`), acessível sempre que estiverem
+     logados; a lista "Meus álbuns" na página inicial leva até ele.
 2. **Os convidados escaneiam o QR code** e caem direto na página de upload:
    informam o nome, uma legenda opcional e enviam fotos e vídeos do celular.
 3. **Os noivos acompanham tudo pelo painel**: galeria completa com fotos e
@@ -56,7 +57,12 @@ Sobe o servidor em uma porta isolada e exercita o fluxo completo: criação do
 
 | Método   | Rota                                | Acesso            | Descrição                          |
 | -------- | ----------------------------------- | ----------------- | ---------------------------------- |
-| `POST`   | `/api/albums`                       | público           | Cria o álbum                       |
+| `POST`   | `/api/auth/register`                | público           | Cria a conta dos noivos            |
+| `POST`   | `/api/auth/login`                   | público           | Login (cookie de sessão)           |
+| `POST`   | `/api/auth/logout`                  | logado            | Encerra a sessão                   |
+| `GET`    | `/api/auth/me`                      | logado            | Dados do casal logado              |
+| `GET`    | `/api/my/albums`                    | logado            | Lista os álbuns do casal           |
+| `POST`   | `/api/albums`                       | logado            | Cria o álbum                       |
 | `GET`    | `/api/albums/:slug`                 | público           | Dados públicos do álbum            |
 | `GET`    | `/api/albums/:slug/qr.png`          | público           | QR code (PNG) do link do convidado |
 | `POST`   | `/api/albums/:slug/media`           | público           | Upload de fotos/vídeos             |
@@ -65,9 +71,13 @@ Sobe o servidor em uma porta isolada e exercita o fluxo completo: criação do
 | `POST`   | `/api/albums/:slug/share`           | só noivos         | Liga/desliga o compartilhamento    |
 | `DELETE` | `/api/albums/:slug/media/:id`       | só noivos         | Exclui uma mídia                   |
 | `GET`    | `/api/albums/:slug/download.zip`    | só noivos         | Baixa tudo em ZIP                  |
+| `GET`    | `/api/albums/:slug/admin-check`     | só noivos         | Confirma acesso de dono            |
 
-A autenticação dos noivos é feita pelo token gerado na criação do álbum,
-enviado no header `x-admin-token` ou no parâmetro `?token=`.
+Os noivos são autenticados pela **sessão de login** (cookie `sid`, senha com
+scrypt). Cada álbum também tem um **token reserva** (devolvido na criação como
+`backupToken`), aceito no header `x-admin-token` ou no parâmetro `?token=` —
+útil para emprestar o painel a um cerimonialista sem entregar a conta.
+Convidados nunca precisam de login.
 
 ## Limites e observações
 

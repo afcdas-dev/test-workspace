@@ -17,9 +17,9 @@
     <div class="card" id="denied-card" hidden>
       <h2 class="serif">🔒 Acesso restrito</h2>
       <p>
-        Este painel é exclusivo dos noivos. Abra o link completo que foi gerado na criação do
-        álbum (ele contém a chave secreta depois do símbolo <code>#</code>).
+        Este painel é exclusivo dos noivos. Entre com a conta que criou o álbum para continuar.
       </p>
+      <a class="btn" href="/">Fazer login</a>
     </div>
 
     <div id="admin-content" hidden>
@@ -73,10 +73,13 @@
 
   <script>
     const slug = location.pathname.split('/').pop();
+    // O acesso normal é pela sessão de login (cookie). O token na URL segue
+    // funcionando como chave reserva (ex.: link emprestado ao cerimonialista).
     const token = location.hash.slice(1) || new URLSearchParams(location.search).get('token') || '';
-    const authHeaders = { 'x-admin-token': token };
+    const authHeaders = token ? { 'x-admin-token': token } : {};
 
     function withToken(url) {
+      if (!token) return url;
       return url + (url.includes('?') ? '&' : '?') + 'token=' + encodeURIComponent(token);
     }
 
@@ -93,12 +96,13 @@
         document.getElementById('wedding-date').textContent = `${d}/${m}/${y}`;
       }
 
-      // Valida o token tentando listar as mídias como admin.
-      const mediaRes = await fetch(`/api/albums/${slug}/media`, { headers: authHeaders });
-      if (mediaRes.status === 403) {
+      // Confirma que quem está acessando é o casal dono (sessão ou token reserva).
+      const check = await fetch(`/api/albums/${slug}/admin-check`, { headers: authHeaders });
+      if (!check.ok) {
         document.getElementById('denied-card').hidden = false;
         return;
       }
+      const mediaRes = await fetch(`/api/albums/${slug}/media`, { headers: authHeaders });
 
       document.getElementById('admin-content').hidden = false;
       const guestUrl = `${location.origin}/a/${slug}`;
