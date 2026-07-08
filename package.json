@@ -1,0 +1,21 @@
+{
+  "name": "album-de-casamento-qr",
+  "version": "1.0.0",
+  "description": "Álbum colaborativo de casamento: os noivos geram um QR code e os convidados enviam fotos e vídeos durante a cerimônia.",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "archiver": "^7.0.1",
+    "express": "^4.21.2",
+    "multer": "^1.4.5-lts.2",
+    "qrcode": "^1.5.4"
+  }
+}

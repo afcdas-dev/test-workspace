@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Álbum do Casamento</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <div class="wrap">
+    <header class="hero">
+      <div class="ornament">❦ ❦ ❦</div>
+      <h1 id="couple-names">Carregando…</h1>
+      <p class="subtitle" id="wedding-date"></p>
+      <p id="welcome-message"></p>
+    </header>
+
+    <div class="card">
+      <h2 class="serif">📸 Envie suas fotos e vídeos</h2>
+      <form id="upload-form">
+        <label for="guestName">Seu nome</label>
+        <input type="text" id="guestName" placeholder="Ex.: Tia Maria" maxlength="60" />
+
+        <label for="caption">Legenda (opcional)</label>
+        <input type="text" id="caption" placeholder="Ex.: A entrada da noiva! 🥹" maxlength="200" />
+
+        <div class="dropzone" id="dropzone">
+          <span class="big">📷🎥</span>
+          <strong>Toque para escolher fotos e vídeos</strong><br />
+          ou arraste os arquivos até aqui
+          <input type="file" id="file-input" accept="image/*,video/*" multiple hidden />
+        </div>
+        <ul class="file-list" id="file-list"></ul>
+
+        <progress id="upload-progress" max="100" value="0" hidden></progress>
+        <button type="submit" class="btn" id="upload-btn" disabled>Enviar para o álbum 💌</button>
+        <p class="error" id="upload-error" hidden></p>
+        <p class="success" id="upload-success" hidden></p>
+      </form>
+    </div>
+
+    <div class="card" id="gallery-card" hidden>
+      <h2 class="serif">💞 Galeria do casamento</h2>
+      <p class="subtitle" id="gallery-count"></p>
+      <div class="gallery" id="gallery"></div>
+    </div>
+
+    <div class="card" id="locked-card" hidden>
+      <h2 class="serif">🔒 Galeria</h2>
+      <p class="subtitle">
+        As fotos e vídeos ficarão disponíveis aqui quando os noivos liberarem a galeria.
+        Volte depois da cerimônia! 💍
+      </p>
+    </div>
+
+    <footer>Feito com ♥ para o grande dia</footer>
+  </div>
+
+  <div class="lightbox" id="lightbox">
+    <button class="close" id="lightbox-close">×</button>
+    <div id="lightbox-content"></div>
+    <div class="caption" id="lightbox-caption"></div>
+  </div>
+
+  <script>
+    const slug = location.pathname.split('/').pop();
+    let selectedFiles = [];
+
+    async function loadAlbum() {
+      const res = await fetch(`/api/albums/${slug}`);
+      if (!res.ok) {
+        document.getElementById('couple-names').textContent = 'Álbum não encontrado 😕';
+        return;
+      }
+      const album = await res.json();
+      document.title = `Álbum de ${album.coupleNames}`;
+      document.getElementById('couple-names').textContent = album.coupleNames;
+      if (album.weddingDate) {
+        const [y, m, d] = album.weddingDate.split('-');
+        document.getElementById('wedding-date').textContent = `${d}/${m}/${y}`;
+      }
+      if (album.welcomeMessage) {
+        document.getElementById('welcome-message').textContent = album.welcomeMessage;
+      }
+      if (album.shared) {
+        loadGallery();
+      } else {
+        document.getElementById('locked-card').hidden = false;
+      }
+    }
+
+    async function loadGallery() {
+      const res = await fetch(`/api/albums/${slug}/media`);
+      if (!res.ok) return;
+      const { media } = await res.json();
+      document.getElementById('gallery-card').hidden = false;
+      document.getElementById('gallery-count').textContent =
+        `${media.length} ${media.length === 1 ? 'registro' : 'registros'} dos convidados`;
+      const gallery = document.getElementById('gallery');
+      gallery.innerHTML = '';
+      for (const m of media) {
+        const item = document.createElement('div');
+        item.className = 'item';
+        const el = m.type === 'video'
+          ? Object.assign(document.createElement('video'), { src: m.url, muted: true, playsInline: true, preload: 'metadata' })
+          : Object.assign(document.createElement('img'), { src: m.url, loading: 'lazy', alt: m.caption || 'Foto do casamento' });
+        item.appendChild(el);
+        if (m.type === 'video') {
+          const badge = document.createElement('span');
+          badge.className = 'badge';
+          badge.textContent = '▶ vídeo';
+          item.appendChild(badge);
+        }
+        const meta = document.createElement('div');
+        meta.className = 'meta';
+        meta.textContent = m.guestName || '';
+        item.appendChild(meta);
+        item.addEventListener('click', () => openLightbox(m));
+        gallery.appendChild(item);
+      }
+    }
+
+    function openLightbox(m) {
+      const content = document.getElementById('lightbox-content');
+      content.innerHTML = '';
+      content.appendChild(
+        m.type === 'video'
+          ? Object.assign(document.createElement('video'), { src: m.url, controls: true, autoplay: true, playsInline: true })
+          : Object.assign(document.createElement('img'), { src: m.url })
+      );
+      document.getElementById('lightbox-caption').textContent =
+        [m.guestName, m.caption].filter(Boolean).join(' — ');
+      document.getElementById('lightbox').classList.add('open');
+    }
+
+    document.getElementById('lightbox-close').addEventListener('click', () => {
+      document.getElementById('lightbox').classList.remove('open');
+      document.getElementById('lightbox-content').innerHTML = '';
+    });
+
+    // ---- Upload ----
+    const dropzone = document.getElementById('dropzone');
+    const fileInput = document.getElementById('file-input');
+    const uploadBtn = document.getElementById('upload-btn');
+
+    dropzone.addEventListener('click', () => fileInput.click());
+    dropzone.addEventListener('dragover', (e) => { e.preventDefault(); dropzone.classList.add('drag'); });
+    dropzone.addEventListener('dragleave', () => dropzone.classList.remove('drag'));
+    dropzone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropzone.classList.remove('drag');
+      addFiles(e.dataTransfer.files);
+    });
+    fileInput.addEventListener('change', () => addFiles(fileInput.files));
+
+    function addFiles(list) {
+      for (const f of list) {
+        if (/^(image|video)\//.test(f.type)) selectedFiles.push(f);
+      }
+      renderFileList();
+    }
+
+    function renderFileList() {
+      const ul = document.getElementById('file-list');
+      ul.innerHTML = '';
+      selectedFiles.forEach((f, i) => {
+        const li = document.createElement('li');
+        const name = document.createElement('span');
+        name.textContent = `${f.type.startsWith('video/') ? '🎥' : '📷'} ${f.name}`;
+        const remove = document.createElement('button');
+        remove.type = 'button';
+        remove.className = 'btn small secondary';
+        remove.textContent = 'remover';
+        remove.addEventListener('click', () => { selectedFiles.splice(i, 1); renderFileList(); });
+        li.append(name, remove);
+        ul.appendChild(li);
+      });
+      uploadBtn.disabled = selectedFiles.length === 0;
+    }
+
+    document.getElementById('upload-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (selectedFiles.length === 0) return;
+      const errEl = document.getElementById('upload-error');
+      const okEl = document.getElementById('upload-success');
+      const progress = document.getElementById('upload-progress');
+      errEl.hidden = okEl.hidden = true;
+      uploadBtn.disabled = true;
+      progress.hidden = false;
+      progress.value = 0;
+
+      const fd = new FormData();
+      fd.append('guestName', document.getElementById('guestName').value);
+      fd.append('caption', document.getElementById('caption').value);
+      selectedFiles.forEach((f) => fd.append('files', f));
+
+      const xhr = new XMLHttpRequest();
+      xhr.open('POST', `/api/albums/${slug}/media`);
+      xhr.upload.addEventListener('progress', (ev) => {
+        if (ev.lengthComputable) progress.value = (ev.loaded / ev.total) * 100;
+      });
+      xhr.addEventListener('load', () => {
+        progress.hidden = true;
+        uploadBtn.disabled = false;
+        if (xhr.status === 201) {
+          const { uploaded } = JSON.parse(xhr.responseText);
+          okEl.textContent = `🎉 ${uploaded} ${uploaded === 1 ? 'arquivo enviado' : 'arquivos enviados'}! Obrigado por compartilhar.`;
+          okEl.hidden = false;
+          selectedFiles = [];
+          renderFileList();
+          document.getElementById('caption').value = '';
+        } else {
+          let msg = 'Falha no envio. Tente novamente.';
+          try { msg = JSON.parse(xhr.responseText).error || msg; } catch {}
+          errEl.textContent = msg;
+          errEl.hidden = false;
+          uploadBtn.disabled = selectedFiles.length === 0;
+        }
+      });
+      xhr.addEventListener('error', () => {
+        progress.hidden = true;
+        errEl.textContent = 'Erro de conexão. Verifique sua internet e tente novamente.';
+        errEl.hidden = false;
+        uploadBtn.disabled = false;
+      });
+      xhr.send(fd);
+    });
+
+    loadAlbum();
+  </script>
+</body>
+</html>

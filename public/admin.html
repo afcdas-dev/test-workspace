@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Painel dos Noivos</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <div class="wrap">
+    <header class="hero">
+      <div class="ornament">❦ ❦ ❦</div>
+      <h1 id="couple-names">Painel dos Noivos</h1>
+      <p class="subtitle" id="wedding-date"></p>
+    </header>
+
+    <div class="card" id="denied-card" hidden>
+      <h2 class="serif">🔒 Acesso restrito</h2>
+      <p>
+        Este painel é exclusivo dos noivos. Abra o link completo que foi gerado na criação do
+        álbum (ele contém a chave secreta depois do símbolo <code>#</code>).
+      </p>
+    </div>
+
+    <div id="admin-content" hidden>
+      <div class="card qr-box">
+        <h2 class="serif">QR Code para os convidados</h2>
+        <img id="qr-img" alt="QR code do álbum" />
+        <div class="link-row">
+          <code id="guest-url"></code>
+          <button class="btn small" id="copy-guest">Copiar</button>
+        </div>
+        <div class="actions">
+          <a class="btn secondary" id="qr-download" download="qrcode-album.png">⬇ Baixar QR Code</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="toggle-row">
+          <div>
+            <h2 class="serif" style="margin-top:0">Compartilhar com os convidados</h2>
+            <p class="subtitle" id="share-hint">
+              Quando ativado, todos que têm o QR code podem ver a galeria completa.
+            </p>
+          </div>
+          <label class="switch">
+            <input type="checkbox" id="share-toggle" />
+            <span class="slider"></span>
+          </label>
+        </div>
+        <p class="success" id="share-status" hidden></p>
+      </div>
+
+      <div class="card">
+        <h2 class="serif" style="margin-top:0">💞 Galeria</h2>
+        <p class="subtitle" id="gallery-count">Carregando…</p>
+        <div class="actions">
+          <a class="btn" id="zip-download">⬇ Baixar tudo (.zip)</a>
+          <button class="btn secondary" id="refresh-btn">↻ Atualizar</button>
+        </div>
+        <div class="gallery" id="gallery"></div>
+      </div>
+    </div>
+
+    <footer>Feito com ♥ para o grande dia</footer>
+  </div>
+
+  <div class="lightbox" id="lightbox">
+    <button class="close" id="lightbox-close">×</button>
+    <div id="lightbox-content"></div>
+    <div class="caption" id="lightbox-caption"></div>
+  </div>
+
+  <script>
+    const slug = location.pathname.split('/').pop();
+    const token = location.hash.slice(1) || new URLSearchParams(location.search).get('token') || '';
+    const authHeaders = { 'x-admin-token': token };
+
+    function withToken(url) {
+      return url + (url.includes('?') ? '&' : '?') + 'token=' + encodeURIComponent(token);
+    }
+
+    async function init() {
+      const infoRes = await fetch(`/api/albums/${slug}`);
+      if (!infoRes.ok) {
+        document.getElementById('couple-names').textContent = 'Álbum não encontrado 😕';
+        return;
+      }
+      const album = await infoRes.json();
+      document.getElementById('couple-names').textContent = album.coupleNames;
+      if (album.weddingDate) {
+        const [y, m, d] = album.weddingDate.split('-');
+        document.getElementById('wedding-date').textContent = `${d}/${m}/${y}`;
+      }
+
+      // Valida o token tentando listar as mídias como admin.
+      const mediaRes = await fetch(`/api/albums/${slug}/media`, { headers: authHeaders });
+      if (mediaRes.status === 403) {
+        document.getElementById('denied-card').hidden = false;
+        return;
+      }
+
+      document.getElementById('admin-content').hidden = false;
+      const guestUrl = `${location.origin}/a/${slug}`;
+      document.getElementById('guest-url').textContent = guestUrl;
+      document.getElementById('qr-img').src = `/api/albums/${slug}/qr.png`;
+      document.getElementById('qr-download').href = `/api/albums/${slug}/qr.png`;
+      document.getElementById('zip-download').href = withToken(`/api/albums/${slug}/download.zip`);
+      document.getElementById('share-toggle').checked = album.shared;
+
+      const { media } = await mediaRes.json();
+      renderGallery(media);
+    }
+
+    function renderGallery(media) {
+      document.getElementById('gallery-count').textContent =
+        media.length === 0
+          ? 'Nenhuma foto ou vídeo ainda. Compartilhe o QR code com os convidados!'
+          : `${media.length} ${media.length === 1 ? 'registro' : 'registros'} · ` +
+            `${media.filter((m) => m.type === 'photo').length} fotos · ` +
+            `${media.filter((m) => m.type === 'video').length} vídeos`;
+      const gallery = document.getElementById('gallery');
+      gallery.innerHTML = '';
+      for (const m of media) {
+        const url = withToken(m.url);
+        const item = document.createElement('div');
+        item.className = 'item';
+        const el = m.type === 'video'
+          ? Object.assign(document.createElement('video'), { src: url, muted: true, playsInline: true, preload: 'metadata' })
+          : Object.assign(document.createElement('img'), { src: url, loading: 'lazy', alt: m.caption || 'Foto do casamento' });
+        item.appendChild(el);
+        if (m.type === 'video') {
+          const badge = document.createElement('span');
+          badge.className = 'badge';
+          badge.textContent = '▶ vídeo';
+          item.appendChild(badge);
+        }
+        const del = document.createElement('button');
+        del.className = 'del';
+        del.textContent = '🗑';
+        del.title = 'Excluir';
+        del.addEventListener('click', async (e) => {
+          e.stopPropagation();
+          if (!confirm('Excluir este arquivo do álbum? Essa ação não pode ser desfeita.')) return;
+          const res = await fetch(`/api/albums/${slug}/media/${m.id}`, {
+            method: 'DELETE',
+            headers: authHeaders,
+          });
+          if (res.ok) refresh();
+        });
+        item.appendChild(del);
+        const meta = document.createElement('div');
+        meta.className = 'meta';
+        meta.textContent = m.guestName || '';
+        item.appendChild(meta);
+        item.addEventListener('click', () => openLightbox(m, url));
+        gallery.appendChild(item);
+      }
+    }
+
+    function openLightbox(m, url) {
+      const content = document.getElementById('lightbox-content');
+      content.innerHTML = '';
+      content.appendChild(
+        m.type === 'video'
+          ? Object.assign(document.createElement('video'), { src: url, controls: true, autoplay: true, playsInline: true })
+          : Object.assign(document.createElement('img'), { src: url })
+      );
+      document.getElementById('lightbox-caption').textContent =
+        [m.guestName, m.caption].filter(Boolean).join(' — ');
+      document.getElementById('lightbox').classList.add('open');
+    }
+
+    document.getElementById('lightbox-close').addEventListener('click', () => {
+      document.getElementById('lightbox').classList.remove('open');
+      document.getElementById('lightbox-content').innerHTML = '';
+    });
+
+    async function refresh() {
+      const res = await fetch(`/api/albums/${slug}/media`, { headers: authHeaders });
+      if (res.ok) renderGallery((await res.json()).media);
+    }
+
+    document.getElementById('refresh-btn').addEventListener('click', refresh);
+
+    document.getElementById('share-toggle').addEventListener('change', async (e) => {
+      const shared = e.target.checked;
+      const res = await fetch(`/api/albums/${slug}/share`, {
+        method: 'POST',
+        headers: { ...authHeaders, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ shared }),
+      });
+      const statusEl = document.getElementById('share-status');
+      if (res.ok) {
+        statusEl.textContent = shared
+          ? '✅ Galeria liberada! Todos com o QR code já podem ver as fotos e vídeos.'
+          : 'Galeria privada novamente — só vocês podem ver.';
+        statusEl.hidden = false;
+      } else {
+        e.target.checked = !shared;
+      }
+    });
+
+    document.getElementById('copy-guest').addEventListener('click', () => {
+      navigator.clipboard.writeText(document.getElementById('guest-url').textContent);
+      const btn = document.getElementById('copy-guest');
+      btn.textContent = 'Copiado!';
+      setTimeout(() => (btn.textContent = 'Copiar'), 1500);
+    });
+
+    init();
+  </script>
+</body>
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Álbum do Casamento — Crie seu QR Code</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <div class="wrap">
+    <header class="hero">
+      <div class="ornament">❦ ❦ ❦</div>
+      <h1>Álbum do Casamento</h1>
+      <p class="subtitle">Crie um QR code e deixe seus convidados registrarem cada momento da cerimônia.</p>
+    </header>
+
+    <div class="card" id="create-card">
+      <h2 class="serif">Criar o álbum</h2>
+      <form id="create-form">
+        <label for="coupleNames">Nomes dos noivos *</label>
+        <input type="text" id="coupleNames" placeholder="Ex.: Ana &amp; João" required maxlength="120" />
+
+        <label for="weddingDate">Data do casamento</label>
+        <input type="date" id="weddingDate" />
+
+        <label for="welcomeMessage">Mensagem para os convidados</label>
+        <textarea id="welcomeMessage" rows="3" maxlength="300"
+          placeholder="Ex.: Compartilhe conosco os momentos que você registrou! 📸"></textarea>
+
+        <button type="submit" class="btn" id="create-btn">Gerar QR Code do Álbum</button>
+        <p class="error" id="create-error" hidden></p>
+      </form>
+    </div>
+
+    <div class="card qr-box" id="result-card" hidden>
+      <h2 class="serif" id="result-title"></h2>
+      <p class="subtitle">Imprima ou compartilhe este QR code com seus convidados:</p>
+      <img id="qr-img" alt="QR code do álbum" />
+      <div class="actions">
+        <a class="btn secondary" id="qr-download" download="qrcode-album.png">⬇ Baixar QR Code</a>
+        <a class="btn secondary" id="guest-open" target="_blank" rel="noopener">👀 Ver página do convidado</a>
+      </div>
+
+      <h2 class="serif">Link para os convidados</h2>
+      <div class="link-row">
+        <code id="guest-url"></code>
+        <button class="btn small" data-copy="guest-url">Copiar</button>
+      </div>
+
+      <h2 class="serif">Painel dos noivos</h2>
+      <div class="notice">
+        ⚠️ <strong>Guarde este link com carinho!</strong> Ele é a chave secreta do casal para ver
+        todas as fotos e vídeos, baixar tudo e liberar a galeria para os convidados.
+        Não compartilhe com os convidados.
+      </div>
+      <div class="link-row">
+        <code id="admin-url"></code>
+        <button class="btn small" data-copy="admin-url">Copiar</button>
+      </div>
+      <a class="btn" id="admin-open">Abrir o painel dos noivos →</a>
+    </div>
+
+    <footer>Feito com ♥ para o grande dia</footer>
+  </div>
+
+  <script>
+    const form = document.getElementById('create-form');
+    const errEl = document.getElementById('create-error');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      errEl.hidden = true;
+      const btn = document.getElementById('create-btn');
+      btn.disabled = true;
+      try {
+        const res = await fetch('/api/albums', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            coupleNames: document.getElementById('coupleNames').value,
+            weddingDate: document.getElementById('weddingDate').value || null,
+            welcomeMessage: document.getElementById('welcomeMessage').value || null,
+          }),
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Erro ao criar o álbum.');
+
+        document.getElementById('create-card').hidden = true;
+        const card = document.getElementById('result-card');
+        card.hidden = false;
+        document.getElementById('result-title').textContent =
+          'Álbum de ' + document.getElementById('coupleNames').value + ' criado! 🎉';
+        document.getElementById('qr-img').src = data.qrUrl;
+        document.getElementById('qr-download').href = data.qrUrl;
+        document.getElementById('guest-url').textContent = data.guestUrl;
+        document.getElementById('guest-open').href = data.guestUrl;
+        document.getElementById('admin-url').textContent = data.adminUrl;
+        document.getElementById('admin-open').href = data.adminUrl;
+        card.scrollIntoView({ behavior: 'smooth' });
+      } catch (err) {
+        errEl.textContent = err.message;
+        errEl.hidden = false;
+      } finally {
+        btn.disabled = false;
+      }
+    });
+
+    document.addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-copy]');
+      if (!btn) return;
+      const text = document.getElementById(btn.dataset.copy).textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        const old = btn.textContent;
+        btn.textContent = 'Copiado!';
+        setTimeout(() => (btn.textContent = old), 1500);
+      });
+    });
+  </script>
+</body>
+</html>
