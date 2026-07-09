@@ -5,6 +5,17 @@ convidados escaneiam e enviam fotos e vídeos durante a cerimônia — sem
 instalar nada, sem criar conta. No fim, os noivos veem tudo, baixam em ZIP e
 podem liberar a galeria completa para todos os convidados.
 
+## Páginas
+
+- `/` — **landing page de vendas** (planos, FAQ, CTAs) para campanhas de tráfego pago;
+- `/app` — app dos noivos (login, criação e lista de álbuns);
+- `/a/<slug>` — página do convidado (destino do QR code);
+- `/admin/<slug>` — painel dos noivos.
+
+Com `META_PIXEL_ID` definido, todas as páginas disparam `PageView` e o funil
+registra `Lead` (clique no CTA da landing), `InitiateCheckout` (escolha de
+plano) e `CompleteRegistration` (conta criada) no Meta Pixel.
+
 ## Como funciona
 
 1. **Os noivos criam uma conta** (e-mail e senha) e, logados, **criam o álbum**
@@ -43,6 +54,7 @@ Variáveis de ambiente:
 | `BASE_URL`    | `http://localhost:PORT` | URL pública usada no QR code e nos links   |
 | `DATA_DIR`    | `./data`                | Onde ficam os metadados dos álbuns (JSON)  |
 | `UPLOADS_DIR` | `./uploads`             | Onde ficam as fotos e vídeos enviados      |
+| `META_PIXEL_ID` | *(vazio)*             | ID do Meta Pixel (Facebook Ads); vazio desliga o rastreamento |
 
 ## Testes
 

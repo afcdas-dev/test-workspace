@@ -21,6 +21,7 @@ before(async () => {
       PORT: String(PORT),
       DATA_DIR: path.join(tmpDir, 'data'),
       UPLOADS_DIR: path.join(tmpDir, 'uploads'),
+      META_PIXEL_ID: '1234567890',
     },
     stdio: 'ignore',
   });
@@ -238,4 +239,27 @@ test('logout encerra a sessão', async () => {
 test('álbum inexistente devolve 404', async () => {
   const res = await fetch(`${BASE}/api/albums/nao-existe`);
   assert.equal(res.status, 404);
+});
+
+test('a raiz serve a landing page de vendas', async () => {
+  const res = await fetch(`${BASE}/`);
+  assert.equal(res.status, 200);
+  const html = await res.text();
+  assert.match(html, /Criar meu álbum grátis/);
+  assert.match(html, /pixel\.js/);
+});
+
+test('/app serve o app dos noivos (login)', async () => {
+  const res = await fetch(`${BASE}/app`);
+  assert.equal(res.status, 200);
+  assert.match(await res.text(), /Criar conta/);
+});
+
+test('pixel.js carrega o Meta Pixel com o ID configurado', async () => {
+  const res = await fetch(`${BASE}/pixel.js`);
+  assert.equal(res.status, 200);
+  assert.match(res.headers.get('content-type'), /javascript/);
+  const js = await res.text();
+  assert.match(js, /1234567890/);
+  assert.match(js, /CompleteRegistration|fbTrack/);
 });

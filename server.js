@@ -13,6 +13,8 @@ const PORT = process.env.PORT || 3000;
 // BASE_URL define o endereço que vai dentro do QR code (em produção, o domínio público).
 const BASE_URL = process.env.BASE_URL || `http://localhost:${PORT}`;
 const UPLOADS_DIR = process.env.UPLOADS_DIR || path.join(__dirname, 'uploads');
+// ID do Meta Pixel (Gerenciador de Anúncios). Vazio = rastreamento desligado.
+const META_PIXEL_ID = process.env.META_PIXEL_ID || '';
 const MAX_FILE_SIZE = 500 * 1024 * 1024; // 500 MB por arquivo (vídeos de celular)
 
 store.init();
@@ -112,6 +114,29 @@ function guestUrl(album) {
 }
 
 // ---------- Páginas ----------
+
+// App dos noivos (login, criação e lista de álbuns). A raiz "/" é a landing page.
+app.get('/app', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'app.html'));
+});
+
+// Script do Meta Pixel. Com META_PIXEL_ID vazio, vira um no-op — as páginas
+// podem chamar window.fbTrack(...) sem se preocupar se o pixel existe.
+app.get('/pixel.js', (req, res) => {
+  res.type('application/javascript');
+  if (!META_PIXEL_ID) {
+    return res.send('window.fbTrack = function () {};');
+  }
+  res.send(`!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '${META_PIXEL_ID}');
+fbq('track', 'PageView');
+window.fbTrack = function (event, params) { fbq('track', event, params || {}); };`);
+});
+
 app.get('/a/:slug', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'album.html'));
 });

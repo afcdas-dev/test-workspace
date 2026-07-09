@@ -3,243 +3,139 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Álbum do Casamento — Crie seu QR Code</title>
+  <title>Álbum do Casamento — Todas as fotos dos seus convidados, num QR code</title>
+  <meta name="description" content="Coloque um QR code nas mesas da festa e receba todas as fotos e vídeos dos convidados num álbum só — em tempo real, sem app, sem cadastro." />
   <link rel="stylesheet" href="/style.css" />
+  <script src="/pixel.js" defer></script>
 </head>
 <body>
-  <div class="wrap">
+  <div class="wrap landing">
+
+    <!-- Hero -->
     <header class="hero">
       <div class="ornament">❦ ❦ ❦</div>
-      <h1>Álbum do Casamento</h1>
-      <p class="subtitle">Crie um QR code e deixe seus convidados registrarem cada momento da cerimônia.</p>
+      <h1>As melhores fotos do seu casamento<br />estão no celular dos seus convidados</h1>
+      <p class="subtitle hero-sub">
+        Coloque um <strong>QR code nas mesas da festa</strong> e receba todas as fotos e
+        vídeos num álbum só — em tempo real, sem app, sem cadastro para os convidados.
+      </p>
+      <a class="btn cta" href="/app" data-track="Lead">Criar meu álbum grátis</a>
+      <p class="mini-note">Leva menos de 2 minutos · não precisa de cartão</p>
     </header>
 
-    <!-- Login / cadastro dos noivos -->
-    <div class="card" id="auth-card" hidden>
-      <div class="tabs">
-        <button class="tab active" data-tab="login">Entrar</button>
-        <button class="tab" data-tab="register">Criar conta</button>
-      </div>
-
-      <form id="login-form">
-        <label for="login-email">E-mail</label>
-        <input type="email" id="login-email" required autocomplete="email" placeholder="voce@exemplo.com" />
-        <label for="login-password">Senha</label>
-        <input type="password" id="login-password" required autocomplete="current-password" />
-        <button type="submit" class="btn">Entrar</button>
-        <p class="error" id="login-error" hidden></p>
-      </form>
-
-      <form id="register-form" hidden>
-        <label for="reg-name">Seu nome</label>
-        <input type="text" id="reg-name" maxlength="80" placeholder="Ex.: Ana Souza" />
-        <label for="reg-email">E-mail</label>
-        <input type="email" id="reg-email" required autocomplete="email" placeholder="voce@exemplo.com" />
-        <label for="reg-password">Senha (mínimo 8 caracteres)</label>
-        <input type="password" id="reg-password" required minlength="8" autocomplete="new-password" />
-        <button type="submit" class="btn">Criar conta</button>
-        <p class="error" id="register-error" hidden></p>
-      </form>
-    </div>
-
-    <!-- Área logada -->
-    <div id="logged-area" hidden>
-      <div class="card toggle-row">
-        <p style="margin:0">Olá, <strong id="user-name"></strong> 👋</p>
-        <button class="btn small secondary" id="logout-btn">Sair</button>
-      </div>
-
-      <div class="card" id="my-albums-card" hidden>
-        <h2 class="serif" style="margin-top:0">Meus álbuns</h2>
-        <ul class="file-list" id="my-albums"></ul>
-      </div>
-
-      <div class="card" id="create-card">
-        <h2 class="serif" style="margin-top:0">Criar um novo álbum</h2>
-        <form id="create-form">
-          <label for="coupleNames">Nomes dos noivos *</label>
-          <input type="text" id="coupleNames" placeholder="Ex.: Ana &amp; João" required maxlength="120" />
-
-          <label for="weddingDate">Data do casamento</label>
-          <input type="date" id="weddingDate" />
-
-          <label for="welcomeMessage">Mensagem para os convidados</label>
-          <textarea id="welcomeMessage" rows="3" maxlength="300"
-            placeholder="Ex.: Compartilhe conosco os momentos que você registrou! 📸"></textarea>
-
-          <button type="submit" class="btn" id="create-btn">Gerar QR Code do Álbum</button>
-          <p class="error" id="create-error" hidden></p>
-        </form>
-      </div>
-
-      <div class="card qr-box" id="result-card" hidden>
-        <h2 class="serif" id="result-title"></h2>
-        <p class="subtitle">Imprima ou compartilhe este QR code com seus convidados:</p>
-        <img id="qr-img" alt="QR code do álbum" />
-        <div class="actions">
-          <a class="btn secondary" id="qr-download" download="qrcode-album.png">⬇ Baixar QR Code</a>
-          <a class="btn secondary" id="guest-open" target="_blank" rel="noopener">👀 Ver página do convidado</a>
+    <!-- Demonstração -->
+    <div class="card demo-card">
+      <div class="demo-steps">
+        <div class="demo-step">
+          <span class="demo-emoji">📱</span>
+          <strong>1. Convidado escaneia</strong>
+          <p>O QR code na mesa abre o álbum direto no navegador. Nada para instalar.</p>
         </div>
-
-        <h2 class="serif">Link para os convidados</h2>
-        <div class="link-row">
-          <code id="guest-url"></code>
-          <button class="btn small" data-copy="guest-url">Copiar</button>
+        <div class="demo-step">
+          <span class="demo-emoji">📸</span>
+          <strong>2. Envia fotos e vídeos</strong>
+          <p>Da cerimônia à pista de dança — tudo vai parar no seu álbum na hora.</p>
         </div>
-
-        <a class="btn" id="admin-open">Abrir o painel dos noivos →</a>
-        <p class="subtitle" style="margin-top:10px">
-          O painel fica disponível sempre que vocês estiverem logados nesta conta.
-        </p>
+        <div class="demo-step">
+          <span class="demo-emoji">💞</span>
+          <strong>3. Vocês recebem tudo</strong>
+          <p>Galeria completa ainda na festa, download em um clique e a opção de compartilhar com todos.</p>
+        </div>
       </div>
     </div>
 
-    <footer>Feito com ♥ para o grande dia</footer>
+    <!-- Dor / proposta de valor -->
+    <div class="card">
+      <h2 class="serif">Por que os casais amam</h2>
+      <ul class="benefits">
+        <li>🎉 <strong>Fotos que o fotógrafo não vê</strong> — o making of das madrinhas, a bagunça da pista, o vídeo da tia dançando. São centenas de registros que hoje se perdem no WhatsApp.</li>
+        <li>⚡ <strong>Em tempo real</strong> — vocês acompanham as fotos chegando ainda durante a festa.</li>
+        <li>🔒 <strong>Privacidade no seu controle</strong> — só vocês veem o álbum, até decidirem liberar a galeria para os convidados.</li>
+        <li>⬇️ <strong>Tudo em um clique</strong> — baixe todas as fotos e vídeos em um único arquivo, para sempre.</li>
+        <li>🙋 <strong>Zero fricção para o convidado</strong> — sem baixar app, sem criar conta. Escaneou, enviou.</li>
+      </ul>
+    </div>
+
+    <!-- Preços -->
+    <div id="precos">
+      <h2 class="serif section-title">Planos</h2>
+      <div class="pricing">
+        <div class="price-card">
+          <h3>Degustação</h3>
+          <p class="price">Grátis</p>
+          <ul>
+            <li>Até 50 fotos</li>
+            <li>Galeria por 7 dias</li>
+            <li>QR code para imprimir</li>
+          </ul>
+          <a class="btn secondary" href="/app" data-track="Lead">Começar grátis</a>
+        </div>
+        <div class="price-card featured">
+          <span class="tag">Mais escolhido</span>
+          <h3>Essencial</h3>
+          <p class="price">R$ 149<span class="price-note"> / evento</span></p>
+          <ul>
+            <li>Fotos e vídeos ilimitados</li>
+            <li>Galeria por 3 meses</li>
+            <li>Download completo em ZIP</li>
+            <li>Compartilhe com todos os convidados</li>
+          </ul>
+          <a class="btn" href="/app?plano=essencial" data-track="InitiateCheckout">Escolher Essencial</a>
+        </div>
+        <div class="price-card">
+          <h3>Premium</h3>
+          <p class="price">R$ 299<span class="price-note"> / evento</span></p>
+          <ul>
+            <li>Tudo do Essencial</li>
+            <li>Galeria por 1 ano</li>
+            <li>Página personalizada do casal</li>
+            <li>Moderação: aprove antes de publicar</li>
+          </ul>
+          <a class="btn secondary" href="/app?plano=premium" data-track="InitiateCheckout">Escolher Premium</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- FAQ -->
+    <div class="card">
+      <h2 class="serif">Perguntas frequentes</h2>
+      <details>
+        <summary>Os convidados precisam instalar algum aplicativo?</summary>
+        <p>Não. O QR code abre uma página no navegador do celular. O convidado digita o nome, escolhe as fotos e pronto.</p>
+      </details>
+      <details>
+        <summary>Os convidados veem as fotos uns dos outros?</summary>
+        <p>Só se vocês quiserem. O álbum nasce privado — apenas o casal vê tudo. Com um toque, vocês liberam a galeria completa para todos que têm o QR code.</p>
+      </details>
+      <details>
+        <summary>Funciona com vídeos?</summary>
+        <p>Sim! Fotos e vídeos de até 500 MB por arquivo, direto do celular.</p>
+      </details>
+      <details>
+        <summary>Como recebo o QR code?</summary>
+        <p>Na hora, em alta resolução (PNG), pronto para imprimir nas mesas, no convite ou exibir num telão.</p>
+      </details>
+      <details>
+        <summary>E se a internet do salão for ruim?</summary>
+        <p>O envio funciona em 4G e mostra o progresso. Se cair, é só tentar de novo — nada se perde no meio do caminho.</p>
+      </details>
+    </div>
+
+    <!-- CTA final -->
+    <div class="card final-cta">
+      <h2 class="serif">O grande dia acontece uma vez.<br />As fotos ficam para sempre.</h2>
+      <a class="btn cta" href="/app" data-track="Lead">Criar meu álbum grátis</a>
+    </div>
+
+    <footer>Feito com ♥ para o grande dia · <a href="/app">Já tenho conta</a></footer>
   </div>
 
   <script>
-    // ---- Sessão ----
-    async function checkSession() {
-      const res = await fetch('/api/auth/me');
-      if (res.ok) {
-        const user = await res.json();
-        showLoggedArea(user);
-      } else {
-        document.getElementById('auth-card').hidden = false;
-      }
-    }
-
-    function showLoggedArea(user) {
-      document.getElementById('auth-card').hidden = true;
-      document.getElementById('logged-area').hidden = false;
-      document.getElementById('user-name').textContent = user.name || user.email;
-      loadMyAlbums();
-    }
-
-    async function loadMyAlbums() {
-      const res = await fetch('/api/my/albums');
-      if (!res.ok) return;
-      const { albums } = await res.json();
-      const card = document.getElementById('my-albums-card');
-      card.hidden = albums.length === 0;
-      const ul = document.getElementById('my-albums');
-      ul.innerHTML = '';
-      for (const a of albums) {
-        const li = document.createElement('li');
-        const info = document.createElement('span');
-        info.innerHTML = `<strong>${a.coupleNames}</strong><br /><small>` +
-          `${a.mediaCount} ${a.mediaCount === 1 ? 'registro' : 'registros'}` +
-          (a.shared ? ' · galeria liberada' : '') + '</small>';
-        const open = document.createElement('a');
-        open.className = 'btn small';
-        open.textContent = 'Abrir painel';
-        open.href = a.adminUrl;
-        li.append(info, open);
-        ul.appendChild(li);
-      }
-    }
-
-    // ---- Abas login/cadastro ----
-    document.querySelectorAll('.tab').forEach((tab) => {
-      tab.addEventListener('click', () => {
-        document.querySelectorAll('.tab').forEach((t) => t.classList.remove('active'));
-        tab.classList.add('active');
-        document.getElementById('login-form').hidden = tab.dataset.tab !== 'login';
-        document.getElementById('register-form').hidden = tab.dataset.tab !== 'register';
-      });
-    });
-
-    async function authRequest(url, body, errEl) {
-      errEl.hidden = true;
-      const res = await fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body),
-      });
-      const data = await res.json();
-      if (!res.ok) {
-        errEl.textContent = data.error || 'Algo deu errado. Tente novamente.';
-        errEl.hidden = false;
-        return null;
-      }
-      return data;
-    }
-
-    document.getElementById('login-form').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const user = await authRequest('/api/auth/login', {
-        email: document.getElementById('login-email').value,
-        password: document.getElementById('login-password').value,
-      }, document.getElementById('login-error'));
-      if (user) showLoggedArea(user);
-    });
-
-    document.getElementById('register-form').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const user = await authRequest('/api/auth/register', {
-        name: document.getElementById('reg-name').value,
-        email: document.getElementById('reg-email').value,
-        password: document.getElementById('reg-password').value,
-      }, document.getElementById('register-error'));
-      if (user) showLoggedArea(user);
-    });
-
-    document.getElementById('logout-btn').addEventListener('click', async () => {
-      await fetch('/api/auth/logout', { method: 'POST' });
-      location.reload();
-    });
-
-    // ---- Criação do álbum ----
-    document.getElementById('create-form').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const errEl = document.getElementById('create-error');
-      errEl.hidden = true;
-      const btn = document.getElementById('create-btn');
-      btn.disabled = true;
-      try {
-        const res = await fetch('/api/albums', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            coupleNames: document.getElementById('coupleNames').value,
-            weddingDate: document.getElementById('weddingDate').value || null,
-            welcomeMessage: document.getElementById('welcomeMessage').value || null,
-          }),
-        });
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.error || 'Erro ao criar o álbum.');
-
-        const card = document.getElementById('result-card');
-        card.hidden = false;
-        document.getElementById('result-title').textContent =
-          'Álbum de ' + document.getElementById('coupleNames').value + ' criado! 🎉';
-        document.getElementById('qr-img').src = data.qrUrl;
-        document.getElementById('qr-download').href = data.qrUrl;
-        document.getElementById('guest-url').textContent = data.guestUrl;
-        document.getElementById('guest-open').href = data.guestUrl;
-        document.getElementById('admin-open').href = data.adminUrl;
-        loadMyAlbums();
-        card.scrollIntoView({ behavior: 'smooth' });
-      } catch (err) {
-        errEl.textContent = err.message;
-        errEl.hidden = false;
-      } finally {
-        btn.disabled = false;
-      }
-    });
-
+    // Eventos do Meta Pixel nos CTAs (no-op se o pixel não estiver configurado).
     document.addEventListener('click', (e) => {
-      const btn = e.target.closest('[data-copy]');
-      if (!btn) return;
-      const text = document.getElementById(btn.dataset.copy).textContent;
-      navigator.clipboard.writeText(text).then(() => {
-        const old = btn.textContent;
-        btn.textContent = 'Copiado!';
-        setTimeout(() => (btn.textContent = old), 1500);
-      });
+      const el = e.target.closest('[data-track]');
+      if (el && window.fbTrack) window.fbTrack(el.dataset.track);
     });
-
-    checkSession();
   </script>
 </body>
 </html>
