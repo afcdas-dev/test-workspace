@@ -19,47 +19,63 @@
 -->
 <style>
   :root {
-    --paper: #FAFBF9;
+    --paper: #FFF8EF;
     --paper-raised: #FFFFFF;
-    --ink: #0F1F1B;
-    --ink-soft: #45564F;
-    --line: #DCE5DF;
-    --accent: #0C7264;
-    --accent-ink: #FFFFFF;
-    --accent-deep: #095A4F;
-    --wash: #E4F0EA;
-    --gold: #B98A2F;
-    --shadow: 0 1px 2px rgba(15,31,27,.06), 0 12px 32px -12px rgba(15,31,27,.14);
+    --ink: #312357;
+    --ink-soft: #6B5F8A;
+    --line: #EBDFD2;
+
+    /* brand hues */
+    --coral: #FF5C39;
+    --sun: #FFB629;
+    --teal: #12B394;
+    --blue: #3E7BFA;
+    --pink: #F75FA8;
+
+    --cta: var(--coral);
+    --cta-ink: #FFFFFF;
+    --cta-deep: #E8431F;
+
+    --tint: 14%;   /* strength of card tints */
+    --shadow: 0 1px 2px rgba(49,35,87,.06), 0 14px 34px -14px rgba(49,35,87,.18);
     --font-display: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
     --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     --font-label: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
   }
   @media (prefers-color-scheme: dark) {
     :root {
-      --paper: #0D1715;
-      --paper-raised: #13211E;
-      --ink: #E9F1ED;
-      --ink-soft: #9DB3AA;
-      --line: #24352F;
-      --accent: #3ECFA3;
-      --accent-ink: #08211B;
-      --accent-deep: #5CDDB6;
-      --wash: #16261F;
-      --gold: #D8A94E;
-      --shadow: 0 1px 2px rgba(0,0,0,.4), 0 12px 32px -12px rgba(0,0,0,.55);
+      --paper: #211840;
+      --paper-raised: #2B2150;
+      --ink: #F4EFFF;
+      --ink-soft: #B7ABD6;
+      --line: #3D3166;
+      --coral: #FF7A5C;
+      --sun: #FFC64F;
+      --teal: #2FD6B4;
+      --blue: #6FA5FF;
+      --pink: #FF87BE;
+      --cta: var(--coral);
+      --cta-ink: #2A1230;
+      --cta-deep: #FF9578;
+      --tint: 22%;
+      --shadow: 0 1px 2px rgba(0,0,0,.4), 0 14px 34px -14px rgba(0,0,0,.6);
     }
   }
   :root[data-theme="light"] {
-    --paper: #FAFBF9; --paper-raised: #FFFFFF; --ink: #0F1F1B; --ink-soft: #45564F;
-    --line: #DCE5DF; --accent: #0C7264; --accent-ink: #FFFFFF; --accent-deep: #095A4F;
-    --wash: #E4F0EA; --gold: #B98A2F;
-    --shadow: 0 1px 2px rgba(15,31,27,.06), 0 12px 32px -12px rgba(15,31,27,.14);
+    --paper: #FFF8EF; --paper-raised: #FFFFFF; --ink: #312357; --ink-soft: #6B5F8A;
+    --line: #EBDFD2;
+    --coral: #FF5C39; --sun: #FFB629; --teal: #12B394; --blue: #3E7BFA; --pink: #F75FA8;
+    --cta: var(--coral); --cta-ink: #FFFFFF; --cta-deep: #E8431F;
+    --tint: 14%;
+    --shadow: 0 1px 2px rgba(49,35,87,.06), 0 14px 34px -14px rgba(49,35,87,.18);
   }
   :root[data-theme="dark"] {
-    --paper: #0D1715; --paper-raised: #13211E; --ink: #E9F1ED; --ink-soft: #9DB3AA;
-    --line: #24352F; --accent: #3ECFA3; --accent-ink: #08211B; --accent-deep: #5CDDB6;
-    --wash: #16261F; --gold: #D8A94E;
-    --shadow: 0 1px 2px rgba(0,0,0,.4), 0 12px 32px -12px rgba(0,0,0,.55);
+    --paper: #211840; --paper-raised: #2B2150; --ink: #F4EFFF; --ink-soft: #B7ABD6;
+    --line: #3D3166;
+    --coral: #FF7A5C; --sun: #FFC64F; --teal: #2FD6B4; --blue: #6FA5FF; --pink: #FF87BE;
+    --cta: var(--coral); --cta-ink: #2A1230; --cta-deep: #FF9578;
+    --tint: 22%;
+    --shadow: 0 1px 2px rgba(0,0,0,.4), 0 14px 34px -14px rgba(0,0,0,.6);
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -81,9 +97,9 @@
   h2 { font-size: clamp(1.85rem, 4vw, 2.75rem); letter-spacing: -0.01em; }
   h3 { font-size: 1.25rem; }
   p  { max-width: 62ch; }
-  a  { color: var(--accent); }
+  a  { color: var(--blue); }
   a:focus-visible, button:focus-visible, summary:focus-visible {
-    outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px;
+    outline: 2px solid var(--blue); outline-offset: 3px; border-radius: 2px;
   }
   img, canvas { max-width: 100%; }
 
@@ -92,10 +108,18 @@
     font-size: .75rem;
     letter-spacing: .14em;
     text-transform: uppercase;
-    color: var(--accent);
+    color: var(--coral);
   }
   .wrap { max-width: 1120px; margin: 0 auto; padding: 0 clamp(1.25rem, 4vw, 2.5rem); }
   section { padding: clamp(4rem, 9vw, 7rem) 0; }
+
+  /* multicolor bunting stripe, reused as a section divider */
+  .bunting {
+    height: 6px;
+    background: linear-gradient(90deg,
+      var(--coral) 0 20%, var(--sun) 20% 40%, var(--teal) 40% 60%,
+      var(--blue) 60% 80%, var(--pink) 80% 100%);
+  }
 
   /* ── Nav ─────────────────────────────────────────── */
   nav {
@@ -110,7 +134,7 @@
     max-width: 1120px; margin: 0 auto;
   }
   .brand { font-family: var(--font-display); font-size: 1.2rem; font-weight: 700; color: var(--ink); text-decoration: none; }
-  .brand em { font-style: normal; color: var(--accent); }
+  .brand em { font-style: normal; color: var(--coral); }
   .nav-links { display: flex; align-items: center; gap: 1.5rem; }
   .nav-links a:not(.btn) { color: var(--ink-soft); text-decoration: none; font-size: .95rem; }
   .nav-links a:not(.btn):hover { color: var(--ink); }
@@ -124,10 +148,10 @@
     text-decoration: none; cursor: pointer; border: 1px solid transparent;
     transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
   }
-  .btn-primary { background: var(--accent); color: var(--accent-ink); box-shadow: var(--shadow); }
-  .btn-primary:hover { background: var(--accent-deep); transform: translateY(-1px); }
-  .btn-ghost { border-color: var(--line); color: var(--ink); }
-  .btn-ghost:hover { border-color: var(--accent); }
+  .btn-primary { background: var(--cta); color: var(--cta-ink); box-shadow: var(--shadow); }
+  .btn-primary:hover { background: var(--cta-deep); transform: translateY(-1px) rotate(-.5deg); }
+  .btn-ghost { border-color: var(--ink); color: var(--ink); }
+  .btn-ghost:hover { background: var(--ink); color: var(--paper); }
   .btn-big { font-size: 1.1rem; padding: 1rem 2.2rem; }
   .btn-note { font-size: .85rem; color: var(--ink-soft); margin-top: .6rem; }
 
@@ -135,58 +159,103 @@
   .hero { position: relative; overflow: hidden; padding: clamp(4.5rem, 10vw, 8rem) 0 clamp(4rem, 8vw, 6rem); }
   #flow-canvas { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; }
   .hero-inner { position: relative; z-index: 1; max-width: 720px; }
+  .hero h1 .swoosh {
+    position: relative; white-space: nowrap; color: var(--teal);
+  }
+  .hero h1 .swoosh svg {
+    position: absolute; left: 0; right: 0; bottom: -0.18em; width: 100%; height: .3em;
+  }
   .hero p.lede { font-size: clamp(1.1rem, 2vw, 1.3rem); color: var(--ink-soft); margin: 1.5rem 0 2.25rem; }
   .hero .eyebrow { display: block; margin-bottom: 1.25rem; }
   .hero-ctas { display: flex; flex-wrap: wrap; gap: .9rem; align-items: center; }
   .hero-meta { margin-top: 2.5rem; display: flex; flex-wrap: wrap; gap: 1.75rem; }
-  .hero-meta div { font-size: .9rem; color: var(--ink-soft); }
+  .hero-meta div { font-size: .9rem; color: var(--ink-soft); padding-left: .85rem; border-left: 3px solid; }
+  .hero-meta div:nth-child(1) { border-color: var(--sun); }
+  .hero-meta div:nth-child(2) { border-color: var(--teal); }
+  .hero-meta div:nth-child(3) { border-color: var(--pink); }
   .hero-meta strong { display: block; font-family: var(--font-display); font-size: 1.3rem; color: var(--ink); }
 
+  /* ── Ticker ──────────────────────────────────────── */
+  .ticker { overflow: hidden; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: .8rem 0; background: var(--paper-raised); }
+  .ticker-track { display: flex; gap: 2.5rem; width: max-content; animation: ticker 26s linear infinite; }
+  @keyframes ticker { to { transform: translateX(-50%); } }
+  .ticker span { font-family: var(--font-label); font-size: .8rem; letter-spacing: .14em; text-transform: uppercase; display: inline-flex; align-items: center; gap: 2.5rem; color: var(--ink); }
+  .ticker b { font-weight: 400; }
+  .ticker .dot { width: .55em; height: .55em; border-radius: 50%; display: inline-block; }
+
   /* ── Pain ────────────────────────────────────────── */
-  .pain { border-top: 1px solid var(--line); }
   .pain-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; margin-top: 2.5rem; }
   .pain-card {
-    background: var(--paper-raised); border: 1px solid var(--line); border-radius: 14px;
+    border-radius: 18px;
     padding: 1.6rem 1.5rem;
+    border: 1px solid transparent;
   }
+  .pain-card:nth-child(1) { background: color-mix(in srgb, var(--coral) var(--tint), var(--paper-raised)); }
+  .pain-card:nth-child(2) { background: color-mix(in srgb, var(--sun)   var(--tint), var(--paper-raised)); }
+  .pain-card:nth-child(3) { background: color-mix(in srgb, var(--blue)  var(--tint), var(--paper-raised)); }
   .pain-card h3 { margin-bottom: .5rem; }
   .pain-card p { color: var(--ink-soft); font-size: .98rem; }
   .pain-kicker { margin-top: 2.5rem; font-family: var(--font-display); font-size: clamp(1.2rem, 2.4vw, 1.5rem); }
-  .pain-kicker em { color: var(--accent); font-style: normal; border-bottom: 2px solid var(--accent); }
+  .pain-kicker em { color: var(--teal); font-style: normal; border-bottom: 3px solid var(--sun); }
 
   /* ── Modules ─────────────────────────────────────── */
-  .modules { background: var(--wash); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .modules { background: var(--paper-raised); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
   .section-head { max-width: 640px; }
   .section-head h2 { margin: .75rem 0 1rem; }
   .section-head p { color: var(--ink-soft); }
   .module-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.25rem; margin-top: 3rem; }
   .module {
-    background: var(--paper-raised); border: 1px solid var(--line); border-radius: 14px;
+    background: var(--paper); border: 1px solid var(--line); border-radius: 18px;
     padding: 1.75rem 1.6rem; box-shadow: var(--shadow);
     display: flex; flex-direction: column; gap: .6rem;
+    border-top: 6px solid var(--mc, var(--teal));
+    transition: transform .18s ease;
   }
-  .module .tag { font-family: var(--font-label); font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-soft); }
+  .module:hover { transform: translateY(-3px) rotate(-.4deg); }
+  .module.c-coral { --mc: var(--coral); }
+  .module.c-sun   { --mc: var(--sun); }
+  .module.c-teal  { --mc: var(--teal); }
+  .module.c-blue  { --mc: var(--blue); }
+  .module.c-pink  { --mc: var(--pink); }
+  .module.c-ink   { --mc: var(--ink); }
+  .module .tag {
+    align-self: flex-start;
+    font-family: var(--font-label); font-size: .68rem; letter-spacing: .12em; text-transform: uppercase;
+    background: color-mix(in srgb, var(--mc) 18%, var(--paper-raised));
+    color: color-mix(in srgb, var(--mc) 75%, var(--ink));
+    padding: .25rem .7rem; border-radius: 999px;
+  }
   .module p { color: var(--ink-soft); font-size: .97rem; }
 
   /* ── Steps ───────────────────────────────────────── */
   .steps-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 2rem; margin-top: 3rem; counter-reset: step; }
-  .step { border-top: 2px solid var(--accent); padding-top: 1.25rem; }
+  .step { border-top: 3px solid var(--sc, var(--teal)); padding-top: 1.25rem; }
+  .step:nth-child(1) { --sc: var(--coral); }
+  .step:nth-child(2) { --sc: var(--sun); }
+  .step:nth-child(3) { --sc: var(--teal); }
   .step::before {
     counter-increment: step;
     content: "Step " counter(step);
     font-family: var(--font-label); font-size: .72rem; letter-spacing: .14em;
-    text-transform: uppercase; color: var(--accent); display: block; margin-bottom: .6rem;
+    text-transform: uppercase; color: var(--sc); display: block; margin-bottom: .6rem;
   }
   .step h3 { margin-bottom: .5rem; }
   .step p { color: var(--ink-soft); font-size: .97rem; }
 
   /* ── Testimonials ────────────────────────────────── */
-  .quotes { background: var(--wash); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .quotes { background: var(--paper-raised); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
   .quote-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.25rem; margin-top: 3rem; }
   .quote {
-    background: var(--paper-raised); border: 1px solid var(--line); border-radius: 14px;
+    border-radius: 18px;
     padding: 1.75rem 1.6rem; display: flex; flex-direction: column; gap: 1rem;
   }
+  .quote:nth-child(1) { background: color-mix(in srgb, var(--teal) var(--tint), var(--paper)); }
+  .quote:nth-child(2) { background: color-mix(in srgb, var(--pink) var(--tint), var(--paper)); }
+  .quote:nth-child(3) { background: color-mix(in srgb, var(--sun)  var(--tint), var(--paper)); }
+  .quote::before { content: "“"; font-family: var(--font-display); font-size: 3rem; line-height: .5; margin-top: .5rem; }
+  .quote:nth-child(1)::before { color: var(--teal); }
+  .quote:nth-child(2)::before { color: var(--pink); }
+  .quote:nth-child(3)::before { color: var(--sun); }
   .quote blockquote { font-family: var(--font-display); font-size: 1.1rem; line-height: 1.5; }
   .quote figcaption { font-size: .9rem; color: var(--ink-soft); }
   .quote figcaption strong { color: var(--ink); }
@@ -194,41 +263,54 @@
   /* ── Pricing ─────────────────────────────────────── */
   .price-card {
     max-width: 560px; margin: 3rem auto 0;
-    background: var(--paper-raised); border: 1px solid var(--line); border-radius: 20px;
-    box-shadow: var(--shadow); padding: clamp(2rem, 5vw, 3rem); text-align: center;
+    background: var(--paper-raised); border: 1px solid var(--line); border-radius: 22px;
+    box-shadow: var(--shadow); text-align: center; overflow: hidden;
   }
+  .price-body { padding: clamp(2rem, 5vw, 3rem); }
   .price-line { display: flex; align-items: baseline; justify-content: center; gap: .75rem; margin: 1.25rem 0 .25rem; }
   .price-old { font-size: 1.3rem; color: var(--ink-soft); text-decoration: line-through; }
-  .price-now { font-family: var(--font-display); font-size: clamp(3rem, 7vw, 4rem); font-weight: 700; font-variant-numeric: tabular-nums; }
+  .price-now { font-family: var(--font-display); font-size: clamp(3rem, 7vw, 4rem); font-weight: 700; font-variant-numeric: tabular-nums; color: var(--coral); }
   .price-once { color: var(--ink-soft); font-size: .95rem; margin-bottom: 1.75rem; }
   .price-list { list-style: none; text-align: left; margin: 0 auto 2rem; max-width: 400px; display: grid; gap: .65rem; }
   .price-list li { padding-left: 1.6rem; position: relative; font-size: .98rem; }
-  .price-list li::before { content: "✓"; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+  .price-list li::before { content: "✓"; position: absolute; left: 0; font-weight: 700; }
+  .price-list li:nth-child(5n+1)::before { color: var(--coral); }
+  .price-list li:nth-child(5n+2)::before { color: var(--sun); }
+  .price-list li:nth-child(5n+3)::before { color: var(--teal); }
+  .price-list li:nth-child(5n+4)::before { color: var(--blue); }
+  .price-list li:nth-child(5n+5)::before { color: var(--pink); }
   .guarantee {
     margin-top: 1.5rem; font-size: .92rem; color: var(--ink-soft);
     display: flex; align-items: center; justify-content: center; gap: .5rem;
   }
-  .guarantee svg { flex: none; }
+  .guarantee svg { flex: none; color: var(--teal); }
 
   /* ── FAQ ─────────────────────────────────────────── */
   .faq-list { max-width: 720px; margin: 2.5rem auto 0; display: grid; gap: .75rem; }
   details {
-    background: var(--paper-raised); border: 1px solid var(--line); border-radius: 12px;
+    background: var(--paper-raised); border: 1px solid var(--line); border-radius: 14px;
     padding: 1.1rem 1.4rem;
+    border-left: 5px solid var(--fc, var(--teal));
   }
+  .faq-list details:nth-child(5n+1) { --fc: var(--coral); }
+  .faq-list details:nth-child(5n+2) { --fc: var(--sun); }
+  .faq-list details:nth-child(5n+3) { --fc: var(--teal); }
+  .faq-list details:nth-child(5n+4) { --fc: var(--blue); }
+  .faq-list details:nth-child(5n+5) { --fc: var(--pink); }
   summary { font-weight: 600; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
   summary::-webkit-details-marker { display: none; }
-  summary::after { content: "+"; font-family: var(--font-display); font-size: 1.4rem; color: var(--accent); flex: none; }
+  summary::after { content: "+"; font-family: var(--font-display); font-size: 1.4rem; color: var(--fc, var(--teal)); flex: none; }
   details[open] summary::after { content: "–"; }
   details p { margin-top: .75rem; color: var(--ink-soft); font-size: .97rem; }
 
   /* ── Final CTA ───────────────────────────────────── */
-  .final { text-align: center; background: var(--ink); color: var(--paper); }
-  :root[data-theme="dark"] .final, .final { border-top: 1px solid var(--line); }
+  .final { position: relative; overflow: hidden; text-align: center; background: var(--ink); color: var(--paper); }
+  #flow-canvas-final { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; }
+  .final .wrap { position: relative; z-index: 1; }
   .final h2 { color: inherit; max-width: 640px; margin: 0 auto 1rem; }
-  .final p { color: color-mix(in srgb, var(--paper) 70%, transparent); margin: 0 auto 2rem; }
-  .final .btn-primary { background: var(--accent); color: var(--accent-ink); }
-  .final .btn-note { color: color-mix(in srgb, var(--paper) 60%, transparent); }
+  .final p { color: color-mix(in srgb, var(--paper) 72%, transparent); margin: 0 auto 2rem; }
+  .final .eyebrow { color: var(--sun); }
+  .final .btn-note { color: color-mix(in srgb, var(--paper) 62%, transparent); }
 
   footer { padding: 2.5rem 0; font-size: .85rem; color: var(--ink-soft); }
   .foot-inner { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: space-between; }
@@ -253,7 +335,11 @@
   <canvas id="flow-canvas" aria-hidden="true"></canvas>
   <div class="wrap hero-inner">
     <span class="eyebrow">A complete Notion system · Built for marketing agencies</span>
-    <h1>Your agency, finally&nbsp;in&nbsp;flow.</h1>
+    <h1>Your agency, finally
+      <span class="swoosh">in&nbsp;flow.
+        <svg viewBox="0 0 200 14" preserveAspectRatio="none" aria-hidden="true"><path d="M3 10 C 40 2, 80 12, 120 6 S 180 4, 197 8" fill="none" stroke="var(--coral)" stroke-width="5" stroke-linecap="round"/></svg>
+      </span>
+    </h1>
     <p class="lede">
       Stop running your agency across seven tools your team ignores.
       AgencyFlow is one Notion workspace that connects clients, pipeline,
@@ -272,6 +358,29 @@
     </div>
   </div>
 </header>
+
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track">
+    <span>
+      <b>Clients</b> <i class="dot" style="background:var(--coral)"></i>
+      <b>Pipeline</b> <i class="dot" style="background:var(--sun)"></i>
+      <b>Projects</b> <i class="dot" style="background:var(--teal)"></i>
+      <b>Tasks</b> <i class="dot" style="background:var(--blue)"></i>
+      <b>Finances</b> <i class="dot" style="background:var(--pink)"></i>
+      <b>SOPs</b> <i class="dot" style="background:var(--coral)"></i>
+      <b>Dashboard</b> <i class="dot" style="background:var(--sun)"></i>
+    </span>
+    <span>
+      <b>Clients</b> <i class="dot" style="background:var(--coral)"></i>
+      <b>Pipeline</b> <i class="dot" style="background:var(--sun)"></i>
+      <b>Projects</b> <i class="dot" style="background:var(--teal)"></i>
+      <b>Tasks</b> <i class="dot" style="background:var(--blue)"></i>
+      <b>Finances</b> <i class="dot" style="background:var(--pink)"></i>
+      <b>SOPs</b> <i class="dot" style="background:var(--coral)"></i>
+      <b>Dashboard</b> <i class="dot" style="background:var(--sun)"></i>
+    </span>
+  </div>
+</div>
 
 <section class="pain">
   <div class="wrap">
@@ -299,6 +408,8 @@
   </div>
 </section>
 
+<div class="bunting" aria-hidden="true"></div>
+
 <section class="modules" id="inside">
   <div class="wrap">
     <div class="section-head">
@@ -308,32 +419,32 @@
     </div>
     <!-- TODO: adjust these modules to match the final English version of your template -->
     <div class="module-grid">
-      <div class="module">
+      <div class="module c-coral">
         <span class="tag">Sell</span>
         <h3>Client CRM &amp; sales pipeline</h3>
         <p>Track every lead from first call to signed contract. See exactly where each deal stands and what the next action is — no lead ever goes cold by accident.</p>
       </div>
-      <div class="module">
+      <div class="module c-sun">
         <span class="tag">Deliver</span>
         <h3>Projects &amp; campaign hub</h3>
         <p>One board per client, every deliverable with an owner, a status and a deadline. Anyone on the team can answer "where is this?" in five seconds.</p>
       </div>
-      <div class="module">
+      <div class="module c-teal">
         <span class="tag">Execute</span>
         <h3>Task system your team will actually use</h3>
         <p>Tasks flow from projects automatically, filtered into personal "today" views — each person opens Notion and sees only what matters to them, this week.</p>
       </div>
-      <div class="module">
+      <div class="module c-blue">
         <span class="tag">Measure</span>
         <h3>Finance &amp; cash-flow tracker</h3>
         <p>Retainers, one-off projects, costs and margin per client in one honest dashboard. Know which accounts make you money — and which quietly don't.</p>
       </div>
-      <div class="module">
+      <div class="module c-pink">
         <span class="tag">Systemize</span>
         <h3>SOPs &amp; knowledge base</h3>
         <p>Document how your agency does things once, so onboarding a new hire takes days instead of months — and quality stops depending on who's available.</p>
       </div>
-      <div class="module">
+      <div class="module c-ink">
         <span class="tag">Steer</span>
         <h3>Command-center dashboard</h3>
         <p>Pipeline, active projects, overdue tasks and monthly revenue on one screen. Run your Monday meeting from a single page instead of six tabs.</p>
@@ -364,6 +475,8 @@
     </div>
   </div>
 </section>
+
+<div class="bunting" aria-hidden="true"></div>
 
 <section class="quotes">
   <div class="wrap">
@@ -399,26 +512,29 @@
       <h2>Less than one hour of your billable rate.</h2>
     </div>
     <div class="price-card">
-      <span class="eyebrow" style="color:var(--gold)">Launch price</span>
-      <!-- TODO: set your real price; delete .price-old if you don't want anchoring -->
-      <div class="price-line">
-        <span class="price-old">$89</span>
-        <span class="price-now">$47</span>
+      <div class="bunting" aria-hidden="true"></div>
+      <div class="price-body">
+        <span class="eyebrow" style="color:var(--sun)">Launch price</span>
+        <!-- TODO: set your real price; delete .price-old if you don't want anchoring -->
+        <div class="price-line">
+          <span class="price-old">$89</span>
+          <span class="price-now">$47</span>
+        </div>
+        <p class="price-once" style="margin-left:auto;margin-right:auto;">One-time payment · No subscription, ever</p>
+        <ul class="price-list">
+          <li>The complete AgencyFlow Notion system</li>
+          <li>Client CRM, projects, tasks, finances &amp; SOPs — pre-linked</li>
+          <li>Step-by-step setup guide (10 minutes)</li>
+          <li>Lifetime access with free updates</li>
+          <li>Works on Notion's free plan</li>
+        </ul>
+        <!-- TODO: replace # with your checkout URL -->
+        <a class="btn btn-primary btn-big" href="#" style="width:100%;">Get AgencyFlow now</a>
+        <p class="guarantee">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          14-day money-back guarantee. If it doesn't make your agency flow, reply to the receipt and get a full refund.
+        </p>
       </div>
-      <p class="price-once" style="margin-left:auto;margin-right:auto;">One-time payment · No subscription, ever</p>
-      <ul class="price-list">
-        <li>The complete AgencyFlow Notion system</li>
-        <li>Client CRM, projects, tasks, finances &amp; SOPs — pre-linked</li>
-        <li>Step-by-step setup guide (10 minutes)</li>
-        <li>Lifetime access with free updates</li>
-        <li>Works on Notion's free plan</li>
-      </ul>
-      <!-- TODO: replace # with your checkout URL -->
-      <a class="btn btn-primary btn-big" href="#" style="width:100%;">Get AgencyFlow now</a>
-      <p class="guarantee">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        14-day money-back guarantee. If it doesn't make your agency flow, reply to the receipt and get a full refund.
-      </p>
     </div>
   </div>
 </section>
@@ -459,6 +575,7 @@
 </section>
 
 <section class="final">
+  <canvas id="flow-canvas-final" aria-hidden="true"></canvas>
   <div class="wrap">
     <span class="eyebrow">One decision</span>
     <h2>Six months from now, your agency either flows — or you're still the bottleneck.</h2>
@@ -478,48 +595,55 @@
 
 <script>
 (function () {
-  var canvas = document.getElementById('flow-canvas');
-  var ctx = canvas.getContext('2d');
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var dpr = Math.min(window.devicePixelRatio || 1, 2);
-  var w, h, t = 0;
+  var hueVars = ['--coral', '--sun', '--teal', '--blue', '--pink'];
 
-  function accent() {
-    return getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() || '#0C7264';
+  function hues() {
+    var cs = getComputedStyle(document.documentElement);
+    return hueVars.map(function (v) { return cs.getPropertyValue(v).trim(); });
   }
-  function resize() {
-    var r = canvas.parentElement.getBoundingClientRect();
-    w = r.width; h = r.height;
-    canvas.width = w * dpr; canvas.height = h * dpr;
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-  }
-  function draw() {
-    ctx.clearRect(0, 0, w, h);
-    var color = accent();
-    var streams = 5;
-    for (var s = 0; s < streams; s++) {
-      ctx.beginPath();
-      var baseY = h * (0.25 + 0.6 * (s / (streams - 1)));
-      var amp = 14 + s * 7;
-      var speed = 0.35 + s * 0.12;
-      for (var x = 0; x <= w; x += 6) {
-        var y = baseY
-          + Math.sin(x * 0.004 + t * speed + s * 1.7) * amp
-          + Math.sin(x * 0.011 + t * speed * 0.6 + s) * amp * 0.35;
-        if (x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
-      }
-      ctx.strokeStyle = color;
-      ctx.globalAlpha = 0.05 + s * 0.018;
-      ctx.lineWidth = 1.5;
-      ctx.stroke();
+
+  function flow(canvas, alpha) {
+    var ctx = canvas.getContext('2d');
+    var w, h, t = Math.random() * 100;
+    function resize() {
+      var r = canvas.parentElement.getBoundingClientRect();
+      w = r.width; h = r.height;
+      canvas.width = w * dpr; canvas.height = h * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     }
-    ctx.globalAlpha = 1;
+    function draw() {
+      ctx.clearRect(0, 0, w, h);
+      var colors = hues();
+      var streams = colors.length;
+      for (var s = 0; s < streams; s++) {
+        ctx.beginPath();
+        var baseY = h * (0.2 + 0.65 * (s / (streams - 1)));
+        var amp = 16 + s * 6;
+        var speed = 0.35 + s * 0.11;
+        for (var x = 0; x <= w; x += 6) {
+          var y = baseY
+            + Math.sin(x * 0.004 + t * speed + s * 1.7) * amp
+            + Math.sin(x * 0.011 + t * speed * 0.6 + s) * amp * 0.35;
+          if (x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+        }
+        ctx.strokeStyle = colors[s];
+        ctx.globalAlpha = alpha;
+        ctx.lineWidth = 2.5;
+        ctx.lineCap = 'round';
+        ctx.stroke();
+      }
+      ctx.globalAlpha = 1;
+    }
+    function loop() { t += 0.012; draw(); requestAnimationFrame(loop); }
+    resize();
+    window.addEventListener('resize', function () { resize(); draw(); });
+    if (reduced) { draw(); } else { loop(); }
   }
-  function loop() { t += 0.012; draw(); requestAnimationFrame(loop); }
 
-  resize();
-  window.addEventListener('resize', function () { resize(); draw(); });
-  if (reduced) { draw(); } else { loop(); }
+  flow(document.getElementById('flow-canvas'), 0.28);
+  flow(document.getElementById('flow-canvas-final'), 0.45);
 })();
 </script>
 
