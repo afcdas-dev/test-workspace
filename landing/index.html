@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AgencyFlow — The Notion Operating System for Marketing Agencies</title>
+<meta name="description" content="Run your entire marketing agency from one Notion workspace: clients, pipeline, projects, finances and SOPs in a single system that flows.">
+<!--
+  ══════════════════════════════════════════════════════════════════
+  EDIT BEFORE LAUNCH — search for "TODO:" in this file:
+  1. Replace every href="#pricing" checkout link with your real
+     Gumroad / Lemon Squeezy / Stripe payment link.
+  2. Replace the placeholder testimonials with real customer quotes.
+  3. Adjust the module list to match the final English version of
+     your template ("Sistema Negócio que flui").
+  4. Set your real price, and remove the anchor price if you
+     don't want price anchoring.
+  ══════════════════════════════════════════════════════════════════
+-->
+<style>
+  :root {
+    --paper: #FAFBF9;
+    --paper-raised: #FFFFFF;
+    --ink: #0F1F1B;
+    --ink-soft: #45564F;
+    --line: #DCE5DF;
+    --accent: #0C7264;
+    --accent-ink: #FFFFFF;
+    --accent-deep: #095A4F;
+    --wash: #E4F0EA;
+    --gold: #B98A2F;
+    --shadow: 0 1px 2px rgba(15,31,27,.06), 0 12px 32px -12px rgba(15,31,27,.14);
+    --font-display: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+    --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --font-label: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --paper: #0D1715;
+      --paper-raised: #13211E;
+      --ink: #E9F1ED;
+      --ink-soft: #9DB3AA;
+      --line: #24352F;
+      --accent: #3ECFA3;
+      --accent-ink: #08211B;
+      --accent-deep: #5CDDB6;
+      --wash: #16261F;
+      --gold: #D8A94E;
+      --shadow: 0 1px 2px rgba(0,0,0,.4), 0 12px 32px -12px rgba(0,0,0,.55);
+    }
+  }
+  :root[data-theme="light"] {
+    --paper: #FAFBF9; --paper-raised: #FFFFFF; --ink: #0F1F1B; --ink-soft: #45564F;
+    --line: #DCE5DF; --accent: #0C7264; --accent-ink: #FFFFFF; --accent-deep: #095A4F;
+    --wash: #E4F0EA; --gold: #B98A2F;
+    --shadow: 0 1px 2px rgba(15,31,27,.06), 0 12px 32px -12px rgba(15,31,27,.14);
+  }
+  :root[data-theme="dark"] {
+    --paper: #0D1715; --paper-raised: #13211E; --ink: #E9F1ED; --ink-soft: #9DB3AA;
+    --line: #24352F; --accent: #3ECFA3; --accent-ink: #08211B; --accent-deep: #5CDDB6;
+    --wash: #16261F; --gold: #D8A94E;
+    --shadow: 0 1px 2px rgba(0,0,0,.4), 0 12px 32px -12px rgba(0,0,0,.55);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+  }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 1.0625rem;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3 { font-family: var(--font-display); font-weight: 600; line-height: 1.12; text-wrap: balance; }
+  h1 { font-size: clamp(2.5rem, 6vw, 4.25rem); letter-spacing: -0.015em; }
+  h2 { font-size: clamp(1.85rem, 4vw, 2.75rem); letter-spacing: -0.01em; }
+  h3 { font-size: 1.25rem; }
+  p  { max-width: 62ch; }
+  a  { color: var(--accent); }
+  a:focus-visible, button:focus-visible, summary:focus-visible {
+    outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px;
+  }
+  img, canvas { max-width: 100%; }
+
+  .eyebrow {
+    font-family: var(--font-label);
+    font-size: .75rem;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 clamp(1.25rem, 4vw, 2.5rem); }
+  section { padding: clamp(4rem, 9vw, 7rem) 0; }
+
+  /* ── Nav ─────────────────────────────────────────── */
+  nav {
+    position: sticky; top: 0; z-index: 50;
+    background: color-mix(in srgb, var(--paper) 88%, transparent);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-inner {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 1rem; padding: .85rem clamp(1.25rem, 4vw, 2.5rem);
+    max-width: 1120px; margin: 0 auto;
+  }
+  .brand { font-family: var(--font-display); font-size: 1.2rem; font-weight: 700; color: var(--ink); text-decoration: none; }
+  .brand em { font-style: normal; color: var(--accent); }
+  .nav-links { display: flex; align-items: center; gap: 1.5rem; }
+  .nav-links a:not(.btn) { color: var(--ink-soft); text-decoration: none; font-size: .95rem; }
+  .nav-links a:not(.btn):hover { color: var(--ink); }
+  @media (max-width: 720px) { .nav-links a:not(.btn) { display: none; } }
+
+  /* ── Buttons ─────────────────────────────────────── */
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
+    font-family: var(--font-body); font-weight: 600; font-size: 1rem;
+    padding: .8rem 1.6rem; border-radius: 999px;
+    text-decoration: none; cursor: pointer; border: 1px solid transparent;
+    transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
+  }
+  .btn-primary { background: var(--accent); color: var(--accent-ink); box-shadow: var(--shadow); }
+  .btn-primary:hover { background: var(--accent-deep); transform: translateY(-1px); }
+  .btn-ghost { border-color: var(--line); color: var(--ink); }
+  .btn-ghost:hover { border-color: var(--accent); }
+  .btn-big { font-size: 1.1rem; padding: 1rem 2.2rem; }
+  .btn-note { font-size: .85rem; color: var(--ink-soft); margin-top: .6rem; }
+
+  /* ── Hero ────────────────────────────────────────── */
+  .hero { position: relative; overflow: hidden; padding: clamp(4.5rem, 10vw, 8rem) 0 clamp(4rem, 8vw, 6rem); }
+  #flow-canvas { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; }
+  .hero-inner { position: relative; z-index: 1; max-width: 720px; }
+  .hero p.lede { font-size: clamp(1.1rem, 2vw, 1.3rem); color: var(--ink-soft); margin: 1.5rem 0 2.25rem; }
+  .hero .eyebrow { display: block; margin-bottom: 1.25rem; }
+  .hero-ctas { display: flex; flex-wrap: wrap; gap: .9rem; align-items: center; }
+  .hero-meta { margin-top: 2.5rem; display: flex; flex-wrap: wrap; gap: 1.75rem; }
+  .hero-meta div { font-size: .9rem; color: var(--ink-soft); }
+  .hero-meta strong { display: block; font-family: var(--font-display); font-size: 1.3rem; color: var(--ink); }
+
+  /* ── Pain ────────────────────────────────────────── */
+  .pain { border-top: 1px solid var(--line); }
+  .pain-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; margin-top: 2.5rem; }
+  .pain-card {
+    background: var(--paper-raised); border: 1px solid var(--line); border-radius: 14px;
+    padding: 1.6rem 1.5rem;
+  }
+  .pain-card h3 { margin-bottom: .5rem; }
+  .pain-card p { color: var(--ink-soft); font-size: .98rem; }
+  .pain-kicker { margin-top: 2.5rem; font-family: var(--font-display); font-size: clamp(1.2rem, 2.4vw, 1.5rem); }
+  .pain-kicker em { color: var(--accent); font-style: normal; border-bottom: 2px solid var(--accent); }
+
+  /* ── Modules ─────────────────────────────────────── */
+  .modules { background: var(--wash); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .section-head { max-width: 640px; }
+  .section-head h2 { margin: .75rem 0 1rem; }
+  .section-head p { color: var(--ink-soft); }
+  .module-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.25rem; margin-top: 3rem; }
+  .module {
+    background: var(--paper-raised); border: 1px solid var(--line); border-radius: 14px;
+    padding: 1.75rem 1.6rem; box-shadow: var(--shadow);
+    display: flex; flex-direction: column; gap: .6rem;
+  }
+  .module .tag { font-family: var(--font-label); font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-soft); }
+  .module p { color: var(--ink-soft); font-size: .97rem; }
+
+  /* ── Steps ───────────────────────────────────────── */
+  .steps-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 2rem; margin-top: 3rem; counter-reset: step; }
+  .step { border-top: 2px solid var(--accent); padding-top: 1.25rem; }
+  .step::before {
+    counter-increment: step;
+    content: "Step " counter(step);
+    font-family: var(--font-label); font-size: .72rem; letter-spacing: .14em;
+    text-transform: uppercase; color: var(--accent); display: block; margin-bottom: .6rem;
+  }
+  .step h3 { margin-bottom: .5rem; }
+  .step p { color: var(--ink-soft); font-size: .97rem; }
+
+  /* ── Testimonials ────────────────────────────────── */
+  .quotes { background: var(--wash); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .quote-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.25rem; margin-top: 3rem; }
+  .quote {
+    background: var(--paper-raised); border: 1px solid var(--line); border-radius: 14px;
+    padding: 1.75rem 1.6rem; display: flex; flex-direction: column; gap: 1rem;
+  }
+  .quote blockquote { font-family: var(--font-display); font-size: 1.1rem; line-height: 1.5; }
+  .quote figcaption { font-size: .9rem; color: var(--ink-soft); }
+  .quote figcaption strong { color: var(--ink); }
+
+  /* ── Pricing ─────────────────────────────────────── */
+  .price-card {
+    max-width: 560px; margin: 3rem auto 0;
+    background: var(--paper-raised); border: 1px solid var(--line); border-radius: 20px;
+    box-shadow: var(--shadow); padding: clamp(2rem, 5vw, 3rem); text-align: center;
+  }
+  .price-line { display: flex; align-items: baseline; justify-content: center; gap: .75rem; margin: 1.25rem 0 .25rem; }
+  .price-old { font-size: 1.3rem; color: var(--ink-soft); text-decoration: line-through; }
+  .price-now { font-family: var(--font-display); font-size: clamp(3rem, 7vw, 4rem); font-weight: 700; font-variant-numeric: tabular-nums; }
+  .price-once { color: var(--ink-soft); font-size: .95rem; margin-bottom: 1.75rem; }
+  .price-list { list-style: none; text-align: left; margin: 0 auto 2rem; max-width: 400px; display: grid; gap: .65rem; }
+  .price-list li { padding-left: 1.6rem; position: relative; font-size: .98rem; }
+  .price-list li::before { content: "✓"; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+  .guarantee {
+    margin-top: 1.5rem; font-size: .92rem; color: var(--ink-soft);
+    display: flex; align-items: center; justify-content: center; gap: .5rem;
+  }
+  .guarantee svg { flex: none; }
+
+  /* ── FAQ ─────────────────────────────────────────── */
+  .faq-list { max-width: 720px; margin: 2.5rem auto 0; display: grid; gap: .75rem; }
+  details {
+    background: var(--paper-raised); border: 1px solid var(--line); border-radius: 12px;
+    padding: 1.1rem 1.4rem;
+  }
+  summary { font-weight: 600; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+  summary::-webkit-details-marker { display: none; }
+  summary::after { content: "+"; font-family: var(--font-display); font-size: 1.4rem; color: var(--accent); flex: none; }
+  details[open] summary::after { content: "–"; }
+  details p { margin-top: .75rem; color: var(--ink-soft); font-size: .97rem; }
+
+  /* ── Final CTA ───────────────────────────────────── */
+  .final { text-align: center; background: var(--ink); color: var(--paper); }
+  :root[data-theme="dark"] .final, .final { border-top: 1px solid var(--line); }
+  .final h2 { color: inherit; max-width: 640px; margin: 0 auto 1rem; }
+  .final p { color: color-mix(in srgb, var(--paper) 70%, transparent); margin: 0 auto 2rem; }
+  .final .btn-primary { background: var(--accent); color: var(--accent-ink); }
+  .final .btn-note { color: color-mix(in srgb, var(--paper) 60%, transparent); }
+
+  footer { padding: 2.5rem 0; font-size: .85rem; color: var(--ink-soft); }
+  .foot-inner { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: space-between; }
+</style>
+</head>
+<body>
+
+<nav aria-label="Main">
+  <div class="nav-inner">
+    <a class="brand" href="#top">Agency<em>Flow</em></a>
+    <div class="nav-links">
+      <a href="#inside">What's inside</a>
+      <a href="#how">How it works</a>
+      <a href="#faq">FAQ</a>
+      <!-- TODO: replace #pricing with your checkout URL -->
+      <a class="btn btn-primary" href="#pricing">Get the template</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <canvas id="flow-canvas" aria-hidden="true"></canvas>
+  <div class="wrap hero-inner">
+    <span class="eyebrow">A complete Notion system · Built for marketing agencies</span>
+    <h1>Your agency, finally&nbsp;in&nbsp;flow.</h1>
+    <p class="lede">
+      Stop running your agency across seven tools your team ignores.
+      AgencyFlow is one Notion workspace that connects clients, pipeline,
+      projects, finances and SOPs — so nothing falls through the cracks
+      between "signed" and "delivered".
+    </p>
+    <div class="hero-ctas">
+      <!-- TODO: replace #pricing with your checkout URL -->
+      <a class="btn btn-primary btn-big" href="#pricing">Get instant access</a>
+      <a class="btn btn-ghost btn-big" href="#inside">See what's inside</a>
+    </div>
+    <div class="hero-meta">
+      <div><strong>1 workspace</strong>replaces your scattered stack</div>
+      <div><strong>10 min</strong>from purchase to fully set up</div>
+      <div><strong>Lifetime</strong>access &amp; free updates</div>
+    </div>
+  </div>
+</header>
+
+<section class="pain">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">The real cost of chaos</span>
+      <h2>Growth shouldn't feel like drowning.</h2>
+    </div>
+    <div class="pain-grid">
+      <div class="pain-card">
+        <h3>Every client lives somewhere else</h3>
+        <p>Briefs in email, tasks in one app, deadlines in another, invoices in a spreadsheet. Your team spends more time <em>finding</em> work than doing it.</p>
+      </div>
+      <div class="pain-card">
+        <h3>You are the operating system</h3>
+        <p>Nothing moves unless it passes through the founder's head. Take a week off and delivery stalls — that's not a business, that's a bottleneck with a logo.</p>
+      </div>
+      <div class="pain-card">
+        <h3>Revenue is a surprise every month</h3>
+        <p>No single view of pipeline, retainers and costs means you discover problems when the bank balance tells you — always too late to fix them.</p>
+      </div>
+    </div>
+    <p class="pain-kicker">
+      An agency doesn't scale on talent alone. It scales on a <em>system that flows</em> — one place where work enters, moves and gets done, visibly.
+    </p>
+  </div>
+</section>
+
+<section class="modules" id="inside">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">What's inside</span>
+      <h2>Every part of your agency, connected in one workspace.</h2>
+      <p>Duplicate it into your Notion, and each module is already linked to the others — a client connects to their projects, projects to tasks, tasks to your team's week.</p>
+    </div>
+    <!-- TODO: adjust these modules to match the final English version of your template -->
+    <div class="module-grid">
+      <div class="module">
+        <span class="tag">Sell</span>
+        <h3>Client CRM &amp; sales pipeline</h3>
+        <p>Track every lead from first call to signed contract. See exactly where each deal stands and what the next action is — no lead ever goes cold by accident.</p>
+      </div>
+      <div class="module">
+        <span class="tag">Deliver</span>
+        <h3>Projects &amp; campaign hub</h3>
+        <p>One board per client, every deliverable with an owner, a status and a deadline. Anyone on the team can answer "where is this?" in five seconds.</p>
+      </div>
+      <div class="module">
+        <span class="tag">Execute</span>
+        <h3>Task system your team will actually use</h3>
+        <p>Tasks flow from projects automatically, filtered into personal "today" views — each person opens Notion and sees only what matters to them, this week.</p>
+      </div>
+      <div class="module">
+        <span class="tag">Measure</span>
+        <h3>Finance &amp; cash-flow tracker</h3>
+        <p>Retainers, one-off projects, costs and margin per client in one honest dashboard. Know which accounts make you money — and which quietly don't.</p>
+      </div>
+      <div class="module">
+        <span class="tag">Systemize</span>
+        <h3>SOPs &amp; knowledge base</h3>
+        <p>Document how your agency does things once, so onboarding a new hire takes days instead of months — and quality stops depending on who's available.</p>
+      </div>
+      <div class="module">
+        <span class="tag">Steer</span>
+        <h3>Command-center dashboard</h3>
+        <p>Pipeline, active projects, overdue tasks and monthly revenue on one screen. Run your Monday meeting from a single page instead of six tabs.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">How it works</span>
+      <h2>From checkout to a running agency OS in one afternoon.</h2>
+    </div>
+    <div class="steps-grid">
+      <div class="step">
+        <h3>Duplicate the template</h3>
+        <p>After checkout you get a link. One click duplicates the entire system into your own Notion workspace — you own it forever.</p>
+      </div>
+      <div class="step">
+        <h3>Load your agency</h3>
+        <p>Follow the included setup guide to add your clients, active projects and team. The databases are pre-linked, so everything connects as you type.</p>
+      </div>
+      <div class="step">
+        <h3>Run Monday from one page</h3>
+        <p>Open the dashboard, see the whole agency in one view, and assign the week. That's the last time "who's handling this?" gets asked in your Slack.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="quotes">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Operators, not spectators</span>
+      <h2>Built from inside a real agency — not a template factory.</h2>
+      <p>This system wasn't designed in the abstract. It grew out of running real client work, and every database earns its place.</p>
+    </div>
+    <!-- TODO: PLACEHOLDERS — replace with real customer quotes before launch.
+         Specific results ("saved 6 h/week", "onboarded 2 hires in days")
+         convert far better than generic praise. Do not ship invented quotes. -->
+    <div class="quote-grid">
+      <figure class="quote">
+        <blockquote>"Add a short customer quote here about time saved per week — a specific number beats adjectives."</blockquote>
+        <figcaption><strong>Customer name</strong> · Role, agency</figcaption>
+      </figure>
+      <figure class="quote">
+        <blockquote>"Add a quote here about the moment the founder stopped being the bottleneck — delegation stories resonate hardest."</blockquote>
+        <figcaption><strong>Customer name</strong> · Role, agency</figcaption>
+      </figure>
+      <figure class="quote">
+        <blockquote>"Add a quote here about finances — discovering an unprofitable client or finally seeing margin clearly."</blockquote>
+        <figcaption><strong>Customer name</strong> · Role, agency</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section id="pricing">
+  <div class="wrap">
+    <div class="section-head" style="text-align:center; margin:0 auto;">
+      <span class="eyebrow">Simple pricing</span>
+      <h2>Less than one hour of your billable rate.</h2>
+    </div>
+    <div class="price-card">
+      <span class="eyebrow" style="color:var(--gold)">Launch price</span>
+      <!-- TODO: set your real price; delete .price-old if you don't want anchoring -->
+      <div class="price-line">
+        <span class="price-old">$89</span>
+        <span class="price-now">$47</span>
+      </div>
+      <p class="price-once" style="margin-left:auto;margin-right:auto;">One-time payment · No subscription, ever</p>
+      <ul class="price-list">
+        <li>The complete AgencyFlow Notion system</li>
+        <li>Client CRM, projects, tasks, finances &amp; SOPs — pre-linked</li>
+        <li>Step-by-step setup guide (10 minutes)</li>
+        <li>Lifetime access with free updates</li>
+        <li>Works on Notion's free plan</li>
+      </ul>
+      <!-- TODO: replace # with your checkout URL -->
+      <a class="btn btn-primary btn-big" href="#" style="width:100%;">Get AgencyFlow now</a>
+      <p class="guarantee">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        14-day money-back guarantee. If it doesn't make your agency flow, reply to the receipt and get a full refund.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Questions</span>
+      <h2>Everything agencies ask before buying.</h2>
+    </div>
+    <div class="faq-list">
+      <details>
+        <summary>Do I need a paid Notion plan?</summary>
+        <p>No. The template works on Notion's free plan. If your whole team collaborates inside it daily, Notion's own paid plans add more guests and version history, but the system itself requires nothing extra.</p>
+      </details>
+      <details>
+        <summary>I'm not a Notion expert. Can I set this up?</summary>
+        <p>Yes — that's the point of buying a system instead of building one. Everything is pre-built and pre-linked; the included guide walks you through adding your clients and team in about 10 minutes. If you can fill in a form, you can run this.</p>
+      </details>
+      <details>
+        <summary>Will this work for my agency's size?</summary>
+        <p>The system is designed for freelancers scaling up, and for agencies of roughly 2–20 people. The structure is the same whether you manage 3 clients or 30 — the databases simply grow with you.</p>
+      </details>
+      <details>
+        <summary>How is this different from free Notion templates?</summary>
+        <p>Free templates are usually isolated pages — a CRM here, a task list there. This is one connected system: clients link to projects, projects to tasks, tasks to your dashboard. The value is in the connections, which take weeks to build correctly from scratch.</p>
+      </details>
+      <details>
+        <summary>Do I get updates?</summary>
+        <p>Yes. Every improvement to the template is free for existing customers, forever. You'll be notified by email when a new version ships.</p>
+      </details>
+      <details>
+        <summary>What if it doesn't work for me?</summary>
+        <p>Email us within 14 days of purchase and you get a full refund — no forms, no questions. The risk is on us.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<section class="final">
+  <div class="wrap">
+    <span class="eyebrow">One decision</span>
+    <h2>Six months from now, your agency either flows — or you're still the bottleneck.</h2>
+    <p>Get the system that removes you from the middle of every task, today.</p>
+    <!-- TODO: replace # with your checkout URL -->
+    <a class="btn btn-primary btn-big" href="#">Get AgencyFlow — $47</a>
+    <p class="btn-note">One-time payment · Instant access · 14-day guarantee</p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-inner">
+    <span>© 2026 AgencyFlow. All rights reserved.</span>
+    <span>Questions? <a href="mailto:hello@example.com">hello@example.com</a> <!-- TODO: your support email --></span>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var canvas = document.getElementById('flow-canvas');
+  var ctx = canvas.getContext('2d');
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var dpr = Math.min(window.devicePixelRatio || 1, 2);
+  var w, h, t = 0;
+
+  function accent() {
+    return getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() || '#0C7264';
+  }
+  function resize() {
+    var r = canvas.parentElement.getBoundingClientRect();
+    w = r.width; h = r.height;
+    canvas.width = w * dpr; canvas.height = h * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  function draw() {
+    ctx.clearRect(0, 0, w, h);
+    var color = accent();
+    var streams = 5;
+    for (var s = 0; s < streams; s++) {
+      ctx.beginPath();
+      var baseY = h * (0.25 + 0.6 * (s / (streams - 1)));
+      var amp = 14 + s * 7;
+      var speed = 0.35 + s * 0.12;
+      for (var x = 0; x <= w; x += 6) {
+        var y = baseY
+          + Math.sin(x * 0.004 + t * speed + s * 1.7) * amp
+          + Math.sin(x * 0.011 + t * speed * 0.6 + s) * amp * 0.35;
+        if (x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+      }
+      ctx.strokeStyle = color;
+      ctx.globalAlpha = 0.05 + s * 0.018;
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+    }
+    ctx.globalAlpha = 1;
+  }
+  function loop() { t += 0.012; draw(); requestAnimationFrame(loop); }
+
+  resize();
+  window.addEventListener('resize', function () { resize(); draw(); });
+  if (reduced) { draw(); } else { loop(); }
+})();
+</script>
+
+</body>
+</html>
