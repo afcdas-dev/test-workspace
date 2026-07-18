@@ -1,0 +1,2202 @@
+<title>Poker Trainer 8-Max — Simulador</title>
+<style>
+:root{
+  --bg: #0B0D10;
+  --panel: #14181D;
+  --panel-raised: #1B2129;
+  --line: #262D36;
+  --felt-1: #1E4A3B;
+  --felt-2: #0E2A21;
+  --rail: #23180F;
+  --rail-trim: #C9A44C;
+  --gold: #D4A84A;
+  --text: #ECE9E1;
+  --text-dim: #8B929B;
+  --text-faint: #545C66;
+
+  --fold: #8A4A42;
+  --check: #4A8577;
+  --call: #3E7D8C;
+  --raise-s: #C98A3E;
+  --raise-g: #D4592E;
+  --allin: #C0362B;
+
+  --radius: 10px;
+  --font-display: 'Arial Narrow', 'Helvetica Neue', Haettenschweiler, 'Franklin Gothic Medium', sans-serif-condensed, sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', 'Cascadia Mono', 'Segoe UI Mono', Menlo, Consolas, monospace;
+  --font-body: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+
+*{ box-sizing: border-box; }
+html,body{ margin:0; padding:0; }
+
+body{
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection{ background: var(--gold); color:#111; }
+
+button{
+  font-family: var(--font-body);
+  cursor: pointer;
+  border: none;
+  outline: none;
+}
+button:focus-visible, input:focus-visible, select:focus-visible{
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+#app{
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 14px 16px 60px;
+}
+
+/* ---------- Header ---------- */
+.topbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:10px;
+  flex-wrap: wrap;
+}
+.topbar h1{
+  font-family: var(--font-display);
+  font-weight:600;
+  font-size: 20px;
+  letter-spacing: .04em;
+  margin:0;
+  color: var(--gold);
+  text-transform: uppercase;
+}
+.topbar .hand-no{
+  font-family: var(--font-mono);
+  color: var(--text-dim);
+  font-size: 13px;
+  margin-left: 10px;
+}
+.topbar-actions{ display:flex; gap:8px; flex-wrap:wrap; }
+.btn{
+  background: var(--panel-raised);
+  color: var(--text);
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  padding: 7px 12px;
+  font-size: 12.5px;
+  font-weight: 500;
+  transition: border-color .12s, background .12s;
+}
+.btn:hover{ border-color: var(--gold); }
+.btn.primary{ background: var(--gold); color:#171100; border-color: var(--gold); font-weight:600; }
+.btn.danger{ color: #E7A79E; }
+.btn.small{ padding:5px 9px; font-size: 11.5px; }
+
+/* ---------- Config bar ---------- */
+.config-bar{
+  display:flex; gap:8px; flex-wrap:wrap;
+  background: var(--panel);
+  border:1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 8px 10px;
+  margin-bottom: 10px;
+}
+.config-field{ display:flex; flex-direction:column; gap:3px; }
+.config-field label{
+  font-size: 10px; text-transform: uppercase; letter-spacing: .06em;
+  color: var(--text-faint); font-weight:600;
+}
+.config-field select, .config-field input[type=number]{
+  background: var(--panel-raised);
+  color: var(--text);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 5px 7px;
+  font-size: 12.5px;
+  font-family: var(--font-body);
+}
+
+/* ---------- Position quick-select ---------- */
+.position-select{
+  display:flex; gap:6px; margin-bottom:10px; flex-wrap:wrap;
+  align-items:center;
+}
+.position-select .label{
+  font-size: 10.5px; color: var(--text-faint); text-transform:uppercase;
+  letter-spacing:.06em; margin-right:4px; font-weight:600;
+}
+.pos-btn{
+  font-family: var(--font-mono);
+  background: var(--panel-raised);
+  border:1px solid var(--line);
+  color: var(--text-dim);
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 12px;
+  font-weight: 600;
+}
+.pos-btn:hover{ border-color: var(--gold); color: var(--text); }
+.pos-btn.active{ background: var(--gold); color:#171100; border-color: var(--gold); }
+.pos-btn:disabled{ opacity:.3; cursor:not-allowed; }
+
+/* ---------- Street flow ---------- */
+.street-flow{
+  display:flex; gap:6px; margin-bottom:10px;
+}
+.street-btn{
+  flex:1;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  color: var(--text-dim);
+  padding: 10px 6px;
+  border-radius: 8px;
+  font-family: var(--font-display);
+  font-size: 14px;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  font-weight:600;
+  transition: all .12s;
+}
+.street-btn.current{
+  background: linear-gradient(180deg, var(--felt-1), var(--felt-2));
+  color: var(--gold);
+  border-color: var(--gold);
+}
+.street-btn.done{ color: var(--text); border-color: var(--check); }
+.street-btn:disabled{ opacity: .4; cursor:not-allowed; }
+
+.advance-banner{
+  display:none;
+  align-items:center; justify-content:space-between;
+  background: #24301F; border:1px solid #4C6B3B; color:#D8E8C8;
+  border-radius: 8px; padding: 9px 12px; margin-bottom:10px;
+  font-size: 13px;
+}
+.advance-banner.show{ display:flex; }
+.advance-banner .btns{ display:flex; gap:8px; }
+
+.handover-banner{
+  display:none;
+  align-items:center; justify-content:space-between;
+  background: #33251C; border:1px solid #A6673C; color:#F0D2B6;
+  border-radius: 8px; padding: 9px 12px; margin-bottom:10px;
+  font-size: 13px;
+}
+.handover-banner.show{ display:flex; }
+
+/* ---------- Table ---------- */
+.table-wrap{
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16/9;
+  margin: 6px 0 12px;
+  background: var(--rail);
+  border-radius: 46%/58%;
+  padding: 26px;
+  box-shadow: inset 0 0 0 3px #0006, 0 8px 26px #0008;
+}
+.felt{
+  position:absolute; inset: 26px;
+  border-radius: 46%/58%;
+  background: radial-gradient(ellipse at center, var(--felt-1) 0%, var(--felt-2) 78%);
+  border: 2px solid var(--rail-trim);
+  box-shadow: inset 0 0 40px #000a;
+}
+.board-area{
+  position:absolute; left:50%; top:44%; transform: translate(-50%,-50%);
+  display:flex; flex-direction:column; align-items:center; gap:8px;
+  z-index: 3;
+}
+.pot-label{
+  font-family: var(--font-mono); color: var(--gold);
+  font-size: 12px; letter-spacing:.05em;
+}
+.board-cards{ display:flex; gap:6px; }
+
+.card-slot{
+  width: 40px; height: 56px;
+  background: #0E1116;
+  border: 1.5px dashed var(--text-faint);
+  border-radius: 6px;
+  display:flex; align-items:center; justify-content:center;
+  font-family: var(--font-mono); font-weight:600; font-size: 16px;
+  color: var(--text-faint);
+  cursor:pointer;
+  transition: border-color .12s, transform .08s;
+}
+.card-slot:hover{ border-color: var(--gold); transform: translateY(-2px); }
+.card-slot.filled{ border-style: solid; background:#161B21; color: var(--text); }
+.card-slot.suit-red{ color:#D9564D; }
+.card-slot.suit-black{ color:#DADFE6; }
+.card-slot.small{ width:32px; height:46px; font-size:13px; }
+
+.seat{
+  position:absolute;
+  width: 122px;
+  transform: translate(-50%,-50%);
+  z-index: 4;
+  text-align:center;
+}
+.seat-card{
+  background: var(--panel);
+  border: 1.5px solid var(--line);
+  border-radius: 8px;
+  padding: 6px 7px 7px;
+  position:relative;
+  transition: border-color .12s, box-shadow .12s;
+}
+.seat.can-act .seat-card{ border-color: var(--gold); box-shadow: 0 0 0 2px #D4A84A33; cursor:pointer; }
+.seat.acting .seat-card{ border-color: var(--raise-g); box-shadow: 0 0 0 2px #D4592E44; }
+.seat.folded .seat-card{ opacity: .38; }
+.seat.eliminated .seat-card{ opacity: .22; filter: grayscale(1); }
+.seat.hero .seat-card{ border-color: var(--gold); }
+.seat.hero .seat-name::before{ content: '★ '; color: var(--gold); }
+
+.seat-pos{
+  font-family: var(--font-mono); font-size: 10px; font-weight:600;
+  color: var(--gold); letter-spacing:.05em;
+}
+.seat-name{
+  font-size: 12px; font-weight:600; color: var(--text);
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  margin: 1px 0;
+}
+.seat-stack{
+  font-family: var(--font-mono); font-size: 12px; color: var(--text-dim);
+}
+.seat-status{
+  font-size: 9.5px; text-transform:uppercase; letter-spacing:.06em;
+  color: var(--text-faint); margin-top:2px;
+}
+.seat-status.tag-folded{ color: var(--fold); }
+.seat-status.tag-allin{ color: var(--allin); }
+
+.btn-marker{
+  position:absolute; top:-8px; right:-8px;
+  width:20px; height:20px; border-radius:50%;
+  background: var(--gold); color:#171100;
+  font-family: var(--font-mono); font-weight:700; font-size:10px;
+  display:flex; align-items:center; justify-content:center;
+  box-shadow: 0 2px 4px #0006;
+}
+.seat-cards{ display:flex; gap:3px; justify-content:center; margin-top:4px; }
+
+/* ---------- Card pad popover ---------- */
+.cardpad{
+  position: fixed; z-index: 50;
+  background: var(--panel-raised);
+  border: 1px solid var(--gold);
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0 12px 30px #000b;
+  display:none;
+}
+.cardpad.show{ display:block; }
+.cardpad .ranks, .cardpad .suits{ display:flex; gap:4px; margin-bottom:6px; flex-wrap:wrap; max-width: 220px; }
+.cardpad button{
+  width: 26px; height:26px;
+  background: var(--panel); border:1px solid var(--line);
+  color: var(--text); border-radius:5px; font-family: var(--font-mono); font-size:12px; font-weight:600;
+}
+.cardpad button:hover{ border-color: var(--gold); }
+.cardpad button.suit-red{ color:#D9564D; }
+.cardpad .cardpad-close{ font-size:10px; color: var(--text-faint); text-align:right; cursor:pointer; }
+
+/* ---------- Quick text entry ---------- */
+.quick-entry{ display:flex; gap:6px; align-items:center; margin: 6px 0 10px; flex-wrap:wrap;}
+.quick-entry input{
+  background: var(--panel-raised); border:1px solid var(--line); color: var(--text);
+  border-radius:6px; padding:6px 8px; font-family: var(--font-mono); font-size:12.5px;
+  width: 160px;
+}
+.quick-entry .hint{ font-size: 10.5px; color: var(--text-faint); }
+
+/* ---------- Action panel ---------- */
+.panel{
+  background: var(--panel);
+  border:1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 12px;
+  margin-bottom: 10px;
+}
+.panel h2{
+  font-family: var(--font-display);
+  font-size: 13px; text-transform: uppercase; letter-spacing:.06em;
+  color: var(--text-dim); margin: 0 0 8px;
+}
+.toact-chips{ display:flex; gap:6px; flex-wrap:wrap; margin-bottom:10px; }
+.chip{
+  font-family: var(--font-mono); font-size:12px; font-weight:600;
+  background: var(--panel-raised); border:1px solid var(--line); color: var(--text-dim);
+  padding: 5px 10px; border-radius: 20px;
+}
+.chip.next{ border-color: var(--gold); color: var(--gold); }
+.chip.armed{ background: var(--raise-g); color:#fff; border-color: var(--raise-g); }
+.empty-hint{ color: var(--text-faint); font-size:12.5px; }
+
+.action-buttons{ display:flex; gap:8px; flex-wrap:wrap; }
+.abtn{
+  flex:1; min-width: 90px;
+  padding: 12px 8px;
+  border-radius: 8px;
+  font-family: var(--font-display);
+  font-size: 13.5px; letter-spacing:.03em; text-transform:uppercase; font-weight:600;
+  color:#fff;
+}
+.abtn.fold{ background: var(--fold); }
+.abtn.check{ background: var(--check); }
+.abtn.call{ background: var(--call); }
+.abtn.raise_small{ background: var(--raise-s); color:#20140a; }
+.abtn.raise_big{ background: var(--raise-g); }
+.abtn.allin{ background: var(--allin); }
+.abtn:disabled{ opacity:.35; cursor:not-allowed; }
+
+.amount-row{ display:none; align-items:center; gap:8px; margin-top:10px; }
+.amount-row.show{ display:flex; }
+.amount-row input{
+  width: 90px; background: var(--panel-raised); border:1px solid var(--line);
+  color:var(--text); border-radius:6px; padding:6px 8px; font-family: var(--font-mono);
+}
+.amount-row .presets{ display:flex; gap:5px; }
+.amount-row .presets button{
+  background: var(--panel-raised); border:1px solid var(--line); color: var(--text-dim);
+  border-radius: 5px; padding: 4px 8px; font-size:11px; font-family: var(--font-mono);
+}
+
+/* ---------- Suggestion panel ---------- */
+.suggestion-panel{
+  border: 1.5px solid var(--gold);
+  background: linear-gradient(180deg, #1B1710, #14181D);
+}
+.suggestion-panel .sugg-label{
+  font-family: var(--font-display);
+  font-size: 22px; color: var(--gold); letter-spacing:.03em; margin: 0 0 4px;
+  text-transform: uppercase;
+}
+.suggestion-panel .sugg-explain{ font-size: 13px; color: var(--text-dim); margin-bottom:8px; line-height:1.5; }
+.sugg-metrics{
+  display:flex; flex-wrap:wrap; gap:6px 14px; margin-bottom:10px;
+  font-family: var(--font-mono); font-size: 11px; color: var(--text-faint);
+}
+.sugg-metrics b{ color: var(--text-dim); font-weight:600; }
+.sugg-actions{ display:flex; gap:8px; }
+
+/* ---------- Timeline ---------- */
+.timeline{ display:flex; flex-direction:column; gap:2px; max-height: 280px; overflow-y:auto; }
+.tl-street-header{
+  font-family: var(--font-display); font-size:12px; text-transform:uppercase;
+  color: var(--gold); letter-spacing:.06em; margin: 8px 0 4px; border-bottom:1px solid var(--line); padding-bottom:3px;
+}
+.tl-street-header:first-child{ margin-top:0; }
+.tl-board{ font-family: var(--font-mono); font-size:12.5px; color: var(--text-dim); margin-bottom:4px; }
+.tl-row{
+  display:flex; justify-content:space-between; font-size:12.5px;
+  padding: 3px 4px; border-radius:4px;
+}
+.tl-row.hero-row{ background: #D4A84A15; }
+.tl-row .tl-pos{ font-family: var(--font-mono); color: var(--text-dim); width:52px; flex-shrink:0; }
+.tl-row .tl-action{ font-weight:600; }
+.tl-row .tl-action.fold{ color: var(--fold); }
+.tl-row .tl-action.check{ color: var(--check); }
+.tl-row .tl-action.call{ color: var(--call); }
+.tl-row .tl-action.raise_small{ color: var(--raise-s); }
+.tl-row .tl-action.raise_big, .tl-row .tl-action.allin{ color: var(--raise-g); }
+.tl-empty{ color: var(--text-faint); font-size:12.5px; }
+
+/* ---------- Seat editor popover ---------- */
+.seat-editor{
+  position: fixed; z-index: 55;
+  background: var(--panel-raised); border:1px solid var(--gold); border-radius:10px;
+  padding: 12px; width: 220px; box-shadow: 0 12px 30px #000b; display:none;
+}
+.seat-editor.show{ display:block; }
+.seat-editor label{ font-size:10.5px; color: var(--text-faint); text-transform:uppercase; display:block; margin-top:6px; }
+.seat-editor input[type=text], .seat-editor input[type=number]{
+  width:100%; background: var(--panel); border:1px solid var(--line); color: var(--text);
+  border-radius:6px; padding:5px 7px; font-family: var(--font-body); font-size:12.5px; margin-top:2px;
+}
+.seat-editor .checkbox-row{ display:flex; align-items:center; gap:6px; margin-top:8px; }
+.seat-editor .close-row{ display:flex; justify-content:flex-end; margin-top:10px; }
+
+/* ---------- Seat edit button ---------- */
+.seat-edit{
+  position:absolute; top:-8px; left:-8px;
+  width:20px; height:20px; border-radius:50%;
+  background: var(--panel-raised); border:1px solid var(--line);
+  color: var(--text-dim); font-size:10px; padding:0;
+  display:flex; align-items:center; justify-content:center;
+  z-index: 5;
+}
+.seat-edit:hover{ border-color: var(--gold); color: var(--gold); }
+
+/* ---------- Inline hero card pad ---------- */
+.hero-entry{ display:flex; gap:16px; align-items:flex-start; flex-wrap:wrap; }
+.inline-pad{
+  background: var(--panel-raised); border:1px solid var(--line);
+  border-radius: 8px; padding: 8px 10px;
+}
+.inline-pad .pad-label{
+  font-size:10px; text-transform:uppercase; letter-spacing:.06em;
+  color: var(--text-faint); font-weight:600; margin-bottom:6px;
+}
+.inline-pad .pad-ranks, .inline-pad .pad-suits{
+  display:flex; gap:4px; flex-wrap:wrap; max-width: 250px; margin-bottom:6px;
+}
+.inline-pad button{
+  width:28px; height:28px;
+  background: var(--panel); border:1px solid var(--line);
+  color: var(--text); border-radius:5px;
+  font-family: var(--font-mono); font-size:12px; font-weight:600;
+}
+.inline-pad button:hover{ border-color: var(--gold); }
+.inline-pad button.sel{ background: var(--gold); color:#171100; border-color: var(--gold); }
+.inline-pad button.suit-red{ color:#D9564D; }
+.inline-pad .pad-hint{ font-size:10px; color: var(--text-faint); }
+
+/* ---------- Stack rows ---------- */
+.stack-rows{ display:flex; flex-direction:column; gap:6px; margin-top:10px; }
+.stack-row{ display:flex; align-items:center; gap:8px; }
+.stack-row .sr-seat{ font-family: var(--font-mono); color: var(--gold); width:14px; font-size:12px; }
+.stack-row .sr-pos{ font-family: var(--font-mono); color: var(--text-dim); width:44px; font-size:11px; }
+.stack-row input[type=text]{
+  flex:1; min-width:110px; background: var(--panel-raised); border:1px solid var(--line);
+  color: var(--text); border-radius:6px; padding:5px 7px; font-size:12.5px;
+}
+.stack-row input[type=number]{
+  width:100px; background: var(--panel-raised); border:1px solid var(--line);
+  color: var(--text); border-radius:6px; padding:5px 7px; font-family: var(--font-mono); font-size:12.5px;
+}
+.stack-row .sr-elim{
+  display:flex; align-items:center; gap:4px; font-size:11px; color: var(--text-dim);
+}
+
+/* ---------- Shortcuts help ---------- */
+.shortcuts-hint{
+  font-family: var(--font-mono); font-size: 10.5px; color: var(--text-faint);
+  display:flex; flex-wrap:wrap; gap: 4px 14px; padding: 8px 2px 0;
+}
+.shortcuts-hint b{ color: var(--text-dim); }
+
+@media (max-width: 720px){
+  .table-wrap{ aspect-ratio: 4/5; }
+  .seat{ width: 92px; }
+  .card-slot{ width:32px; height:46px; font-size:13px; }
+}
+</style>
+
+<div id="app">
+
+  <header class="topbar">
+    <div>
+      <h1>Poker Trainer 8-Max</h1>
+      <span class="hand-no" id="hand-no">Mão #1</span>
+    </div>
+    <div class="topbar-actions">
+      <button class="btn" id="btn-save">Salvar</button>
+      <button class="btn" id="btn-reset-session">Nova sessão</button>
+      <button class="btn primary" id="btn-next-hand">Próxima mão ▸</button>
+    </div>
+  </header>
+
+  <p style="font-size:11.5px;color:var(--text-faint);margin:-4px 0 10px;">
+    Ferramenta de <b>estudo e revisão de mãos</b> — simule spots ou reconstrua mãos já jogadas para treinar leitura de jogo. Não use durante uma mão em andamento em mesa real/online.
+  </p>
+
+  <div class="config-bar">
+    <div class="config-field">
+      <label>Torneio</label>
+      <select id="cfg-type">
+        <option value="regular">Regular</option>
+        <option value="pko">PKO</option>
+        <option value="mystery">Mystery Bounty</option>
+      </select>
+    </div>
+    <div class="config-field">
+      <label>Fase</label>
+      <select id="cfg-phase">
+        <option value="regular">Regular (chip EV)</option>
+        <option value="bubble">Bolha</option>
+        <option value="itm">ITM</option>
+        <option value="finaltable">Mesa final</option>
+      </select>
+    </div>
+    <div class="config-field">
+      <label>Perfil de jogo (Hero)</label>
+      <select id="cfg-profile">
+        <option value="equilibrado">Equilibrado</option>
+        <option value="agressivo">Agressivo</option>
+        <option value="passivo">Passivo</option>
+      </select>
+    </div>
+    <div class="config-field">
+      <label>Big Blind (fichas)</label>
+      <input type="number" id="cfg-bb" value="200" min="1" style="width:90px">
+    </div>
+  </div>
+
+  <div class="position-select">
+    <span class="label">Minha posição:</span>
+    <div id="position-buttons"></div>
+  </div>
+
+  <div class="street-flow" id="street-flow"></div>
+  <div class="advance-banner" id="advance-banner">
+    <span id="advance-text">Avançar para a próxima street?</span>
+    <div class="btns">
+      <button class="btn small primary" id="btn-advance-yes">Sim, avançar</button>
+      <button class="btn small" id="btn-advance-no">Ainda não</button>
+    </div>
+  </div>
+  <div class="handover-banner" id="handover-banner">
+    <span>Mão encerrada — restou apenas um jogador no pote.</span>
+    <button class="btn small primary" id="btn-handover-next">Próxima mão ▸</button>
+  </div>
+
+  <div class="table-wrap">
+    <div class="felt"></div>
+    <div class="board-area">
+      <div class="pot-label" id="pot-label">Pote ~1.5bb</div>
+      <div class="board-cards" id="board-cards"></div>
+      <div class="quick-entry">
+        <input type="text" id="quick-board" placeholder="ex: AC 9D 5S" autocomplete="off">
+        <span class="hint">Enter preenche o board da street atual</span>
+      </div>
+    </div>
+    <div id="seats"></div>
+  </div>
+
+  <div class="panel">
+    <h2>Mão do Hero</h2>
+    <div class="hero-entry">
+      <div>
+        <div class="board-cards" id="hero-cards"></div>
+        <div class="quick-entry">
+          <input type="text" id="quick-hero" placeholder="ex: AS KS" autocomplete="off">
+          <span class="hint">Enter preenche as duas cartas do Hero</span>
+        </div>
+      </div>
+      <div class="inline-pad" id="hero-pad">
+        <div class="pad-label">Teclado de cartas</div>
+        <div class="pad-ranks" id="hero-pad-ranks"></div>
+        <div class="pad-suits" id="hero-pad-suits"></div>
+        <div class="pad-hint">Clique no valor (2–A) e depois no naipe</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>Quem falta agir</h2>
+    <div class="toact-chips" id="toact-chips"></div>
+    <div class="action-buttons" id="action-buttons">
+      <button class="abtn fold" data-action="fold">Fold</button>
+      <button class="abtn check" data-action="check">Check</button>
+      <button class="abtn call" data-action="call">Call</button>
+      <button class="abtn raise_small" data-action="raise_small">Raise pequeno</button>
+      <button class="abtn raise_big" data-action="raise_big">Raise grande</button>
+      <button class="abtn allin" data-action="allin">All-in</button>
+    </div>
+    <div class="amount-row" id="amount-row">
+      <span style="font-size:11.5px;color:var(--text-faint)">bb (opcional):</span>
+      <input type="number" id="amount-input" step="0.1">
+      <div class="presets" id="amount-presets"></div>
+      <button class="btn small primary" id="amount-confirm">Confirmar</button>
+      <button class="btn small" id="amount-skip">Sem valor</button>
+    </div>
+    <div class="shortcuts-hint">
+      <span><b>1-8</b> selecionar assento</span>
+      <span><b>X</b> fold</span>
+      <span><b>Q</b> check</span>
+      <span><b>C</b> call</span>
+      <span><b>B</b> raise pequeno</span>
+      <span><b>G</b> raise grande</span>
+      <span><b>A</b> all-in</span>
+      <span><b>F/T/R</b> ir para flop/turn/river</span>
+      <span><b>Espaço</b> avançar street</span>
+    </div>
+  </div>
+
+  <div class="panel suggestion-panel" id="suggestion-panel" style="display:none;">
+    <h2>Sugestão (heurística de estudo)</h2>
+    <div class="sugg-label" id="sugg-label">—</div>
+    <div class="sugg-explain" id="sugg-explain"></div>
+    <div class="sugg-metrics" id="sugg-metrics"></div>
+  </div>
+
+  <div class="panel">
+    <h2>Timeline da mão</h2>
+    <div class="timeline" id="timeline"></div>
+  </div>
+
+  <div class="panel" id="stacks-panel">
+    <h2>Assentos — edite nome / stack / eliminado a qualquer momento</h2>
+    <div style="font-size:11.5px;color:var(--text-faint)">Os valores são salvos automaticamente e persistem entre as mãos. Também dá para editar pelo ✎ de cada assento na mesa acima.</div>
+    <div class="stack-rows" id="stack-rows"></div>
+  </div>
+
+</div>
+
+<div class="cardpad" id="cardpad">
+  <div class="ranks" id="cardpad-ranks"></div>
+  <div class="suits" id="cardpad-suits"></div>
+  <div class="cardpad-close" id="cardpad-close">fechar ✕</div>
+</div>
+
+<div class="seat-editor" id="seat-editor">
+  <label>Nome</label>
+  <input type="text" id="editor-name">
+  <label>Stack (fichas)</label>
+  <input type="number" id="editor-stack" min="0">
+  <div class="checkbox-row">
+    <input type="checkbox" id="editor-eliminated">
+    <label style="margin:0" for="editor-eliminated">Eliminado</label>
+  </div>
+  <div class="close-row">
+    <button class="btn small primary" id="editor-close">Fechar</button>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// storageEngine.js — leitura/gravação em localStorage
+// ============================================================
+const StorageEngine = (() => {
+  const KEY = 'pokerTrainer.v1';
+
+  function save(state) {
+    try {
+      const payload = {
+        players: state.players,
+        buttonSeat: state.buttonSeat,
+        format: state.format,
+        tournamentType: state.tournamentType,
+        phase: state.phase,
+        profile: state.profile,
+        handNumber: state.handNumber,
+        savedAt: Date.now()
+      };
+      localStorage.setItem(KEY, JSON.stringify(payload));
+      return true;
+    } catch (e) {
+      console.warn('StorageEngine.save falhou:', e);
+      return false;
+    }
+  }
+
+  function load() {
+    try {
+      const raw = localStorage.getItem(KEY);
+      if (!raw) return null;
+      return JSON.parse(raw);
+    } catch (e) {
+      console.warn('StorageEngine.load falhou:', e);
+      return null;
+    }
+  }
+
+  function clear() {
+    try { localStorage.removeItem(KEY); } catch (e) { /* sandbox sem storage */ }
+  }
+
+  return { save, load, clear };
+})();
+
+// ============================================================
+// positionEngine.js — posições dinâmicas a partir do botão
+// ============================================================
+const PositionEngine = (() => {
+
+  const POSITIONS_BY_COUNT = {
+    2: ['BTN', 'BB'],
+    3: ['BTN', 'SB', 'BB'],
+    4: ['BTN', 'SB', 'BB', 'UTG'],
+    5: ['BTN', 'SB', 'BB', 'UTG', 'CO'],
+    6: ['BTN', 'SB', 'BB', 'UTG', 'HJ', 'CO'],
+    7: ['BTN', 'SB', 'BB', 'UTG', 'MP', 'HJ', 'CO'],
+    8: ['BTN', 'SB', 'BB', 'UTG', 'UTG1', 'MP', 'HJ', 'CO']
+  };
+
+  function preflopOrder(positions) {
+    if (positions.length <= 3) {
+      return positions.slice();
+    }
+    const [btn, sb, bb, ...rest] = positions;
+    return [...rest, btn, sb, bb];
+  }
+
+  function postflopOrder(positions) {
+    if (positions.length <= 2) return positions.slice();
+    const [btn, sb, ...rest] = positions;
+    return [sb, ...rest, btn];
+  }
+
+  function assignPositions(buttonSeat, players) {
+    const seatCount = players.length;
+    const seatOrder = [];
+    for (let i = 0; i < seatCount; i++) {
+      seatOrder.push((buttonSeat + i) % seatCount);
+    }
+    const liveSeats = seatOrder.filter(idx => players[idx].status !== 'eliminated');
+    const count = liveSeats.length;
+    const posList = POSITIONS_BY_COUNT[count] || POSITIONS_BY_COUNT[8].slice(0, count);
+
+    players.forEach(p => { p.position = null; });
+
+    liveSeats.forEach((seatIdx, i) => {
+      players[seatIdx].position = posList[i] || null;
+    });
+
+    return players;
+  }
+
+  // Rotação do botão de forma que cada jogador avance HJ → CO → BTN → SB → BB
+  // entre as mãos (a ação dentro da mão continua UTG → ... → CO → BTN → blinds).
+  function rotateButton(buttonSeat, players) {
+    const seatCount = players.length;
+    let next = (buttonSeat - 1 + seatCount) % seatCount;
+    let guard = 0;
+    while (players[next].status === 'eliminated' && guard < seatCount) {
+      next = (next - 1 + seatCount) % seatCount;
+      guard++;
+    }
+    return next;
+  }
+
+  function getActivePositionsList(players) {
+    return players
+      .filter(p => p.status !== 'eliminated')
+      .sort((a, b) => {
+        const order = POSITIONS_BY_COUNT[players.filter(x => x.status !== 'eliminated').length] || [];
+        return order.indexOf(a.position) - order.indexOf(b.position);
+      });
+  }
+
+  return {
+    POSITIONS_BY_COUNT,
+    assignPositions,
+    rotateButton,
+    preflopOrder,
+    postflopOrder,
+    getActivePositionsList
+  };
+})();
+
+// ============================================================
+// gameState.js — fonte única de verdade
+// ============================================================
+const GameState = (() => {
+
+  const RANKS = ['2','3','4','5','6','7','8','9','T','J','Q','K','A'];
+  const SUITS = ['S','H','D','C'];
+  const SUIT_SYMBOL = { S: '♠', H: '♥', D: '♦', C: '♣' };
+  const SUIT_COLOR = { S: 'black', C: 'black', H: 'red', D: 'red' };
+
+  const STREETS = ['preflop', 'flop', 'turn', 'river'];
+
+  function defaultPlayers() {
+    const players = [];
+    for (let i = 0; i < 8; i++) {
+      players.push({
+        id: i,
+        name: `Jogador ${i + 1}`,
+        stack: 20000,
+        status: 'active',
+        position: null,
+        isHero: i === 0,
+        cards: [null, null]
+      });
+    }
+    return players;
+  }
+
+  let state = {
+    players: defaultPlayers(),
+    buttonSeat: 0,
+    format: '8max',
+    tournamentType: 'regular',
+    phase: 'regular',
+    profile: 'equilibrado',
+    handNumber: 1,
+
+    street: 'preflop',
+    board: [null, null, null, null, null],
+    actions: { preflop: [], flop: [], turn: [], river: [] },
+    toActQueue: [],
+    currentActorPos: null,
+    lastRaiseSize: null,
+    potBB: 0,
+    lastSuggestion: null
+  };
+
+  const listeners = [];
+  function subscribe(fn) { listeners.push(fn); }
+  function emit(eventName, payload) {
+    listeners.forEach(fn => fn(eventName, payload, state));
+  }
+
+  function getState() { return state; }
+
+  function getHero() { return state.players.find(p => p.isHero); }
+
+  function setHero(seatId) {
+    state.players.forEach(p => { p.isHero = (p.id === seatId); });
+    emit('hero-changed');
+  }
+
+  function setPlayerStack(seatId, stack) {
+    const p = state.players.find(pl => pl.id === seatId);
+    if (p) p.stack = Math.max(0, Number(stack) || 0);
+    emit('stack-changed', { seatId });
+  }
+
+  function setPlayerName(seatId, name) {
+    const p = state.players.find(pl => pl.id === seatId);
+    if (p) p.name = name || p.name;
+    emit('name-changed', { seatId });
+  }
+
+  function togglePlayerEliminated(seatId) {
+    const p = state.players.find(pl => pl.id === seatId);
+    if (!p) return;
+    p.status = (p.status === 'eliminated') ? 'active' : 'eliminated';
+    PositionEngine.assignPositions(state.buttonSeat, state.players);
+    emit('players-changed');
+  }
+
+  function setFormat(fmt) { state.format = fmt; emit('meta-changed'); }
+  function setTournamentType(t) { state.tournamentType = t; emit('meta-changed'); }
+  function setPhase(p) { state.phase = p; emit('meta-changed'); }
+  function setProfile(p) { state.profile = p; emit('meta-changed'); }
+
+  function setSeatCard(seatId, cardIdx, card) {
+    const p = state.players.find(pl => pl.id === seatId);
+    if (p) p.cards[cardIdx] = card;
+    emit('cards-changed', { seatId });
+  }
+
+  function setBoardCard(idx, card) {
+    state.board[idx] = card;
+    emit('board-changed', { idx });
+  }
+
+  function setStreet(street) {
+    state.street = street;
+    emit('street-changed', { street });
+  }
+
+  function addAction(street, actionObj) {
+    state.actions[street].push(actionObj);
+    emit('action-added', { street, actionObj });
+  }
+
+  function setToActQueue(list) {
+    state.toActQueue = list;
+    state.currentActorPos = list.length ? list[0] : null;
+    emit('queue-changed');
+  }
+
+  function setLastSuggestion(sugg) {
+    state.lastSuggestion = sugg;
+    emit('suggestion-changed', sugg);
+  }
+
+  function resetHand({ keepStacksAndPlayers = true } = {}) {
+    // Liquida a mão encerrada: ajusta stacks conforme as apostas registradas,
+    // quando o desfecho é conhecido (restou apenas um jogador no pote).
+    try { TableEngine.settleHand(state); } catch (e) { console.warn('settleHand:', e); }
+
+    state.buttonSeat = PositionEngine.rotateButton(state.buttonSeat, state.players);
+    PositionEngine.assignPositions(state.buttonSeat, state.players);
+
+    state.players.forEach(p => {
+      p.cards = [null, null];
+      if (p.status !== 'eliminated') p.status = 'active';
+    });
+
+    state.street = 'preflop';
+    state.board = [null, null, null, null, null];
+    state.actions = { preflop: [], flop: [], turn: [], river: [] };
+    state.toActQueue = [];
+    state.currentActorPos = null;
+    state.lastRaiseSize = null;
+    state.potBB = 0;
+    state.lastSuggestion = null;
+    state.handNumber += 1;
+
+    emit('hand-reset');
+  }
+
+  function loadFromStorage() {
+    const saved = StorageEngine.load();
+    if (!saved) return false;
+    state.players = saved.players || defaultPlayers();
+    state.buttonSeat = saved.buttonSeat ?? 0;
+    state.format = saved.format || '8max';
+    state.tournamentType = saved.tournamentType || 'regular';
+    state.phase = saved.phase || 'regular';
+    state.profile = saved.profile || 'equilibrado';
+    state.handNumber = saved.handNumber || 1;
+    PositionEngine.assignPositions(state.buttonSeat, state.players);
+    emit('state-loaded');
+    return true;
+  }
+
+  function persist() {
+    StorageEngine.save(state);
+  }
+
+  function cardLabel(card) {
+    if (!card) return '';
+    return `${card.rank}${SUIT_SYMBOL[card.suit]}`;
+  }
+
+  return {
+    RANKS, SUITS, SUIT_SYMBOL, SUIT_COLOR, STREETS,
+    subscribe, getState, getHero,
+    setHero, setPlayerStack, setPlayerName, togglePlayerEliminated,
+    setFormat, setTournamentType, setPhase, setProfile,
+    setSeatCard, setBoardCard, setStreet, addAction, setToActQueue,
+    setLastSuggestion, resetHand, loadFromStorage, persist, cardLabel
+  };
+})();
+
+// ============================================================
+// actionEngine.js — quem falta agir e em que ordem
+// ============================================================
+const ActionEngine = (() => {
+
+  function livePlayers(players) {
+    return players.filter(p => p.status !== 'eliminated');
+  }
+
+  function orderedPositionsForStreet(street, players) {
+    const live = livePlayers(players);
+    const posList = PositionEngine.POSITIONS_BY_COUNT[live.length] ||
+      PositionEngine.POSITIONS_BY_COUNT[8].slice(0, live.length);
+    return street === 'preflop'
+      ? PositionEngine.preflopOrder(posList)
+      : PositionEngine.postflopOrder(posList);
+  }
+
+  function playersInHand(players) {
+    return players.filter(p => p.status === 'active' || p.status === 'allin');
+  }
+
+  function playersCanAct(players) {
+    return players.filter(p => p.status === 'active');
+  }
+
+  function buildQueue(street, players) {
+    const order = orderedPositionsForStreet(street, players);
+    const canAct = playersCanAct(players);
+    const canActPositions = new Set(canAct.map(p => p.position));
+    return order.filter(pos => canActPositions.has(pos));
+  }
+
+  function registerAction(state, position, action, meta = {}) {
+    const player = state.players.find(p => p.position === position);
+    if (!player) return null;
+
+    const actionObj = {
+      position,
+      playerId: player.id,
+      playerName: player.name,
+      isHero: player.isHero,
+      action,
+      street: state.street,
+      amountBB: meta.amountBB || null,
+      timestamp: Date.now()
+    };
+
+    if (action === 'fold') {
+      player.status = 'folded';
+    } else if (action === 'allin') {
+      player.status = 'allin';
+    }
+
+    if (action === 'raise_small' || action === 'raise_big' || action === 'allin') {
+      state.lastRaiseSize = action;
+    }
+
+    GameState.addAction(state.street, actionObj);
+
+    state.toActQueue = state.toActQueue.filter(pos => pos !== position);
+
+    if (action === 'raise_small' || action === 'raise_big' || action === 'allin') {
+      const order = orderedPositionsForStreet(state.street, state.players);
+      const stillToAct = playersCanAct(state.players)
+        .filter(p => p.position !== position)
+        .map(p => p.position);
+      state.toActQueue = order.filter(pos => stillToAct.includes(pos));
+    }
+
+    GameState.setToActQueue(state.toActQueue);
+    return actionObj;
+  }
+
+  function isStreetComplete(state) {
+    if (state.toActQueue.length > 0) return false;
+    return true;
+  }
+
+  function isHandOver(state) {
+    const inHand = playersInHand(state.players);
+    if (inHand.length <= 1) return true;
+    if (state.street === 'river' && playersCanAct(state.players).length === 0) return true;
+    return false;
+  }
+
+  return {
+    livePlayers, orderedPositionsForStreet, playersInHand, playersCanAct,
+    buildQueue, registerAction, isStreetComplete, isHandOver
+  };
+})();
+
+// ============================================================
+// decisionEngine.js — sugestão heurística de estudo (não é solver GTO)
+// ============================================================
+const DecisionEngine = (() => {
+
+  const POSITION_STRENGTH = {
+    BTN: 5, CO: 4, HJ: 3, MP: 2, UTG1: 1, UTG: 0, SB: 1, BB: 1.5
+  };
+
+  function effectiveStackBB(state) {
+    const hero = GameState.getHero();
+    if (!hero) return 0;
+    const inHand = ActionEngine.playersInHand(state.players).filter(p => !p.isHero);
+    const bb = estimateBBSize(state);
+    if (inHand.length === 0) return Math.round(hero.stack / bb);
+    const minOpp = Math.min(...inHand.map(p => p.stack));
+    return Math.round(Math.min(hero.stack, minOpp) / bb);
+  }
+
+  function estimateBBSize(state) {
+    if (state._bbSize) return state._bbSize;
+    return 200;
+  }
+
+  function sprEstimate(state) {
+    const bb = estimateBBSize(state);
+    const potBB = Math.max(state.potBB, 1.5);
+    const eff = effectiveStackBB(state);
+    return +(eff / potBB).toFixed(1);
+  }
+
+  function boardTexture(board) {
+    const cards = board.filter(Boolean);
+    if (cards.length === 0) return { text: 'sem board', wet: 0 };
+    const ranks = cards.map(c => GameState.RANKS.indexOf(c.rank));
+    const suits = cards.map(c => c.suit);
+    const suitCounts = {};
+    suits.forEach(s => suitCounts[s] = (suitCounts[s] || 0) + 1);
+    const maxSuit = Math.max(...Object.values(suitCounts));
+    const flushDraw = maxSuit >= 2;
+    const flushMade = maxSuit >= 3;
+    const uniqueRanks = new Set(ranks);
+    const paired = uniqueRanks.size < ranks.length;
+    const sortedRanks = [...uniqueRanks].sort((a, b) => a - b);
+    let straightyGap = 99;
+    for (let i = 0; i < sortedRanks.length - 1; i++) {
+      straightyGap = Math.min(straightyGap, sortedRanks[i + 1] - sortedRanks[i]);
+    }
+    const connected = straightyGap <= 2;
+
+    let wetness = 0;
+    if (flushDraw) wetness += 1;
+    if (flushMade) wetness += 1;
+    if (connected) wetness += 1;
+    if (paired) wetness -= 0.5;
+
+    const parts = [];
+    if (flushMade) parts.push('flush possível');
+    else if (flushDraw) parts.push('flush draw possível');
+    if (connected) parts.push('conectado (straight draws)');
+    if (paired) parts.push('pareado');
+    if (parts.length === 0) parts.push('seco / desconectado');
+
+    return { text: parts.join(', '), wet: wetness, paired, flushDraw, connected };
+  }
+
+  function potType(state) {
+    const pre = state.actions.preflop;
+    const raises = pre.filter(a => a.action === 'raise_small' || a.action === 'raise_big' || a.action === 'allin');
+    if (raises.length === 0) return 'limpado';
+    if (raises.length === 1) return 'raised (single raised pot)';
+    if (raises.length === 2) return '3-bet pot';
+    return '4-bet+ pot';
+  }
+
+  function phaseModifier(phase) {
+    switch (phase) {
+      case 'bubble': return { label: 'bolha — ICM alto', tighten: 2 };
+      case 'itm': return { label: 'ITM — ainda cauteloso', tighten: 1 };
+      case 'finaltable': return { label: 'mesa final — ICM crítico', tighten: 2.5 };
+      default: return { label: 'fase regular — chip EV', tighten: 0 };
+    }
+  }
+
+  function tournamentTypeModifier(type) {
+    switch (type) {
+      case 'pko': return { label: 'PKO — bounties incentivam confrontos', aggro: 0.5 };
+      case 'mystery': return { label: 'Mystery Bounty — variância alta é aceitável', aggro: 0.7 };
+      default: return { label: 'torneio regular', aggro: 0 };
+    }
+  }
+
+  function profileModifier(profile) {
+    switch (profile) {
+      case 'agressivo': return 1.5;
+      case 'passivo': return -1.5;
+      default: return 0;
+    }
+  }
+
+  function computeSuggestion(state) {
+    const hero = GameState.getHero();
+    if (!hero || hero.status === 'folded' || hero.status === 'eliminated') {
+      return null;
+    }
+    if (hero.position == null) return null;
+
+    const eff = effectiveStackBB(state);
+    const spr = sprEstimate(state);
+    const texture = boardTexture(state.board);
+    const pType = potType(state);
+    const nPlayers = ActionEngine.playersInHand(state.players).length;
+    const phaseInfo = phaseModifier(state.phase);
+    const typeInfo = tournamentTypeModifier(state.tournamentType);
+    const profScore = profileModifier(state.profile);
+    const posScore = POSITION_STRENGTH[hero.position] ?? 2;
+
+    let score = 0;
+    score += posScore;
+    score += typeInfo.aggro;
+    score += profScore;
+    score -= phaseInfo.tighten;
+    score += texture.wet * 0.8;
+
+    if (eff <= 15) score += 3;
+    else if (eff <= 25) score += 1.5;
+
+    score -= Math.max(0, nPlayers - 2) * 0.7;
+
+    if (pType === '3-bet pot') score -= 1.5;
+    if (pType === '4-bet+ pot') score -= 3;
+
+    // Contexto do último agressor pré-flop: nomeia a agressão (Open/3Bet/4Bet)
+    // e permite explicar a sugestão citando vilão, stack e posição relativa.
+    const raisesPre = state.actions.preflop.filter(a =>
+      a.action === 'raise_small' || a.action === 'raise_big' || a.action === 'allin');
+    const lastAgg = raisesPre.length ? raisesPre[raisesPre.length - 1] : null;
+    const aggPlayer = (lastAgg && !lastAgg.isHero) ? state.players.find(p => p.id === lastAgg.playerId) : null;
+    const bbSize = state._bbSize || 200;
+    const vsTxt = aggPlayer
+      ? `${lastAgg.position} (stack ~${Math.round(aggPlayer.stack / bbSize)}bb)`
+      : null;
+    const inPosition = !lastAgg ||
+      (POSITION_STRENGTH[hero.position] ?? 2) >= (POSITION_STRENGTH[lastAgg.position] ?? 2);
+    const posTxt = inPosition ? 'em posição' : 'fora de posição';
+    const nextRaiseN = raisesPre.length + 1;
+    const aggName = nextRaiseN === 1 ? 'RAISE (OPEN)'
+      : nextRaiseN === 2 ? '3BET'
+      : nextRaiseN === 3 ? '4BET'
+      : 'ALL-IN (5BET+)';
+
+    let action, label, explanation;
+
+    if (eff <= 12 && state.street === 'preflop') {
+      action = 'allin';
+      label = 'ALL-IN (push/fold)';
+      explanation = `Stack efetivo ~${eff}bb é curto demais para raise convencional${vsTxt ? ` contra ${vsTxt}` : ''}. Zona de push/fold clássica.`;
+    } else if (score >= 5) {
+      action = 'raise_big';
+      label = state.street === 'preflop' ? aggName : 'RAISE GRANDE / BET FORTE';
+      explanation = vsTxt
+        ? `${label} por valor contra ${vsTxt}: stack efetivo ~${eff}bb, Hero ${posTxt} e range de ${lastAgg.position} amplo o suficiente para receber pressão. Board ${texture.text}.`
+        : `Posição forte (${hero.position}), ${pType}, board ${texture.text}. Fatores somam pressão a favor da agressão.`;
+    } else if (score >= 2.5) {
+      action = 'raise_small';
+      label = state.street === 'preflop'
+        ? (raisesPre.length ? `${aggName} (tamanho menor)` : 'RAISE PEQUENO (OPEN)')
+        : 'RAISE PEQUENO / BET PEQUENO';
+      explanation = `Spot moderadamente favorável ${vsTxt ? `contra ${vsTxt}, Hero ${posTxt}` : `em ${hero.position}`}${nPlayers > 2 ? ', com múltiplos jogadores no pote' : ''}. Tamanho menor preserva a faixa de continuação.`;
+    } else if (score >= 0.5) {
+      action = 'call';
+      label = 'CALL / CHECK';
+      explanation = `Spot neutro${vsTxt ? ` contra ${vsTxt} (Hero ${posTxt})` : ''}. ${phaseInfo.label}. SPR ~${spr}. Sem edge claro para forçar o pote.`;
+    } else {
+      action = 'fold';
+      label = 'FOLD';
+      explanation = `Fold padrão: ${posTxt}${vsTxt ? ` contra ${vsTxt}` : ` em ${hero.position}`}, ${pType}, ${phaseInfo.label}. Continuar tende a ser -EV com faixas marginais.`;
+    }
+
+    return {
+      action,
+      label,
+      explanation,
+      details: {
+        effectiveStackBB: eff,
+        spr,
+        boardTexture: texture.text,
+        potType: pType,
+        playersInHand: nPlayers,
+        phase: phaseInfo.label,
+        tournamentType: typeInfo.label,
+        score: +score.toFixed(2)
+      }
+    };
+  }
+
+  return { computeSuggestion, effectiveStackBB, sprEstimate, boardTexture, potType };
+})();
+
+// ============================================================
+// tableEngine.js — fluxo macro da mão
+// ============================================================
+const TableEngine = (() => {
+
+  const STREET_LABELS = {
+    preflop: 'Pré-flop',
+    flop: 'Flop',
+    turn: 'Turn',
+    river: 'River'
+  };
+
+  function startHandActionPhase(state) {
+    const queue = ActionEngine.buildQueue(state.street, state.players);
+    GameState.setToActQueue(queue);
+    recomputeSuggestionIfHeroToAct(state);
+  }
+
+  function recomputeSuggestionIfHeroToAct(state) {
+    const hero = GameState.getHero();
+    if (hero && state.currentActorPos === hero.position) {
+      const sugg = DecisionEngine.computeSuggestion(state);
+      GameState.setLastSuggestion(sugg);
+    } else {
+      GameState.setLastSuggestion(null);
+    }
+  }
+
+  function submitAction(position, action, meta = {}) {
+    const state = GameState.getState();
+    ActionEngine.registerAction(state, position, action, meta);
+    updatePotEstimate(state);
+
+    const handOver = ActionEngine.isHandOver(state);
+    const streetOver = ActionEngine.isStreetComplete(state);
+
+    GameState.persist();
+
+    return {
+      handOver,
+      streetOver: streetOver && !handOver,
+      nextStreet: nextStreetName(state.street)
+    };
+  }
+
+  function updatePotEstimate(state) {
+    const weight = { raise_small: 3, raise_big: 6, allin: 10, call: 2, check: 0, fold: 0 };
+    let total = 1.5;
+    Object.values(state.actions).forEach(list => {
+      list.forEach(a => { total += weight[a.action] || 0; });
+    });
+    state.potBB = total;
+  }
+
+  function nextStreetName(current) {
+    const idx = GameState.STREETS.indexOf(current);
+    return GameState.STREETS[idx + 1] || null;
+  }
+
+  function advanceStreet() {
+    const state = GameState.getState();
+    const next = nextStreetName(state.street);
+    if (!next) return false;
+    GameState.setStreet(next);
+    GameState.setToActQueue([]);
+    GameState.persist();
+    return true;
+  }
+
+  function boardSlotsForStreet(street) {
+    if (street === 'flop') return [0, 1, 2];
+    if (street === 'turn') return [3];
+    if (street === 'river') return [4];
+    return [];
+  }
+
+  function isBoardCompleteForStreet(state, street) {
+    return boardSlotsForStreet(street).every(i => !!state.board[i]);
+  }
+
+  // ---------- Liquidação aproximada de stacks entre mãos ----------
+
+  // Estima quanto cada jogador colocou no pote (em bb), usando os valores
+  // digitados quando existem e pesos aproximados quando não existem.
+  function estimateContributions(state) {
+    const contrib = {};
+    state.players.forEach(p => { contrib[p.id] = 0; });
+    const bbSize = state._bbSize || 200;
+    GameState.STREETS.forEach(street => {
+      const perPlayer = {};
+      let currentBet = 0;
+      if (street === 'preflop') {
+        const sbP = state.players.find(p => p.position === 'SB');
+        const bbP = state.players.find(p => p.position === 'BB');
+        if (sbP) perPlayer[sbP.id] = 0.5;
+        if (bbP) perPlayer[bbP.id] = 1;
+        currentBet = 1;
+      }
+      state.actions[street].forEach(a => {
+        let amt = perPlayer[a.playerId] || 0;
+        if (a.action === 'call') {
+          amt = a.amountBB != null ? Number(a.amountBB) : Math.max(currentBet, 1);
+        } else if (a.action === 'raise_small' || a.action === 'raise_big') {
+          const base = a.action === 'raise_small' ? 2.2 : 3;
+          amt = a.amountBB != null ? Number(a.amountBB) : Math.max(currentBet * base, base);
+          currentBet = Math.max(currentBet, amt);
+        } else if (a.action === 'allin') {
+          const pl = state.players.find(p => p.id === a.playerId);
+          amt = a.amountBB != null ? Number(a.amountBB) : (pl ? pl.stack / bbSize : 0);
+          currentBet = Math.max(currentBet, amt);
+        }
+        perPlayer[a.playerId] = Math.max(perPlayer[a.playerId] || 0, amt);
+      });
+      Object.keys(perPlayer).forEach(id => { contrib[id] += perPlayer[id]; });
+    });
+    return contrib;
+  }
+
+  /**
+   * Ajusta os stacks ao fim da mão quando o desfecho é conhecido (restou 1
+   * jogador no pote): cada participante perde sua contribuição estimada e o
+   * vencedor leva o pote. Em showdown (2+ jogadores) nada muda — o vencedor
+   * não é conhecido; ajuste manualmente pelo painel de assentos se quiser.
+   */
+  function settleHand(state) {
+    const inHand = ActionEngine.playersInHand(state.players);
+    if (inHand.length !== 1) return false;
+    const anyAction = Object.values(state.actions).some(list => list.length > 0);
+    if (!anyAction) return false;
+    const winner = inHand[0];
+    const bbSize = state._bbSize || 200;
+    const contrib = estimateContributions(state);
+    let pot = 0;
+    state.players.forEach(p => {
+      const chips = Math.min(p.stack, Math.round((contrib[p.id] || 0) * bbSize));
+      p.stack -= chips;
+      pot += chips;
+    });
+    winner.stack += pot;
+    return true;
+  }
+
+  return {
+    STREET_LABELS,
+    startHandActionPhase,
+    recomputeSuggestionIfHeroToAct,
+    submitAction,
+    updatePotEstimate,
+    nextStreetName,
+    advanceStreet,
+    boardSlotsForStreet,
+    isBoardCompleteForStreet,
+    settleHand
+  };
+})();
+
+// ============================================================
+// keyboardEngine.js — atalhos globais
+// ============================================================
+const KeyboardEngine = (() => {
+
+  let handlers = {};
+
+  function isTypingContext() {
+    const el = document.activeElement;
+    if (!el) return false;
+    const tag = el.tagName;
+    return tag === 'INPUT' || tag === 'TEXTAREA' || el.isContentEditable;
+  }
+
+  function init(cb) {
+    handlers = cb;
+    document.addEventListener('keydown', (e) => {
+      if (isTypingContext()) return;
+      const key = e.key;
+
+      if (key === ' ') { e.preventDefault(); handlers.onAdvance && handlers.onAdvance(); return; }
+
+      switch (key.toLowerCase()) {
+        case 'f': handlers.onGoStreet && handlers.onGoStreet('flop'); break;
+        case 't': handlers.onGoStreet && handlers.onGoStreet('turn'); break;
+        case 'r': handlers.onGoStreet && handlers.onGoStreet('river'); break;
+        case 'x': handlers.onAction && handlers.onAction('fold'); break;
+        case 'q': handlers.onAction && handlers.onAction('check'); break;
+        case 'c': handlers.onAction && handlers.onAction('call'); break;
+        case 'b': handlers.onAction && handlers.onAction('raise_small'); break;
+        case 'g': handlers.onAction && handlers.onAction('raise_big'); break;
+        case 'a': handlers.onAction && handlers.onAction('allin'); break;
+        default:
+          if (/^[1-8]$/.test(key)) {
+            handlers.onSelectSeat && handlers.onSelectSeat(Number(key) - 1);
+          }
+      }
+    });
+  }
+
+  return { init };
+})();
+
+// ============================================================
+// uiEngine.js — única camada que toca o DOM
+// ============================================================
+const UIEngine = (() => {
+
+  const SEAT_COORDS = [
+    { top: '92%', left: '50%' },
+    { top: '80%', left: '18%' },
+    { top: '50%', left: '3%'  },
+    { top: '20%', left: '18%' },
+    { top: '8%',  left: '50%' },
+    { top: '20%', left: '82%' },
+    { top: '50%', left: '97%' },
+    { top: '80%', left: '82%' }
+  ];
+
+  const ACTION_LABELS = {
+    fold: 'Fold', check: 'Check', call: 'Call',
+    raise_small: 'Raise pequeno', raise_big: 'Raise grande', allin: 'All-in'
+  };
+
+  let armedActorPos = null;
+  let pendingActionType = null;
+  let cardpadTarget = null;
+
+  function $(sel) { return document.querySelector(sel); }
+  function $$(sel) { return Array.from(document.querySelectorAll(sel)); }
+
+  function init() {
+    buildStaticPieces();
+    bindStaticEvents();
+    GameState.subscribe(() => render());
+    render();
+  }
+
+  function buildStaticPieces() {
+    const posWrap = $('#position-buttons');
+    const allPositions = ['BTN', 'SB', 'BB', 'UTG', 'UTG1', 'MP', 'HJ', 'CO'];
+    posWrap.innerHTML = allPositions.map(p =>
+      `<button class="pos-btn" data-pos="${p}">${p}</button>`
+    ).join('');
+
+    const streetWrap = $('#street-flow');
+    streetWrap.innerHTML = GameState.STREETS.map(s =>
+      `<button class="street-btn" data-street="${s}">${TableEngine.STREET_LABELS[s]} ▾</button>`
+    ).join('');
+
+    const ranksWrap = $('#cardpad-ranks');
+    ranksWrap.innerHTML = GameState.RANKS.slice().reverse().map(r =>
+      `<button data-rank="${r}">${r}</button>`
+    ).join('');
+    const suitsWrap = $('#cardpad-suits');
+    suitsWrap.innerHTML = GameState.SUITS.map(s => {
+      const cls = GameState.SUIT_COLOR[s] === 'red' ? 'suit-red' : '';
+      return `<button class="${cls}" data-suit="${s}">${GameState.SUIT_SYMBOL[s]}</button>`;
+    }).join('');
+
+    const seatsWrap = $('#seats');
+    seatsWrap.innerHTML = SEAT_COORDS.map((c, i) => `
+      <div class="seat" id="seat-${i}" style="top:${c.top}; left:${c.left};">
+        <div class="seat-card">
+          <div class="btn-marker" id="btnmark-${i}" style="display:none;">D</div>
+          <button class="seat-edit" title="Editar nome / stack / eliminar">✎</button>
+          <div class="seat-pos" id="seatpos-${i}"></div>
+          <div class="seat-name" id="seatname-${i}"></div>
+          <div class="seat-stack" id="seatstack-${i}"></div>
+          <div class="seat-status" id="seatstatus-${i}"></div>
+          <div class="seat-cards" id="seatcards-${i}"></div>
+        </div>
+      </div>
+    `).join('');
+
+    const boardWrap = $('#board-cards');
+    boardWrap.innerHTML = [0, 1, 2, 3, 4].map(i =>
+      `<div class="card-slot" id="board-slot-${i}" data-idx="${i}">?</div>`
+    ).join('');
+
+    const heroWrap = $('#hero-cards');
+    heroWrap.innerHTML = [0, 1].map(i =>
+      `<div class="card-slot" id="hero-slot-${i}" data-idx="${i}">?</div>`
+    ).join('');
+
+    $('#amount-presets').innerHTML = ['2', '2.2', '2.5', '3', 'Pot'].map(v =>
+      `<button data-val="${v}">${v}</button>`
+    ).join('');
+
+    // Teclado fixo de cartas do Hero
+    $('#hero-pad-ranks').innerHTML = GameState.RANKS.slice().reverse().map(r =>
+      `<button data-rank="${r}">${r}</button>`
+    ).join('');
+    $('#hero-pad-suits').innerHTML = GameState.SUITS.map(s => {
+      const cls = GameState.SUIT_COLOR[s] === 'red' ? 'suit-red' : '';
+      return `<button class="${cls}" data-suit="${s}">${GameState.SUIT_SYMBOL[s]}</button>`;
+    }).join('');
+
+    // Linhas de edição de nome / stack / eliminado
+    $('#stack-rows').innerHTML = SEAT_COORDS.map((c, i) => `
+      <div class="stack-row" data-id="${i}">
+        <span class="sr-seat">${i + 1}</span>
+        <span class="sr-pos" id="srpos-${i}"></span>
+        <input type="text" id="srname-${i}" autocomplete="off">
+        <input type="number" id="srstack-${i}" min="0" step="100">
+        <label class="sr-elim"><input type="checkbox" id="srelim-${i}"> Elim.</label>
+      </div>
+    `).join('');
+  }
+
+  function bindStaticEvents() {
+    $('#position-buttons').addEventListener('click', (e) => {
+      const btn = e.target.closest('.pos-btn');
+      if (!btn) return;
+      const pos = btn.dataset.pos;
+      const state = GameState.getState();
+      const player = state.players.find(p => p.position === pos);
+      if (player) GameState.setHero(player.id);
+    });
+
+    $('#street-flow').addEventListener('click', (e) => {
+      const btn = e.target.closest('.street-btn');
+      if (!btn) return;
+      tryGoToStreet(btn.dataset.street);
+    });
+
+    $('#btn-advance-yes').addEventListener('click', () => {
+      TableEngine.advanceStreet();
+      hideAdvanceBanner();
+      focusBoardEntry();
+    });
+    $('#btn-advance-no').addEventListener('click', hideAdvanceBanner);
+    $('#btn-handover-next').addEventListener('click', () => {
+      $('#handover-banner').classList.remove('show');
+      GameState.resetHand();
+      TableEngine.startHandActionPhase(GameState.getState());
+    });
+    $('#btn-next-hand').addEventListener('click', () => {
+      $('#handover-banner').classList.remove('show');
+      GameState.resetHand();
+      TableEngine.startHandActionPhase(GameState.getState());
+    });
+    $('#btn-reset-session').addEventListener('click', () => {
+      if (confirm('Isso reinicia stacks e jogadores para os valores padrão. Confirmar?')) {
+        StorageEngine.clear();
+        location.reload();
+      }
+    });
+    $('#btn-save').addEventListener('click', () => {
+      GameState.persist();
+      flashSaved();
+    });
+
+    $('#cfg-type').addEventListener('change', e => GameState.setTournamentType(e.target.value));
+    $('#cfg-phase').addEventListener('change', e => GameState.setPhase(e.target.value));
+    $('#cfg-profile').addEventListener('change', e => GameState.setProfile(e.target.value));
+    $('#cfg-bb').addEventListener('change', e => {
+      GameState.getState()._bbSize = Number(e.target.value) || 200;
+      render();
+    });
+
+    $('#board-cards').addEventListener('click', (e) => {
+      const slot = e.target.closest('.card-slot');
+      if (!slot) return;
+      openCardpad('board', Number(slot.dataset.idx), slot);
+    });
+    $('#hero-cards').addEventListener('click', (e) => {
+      const slot = e.target.closest('.card-slot');
+      if (!slot) return;
+      openCardpad('hero', Number(slot.dataset.idx), slot);
+    });
+
+    $('#cardpad-ranks').addEventListener('click', (e) => {
+      const btn = e.target.closest('button[data-rank]');
+      if (btn) cardpadPendingRank = btn.dataset.rank;
+    });
+    $('#cardpad-suits').addEventListener('click', (e) => {
+      const btn = e.target.closest('button[data-suit]');
+      if (!btn || !cardpadPendingRank || !cardpadTarget) return;
+      commitCard(cardpadTarget.group, cardpadTarget.index, { rank: cardpadPendingRank, suit: btn.dataset.suit });
+      closeCardpad();
+    });
+    $('#cardpad-close').addEventListener('click', closeCardpad);
+    document.addEventListener('click', (e) => {
+      const pad = $('#cardpad');
+      if (pad.classList.contains('show') && !pad.contains(e.target) && !e.target.closest('.card-slot')) {
+        closeCardpad();
+      }
+    });
+
+    // Teclado fixo de cartas do Hero: valor → naipe → preenche o próximo slot vazio
+    $('#hero-pad-ranks').addEventListener('click', (e) => {
+      const btn = e.target.closest('button[data-rank]');
+      if (!btn) return;
+      heroPadRank = btn.dataset.rank;
+      renderHeroPadSel();
+    });
+    $('#hero-pad-suits').addEventListener('click', (e) => {
+      const btn = e.target.closest('button[data-suit]');
+      if (!btn) return;
+      if (!heroPadRank) { toast('Escolha primeiro o valor da carta (2–A).'); return; }
+      const hero = GameState.getHero();
+      if (!hero) return;
+      let idx;
+      if (!hero.cards[0]) idx = 0;
+      else if (!hero.cards[1]) idx = 1;
+      else { GameState.setSeatCard(hero.id, 1, null); idx = 0; } // mão cheia: recomeça
+      GameState.setSeatCard(hero.id, idx, { rank: heroPadRank, suit: btn.dataset.suit });
+      heroPadRank = null;
+      renderHeroPadSel();
+    });
+
+    // Edição de stacks pelo painel de assentos
+    $('#stack-rows').addEventListener('input', (e) => {
+      const row = e.target.closest('.stack-row');
+      if (!row) return;
+      const id = Number(row.dataset.id);
+      if (e.target.id === `srname-${id}`) GameState.setPlayerName(id, e.target.value);
+      if (e.target.id === `srstack-${id}`) GameState.setPlayerStack(id, e.target.value);
+    });
+    $('#stack-rows').addEventListener('change', (e) => {
+      const row = e.target.closest('.stack-row');
+      if (!row) return;
+      const id = Number(row.dataset.id);
+      if (e.target.id === `srelim-${id}`) GameState.togglePlayerEliminated(id);
+    });
+
+    $('#quick-hero').addEventListener('keydown', (e) => {
+      if (e.key !== 'Enter') return;
+      const cards = parseCardString(e.target.value);
+      if (cards[0]) GameState.setSeatCard(GameState.getHero()?.id, 0, cards[0]);
+      if (cards[1]) GameState.setSeatCard(GameState.getHero()?.id, 1, cards[1]);
+      e.target.value = '';
+    });
+    $('#quick-board').addEventListener('keydown', (e) => {
+      if (e.key !== 'Enter') return;
+      const state = GameState.getState();
+      const slots = TableEngine.boardSlotsForStreet(state.street);
+      const cards = parseCardString(e.target.value);
+      slots.forEach((slotIdx, i) => { if (cards[i]) GameState.setBoardCard(slotIdx, cards[i]); });
+      e.target.value = '';
+      maybeStartActionPhaseAfterBoard();
+    });
+
+    $('#toact-chips').addEventListener('click', (e) => {
+      const chip = e.target.closest('.chip');
+      if (!chip || !chip.dataset.pos) return;
+      armActor(chip.dataset.pos);
+    });
+
+    $('#action-buttons').addEventListener('click', (e) => {
+      const btn = e.target.closest('.abtn');
+      if (!btn) return;
+      handleActionClick(btn.dataset.action);
+    });
+
+    $('#amount-confirm').addEventListener('click', () => confirmAmount($('#amount-input').value));
+    $('#amount-skip').addEventListener('click', () => confirmAmount(null));
+    $('#amount-presets').addEventListener('click', (e) => {
+      const btn = e.target.closest('button[data-val]');
+      if (btn) confirmAmount(btn.dataset.val === 'Pot' ? null : btn.dataset.val);
+    });
+
+    $('#seats').addEventListener('click', (e) => {
+      const seatEl = e.target.closest('.seat');
+      if (!seatEl) return;
+      const seatId = Number(seatEl.id.replace('seat-', ''));
+      // O botão ✎ sempre abre o editor, mesmo quando o jogador pode agir.
+      if (e.target.closest('.seat-edit')) {
+        openSeatEditor(seatId, seatEl);
+        return;
+      }
+      const state = GameState.getState();
+      const player = state.players.find(p => p.id === seatId);
+      if (player.position && state.toActQueue.includes(player.position)) {
+        armActor(player.position);
+      } else {
+        openSeatEditor(seatId, seatEl);
+      }
+    });
+
+    $('#editor-name').addEventListener('input', (e) => {
+      if (editingSeatId != null) GameState.setPlayerName(editingSeatId, e.target.value);
+    });
+    $('#editor-stack').addEventListener('input', (e) => {
+      if (editingSeatId != null) GameState.setPlayerStack(editingSeatId, e.target.value);
+    });
+    $('#editor-eliminated').addEventListener('change', () => {
+      if (editingSeatId != null) GameState.togglePlayerEliminated(editingSeatId);
+    });
+    $('#editor-close').addEventListener('click', closeSeatEditor);
+    document.addEventListener('click', (e) => {
+      const ed = $('#seat-editor');
+      if (ed.classList.contains('show') && !ed.contains(e.target) && !e.target.closest('.seat')) {
+        closeSeatEditor();
+      }
+    });
+
+    KeyboardEngine.init({
+      onGoStreet: (s) => tryGoToStreet(s),
+      onAdvance: () => {
+        const state = GameState.getState();
+        const next = TableEngine.nextStreetName(state.street);
+        if (next) tryGoToStreet(next);
+      },
+      onAction: (action) => handleActionClick(action),
+      onSelectSeat: (seatId) => {
+        const state = GameState.getState();
+        const player = state.players.find(p => p.id === seatId);
+        if (player && player.position && state.toActQueue.includes(player.position)) {
+          armActor(player.position);
+        }
+      }
+    });
+  }
+
+  let cardpadPendingRank = null;
+  let editingSeatId = null;
+  let heroPadRank = null;
+
+  function renderHeroPadSel() {
+    $$('#hero-pad-ranks button').forEach(b =>
+      b.classList.toggle('sel', b.dataset.rank === heroPadRank));
+  }
+
+  function openCardpad(group, index, anchorEl) {
+    cardpadTarget = { group, index };
+    cardpadPendingRank = null;
+    const pad = $('#cardpad');
+    const rect = anchorEl.getBoundingClientRect();
+    pad.style.top = (rect.bottom + 6) + 'px';
+    pad.style.left = Math.max(8, rect.left - 40) + 'px';
+    pad.classList.add('show');
+  }
+  function closeCardpad() {
+    $('#cardpad').classList.remove('show');
+    cardpadTarget = null;
+  }
+  function commitCard(group, index, card) {
+    if (group === 'hero') {
+      GameState.setSeatCard(GameState.getHero()?.id, index, card);
+    } else {
+      GameState.setBoardCard(index, card);
+      maybeStartActionPhaseAfterBoard();
+    }
+  }
+
+  function parseCardString(str) {
+    const clean = (str || '').toUpperCase().replace(/[^A-Z0-9TJQKA]/g, ' ').trim();
+    const tokens = clean.split(/\s+/).filter(Boolean);
+    const cards = [];
+    tokens.forEach(tok => {
+      if (tok.length !== 2) return;
+      const rank = tok[0];
+      const suit = tok[1];
+      if (GameState.RANKS.includes(rank) && GameState.SUITS.includes(suit)) {
+        cards.push({ rank, suit });
+      }
+    });
+    return cards;
+  }
+
+  function maybeStartActionPhaseAfterBoard() {
+    const state = GameState.getState();
+    if (state.street === 'preflop') return;
+    if (TableEngine.isBoardCompleteForStreet(state, state.street) && state.toActQueue.length === 0) {
+      TableEngine.startHandActionPhase(state);
+    }
+  }
+
+  function openSeatEditor(seatId, anchorEl) {
+    editingSeatId = seatId;
+    const state = GameState.getState();
+    const p = state.players.find(pl => pl.id === seatId);
+    $('#editor-name').value = p.name;
+    $('#editor-stack').value = p.stack;
+    $('#editor-eliminated').checked = p.status === 'eliminated';
+    const ed = $('#seat-editor');
+    const rect = anchorEl.getBoundingClientRect();
+    ed.style.top = (rect.top) + 'px';
+    ed.style.left = Math.min(window.innerWidth - 236, rect.right + 8) + 'px';
+    ed.classList.add('show');
+  }
+  function closeSeatEditor() {
+    $('#seat-editor').classList.remove('show');
+    editingSeatId = null;
+  }
+
+  function tryGoToStreet(target) {
+    const state = GameState.getState();
+    const order = GameState.STREETS;
+    const curIdx = order.indexOf(state.street);
+    const tgtIdx = order.indexOf(target);
+    if (tgtIdx <= curIdx) return;
+    if (tgtIdx > curIdx + 1) return;
+
+    if (!ActionEngine.isHandOver(state) && !ActionEngine.isStreetComplete(state)) {
+      toast('Ainda faltam jogadores para agir nesta street.');
+      return;
+    }
+    TableEngine.advanceStreet();
+    hideAdvanceBanner();
+    focusBoardEntry();
+  }
+
+  // Nas streets pós-flop, leva o cursor direto ao campo do board.
+  function focusBoardEntry() {
+    if (GameState.getState().street !== 'preflop') $('#quick-board').focus();
+  }
+
+  function hideAdvanceBanner() { $('#advance-banner').classList.remove('show'); }
+  function showAdvanceBanner(nextStreet) {
+    $('#advance-text').textContent = `Street completa. Avançar para o ${TableEngine.STREET_LABELS[nextStreet]}?`;
+    $('#advance-banner').classList.add('show');
+  }
+
+  function armActor(pos) {
+    const state = GameState.getState();
+    const hero = GameState.getHero();
+    // Autofold: se a ação chegou ao Hero, vilões antes dele na fila que não
+    // tiveram ação registrada foldam automaticamente.
+    if (hero && pos === hero.position) {
+      let guard = 0;
+      while (state.toActQueue.length && state.toActQueue[0] !== pos && guard < 8) {
+        TableEngine.submitAction(state.toActQueue[0], 'fold', {});
+        guard++;
+      }
+      if (ActionEngine.isHandOver(state)) {
+        armedActorPos = null;
+        render();
+        $('#handover-banner').classList.add('show');
+        hideAdvanceBanner();
+        return;
+      }
+    }
+    armedActorPos = pos;
+    pendingActionType = null;
+    $('#amount-row').classList.remove('show');
+    render();
+  }
+
+  function handleActionClick(action) {
+    if (!armedActorPos) { toast('Selecione primeiro quem vai agir.'); return; }
+    if (action === 'raise_small' || action === 'raise_big' || action === 'allin') {
+      pendingActionType = action;
+      $('#amount-row').classList.add('show');
+      $('#amount-input').value = '';
+      $('#amount-input').focus();
+      return;
+    }
+    commitAction(action, {});
+  }
+
+  function confirmAmount(val) {
+    if (!pendingActionType) return;
+    const amountBB = val ? Number(val) : null;
+    commitAction(pendingActionType, { amountBB });
+    pendingActionType = null;
+    $('#amount-row').classList.remove('show');
+  }
+
+  function commitAction(action, meta) {
+    const result = TableEngine.submitAction(armedActorPos, action, meta);
+    armedActorPos = null;
+    render();
+
+    if (result.handOver) {
+      $('#handover-banner').classList.add('show');
+      hideAdvanceBanner();
+    } else if (result.streetOver && result.nextStreet) {
+      showAdvanceBanner(result.nextStreet);
+    }
+  }
+
+  function render() {
+    const state = GameState.getState();
+
+    $('#hand-no').textContent = `Mão #${state.handNumber}`;
+    $('#cfg-type').value = state.tournamentType;
+    $('#cfg-phase').value = state.phase;
+    $('#cfg-profile').value = state.profile;
+    if (state._bbSize) $('#cfg-bb').value = state._bbSize;
+
+    // Placeholder do board acompanha a street atual
+    const bpMap = {
+      preflop: 'ex: AC 9D 5S',
+      flop: 'Flop — ex: AC 9D 5S',
+      turn: 'Turn — ex: 2H',
+      river: 'River — ex: QD'
+    };
+    $('#quick-board').placeholder = bpMap[state.street] || 'ex: AC 9D 5S';
+
+    renderPositionButtons(state);
+    renderSeats(state);
+    renderStreetFlow(state);
+    renderBoard(state);
+    renderHeroCards(state);
+    renderToAct(state);
+    renderActionButtons(state);
+    renderSuggestion(state);
+    renderTimeline(state);
+    renderStackRows(state);
+  }
+
+  function renderStackRows(state) {
+    state.players.forEach(p => {
+      const posEl = $(`#srpos-${p.id}`);
+      if (posEl) posEl.textContent = p.position || '—';
+      const nameEl = $(`#srname-${p.id}`);
+      if (nameEl && document.activeElement !== nameEl) nameEl.value = p.name;
+      const stackEl = $(`#srstack-${p.id}`);
+      if (stackEl && document.activeElement !== stackEl) stackEl.value = p.stack;
+      const elimEl = $(`#srelim-${p.id}`);
+      if (elimEl) elimEl.checked = p.status === 'eliminated';
+    });
+  }
+
+  function renderPositionButtons(state) {
+    const hero = GameState.getHero();
+    $$('#position-buttons .pos-btn').forEach(btn => {
+      const pos = btn.dataset.pos;
+      const owner = state.players.find(p => p.position === pos);
+      btn.disabled = !owner;
+      btn.classList.toggle('active', !!hero && hero.position === pos);
+      btn.title = owner ? owner.name : 'sem jogador nesta posição (mesa curta)';
+    });
+  }
+
+  function renderStreetFlow(state) {
+    const order = GameState.STREETS;
+    const curIdx = order.indexOf(state.street);
+    $$('#street-flow .street-btn').forEach(btn => {
+      const s = btn.dataset.street;
+      const idx = order.indexOf(s);
+      btn.classList.toggle('current', s === state.street);
+      btn.classList.toggle('done', idx < curIdx);
+      btn.disabled = idx > curIdx + 1;
+    });
+  }
+
+  function renderSeats(state) {
+    state.players.forEach((p, i) => {
+      const seatEl = $(`#seat-${i}`);
+      seatEl.classList.toggle('folded', p.status === 'folded');
+      seatEl.classList.toggle('eliminated', p.status === 'eliminated');
+      seatEl.classList.toggle('hero', p.isHero);
+      seatEl.classList.toggle('can-act', !!p.position && state.toActQueue.includes(p.position));
+      seatEl.classList.toggle('acting', p.position === armedActorPos);
+
+      $(`#btnmark-${i}`).style.display = (p.position === 'BTN') ? 'flex' : 'none';
+      $(`#seatpos-${i}`).textContent = p.position || '—';
+      $(`#seatname-${i}`).textContent = p.name;
+      $(`#seatstack-${i}`).textContent = fmtStack(p.stack) + (state._bbSize ? ` (${Math.round(p.stack / state._bbSize)}bb)` : '');
+
+      const statusEl = $(`#seatstatus-${i}`);
+      statusEl.className = 'seat-status';
+      if (p.status === 'folded') { statusEl.textContent = 'Foldou'; statusEl.classList.add('tag-folded'); }
+      else if (p.status === 'allin') { statusEl.textContent = 'All-in'; statusEl.classList.add('tag-allin'); }
+      else if (p.status === 'eliminated') { statusEl.textContent = 'Eliminado'; }
+      else { statusEl.textContent = ''; }
+
+      const cardsEl = $(`#seatcards-${i}`);
+      if (p.isHero) {
+        cardsEl.innerHTML = p.cards.map(c => c ? miniCardHTML(c) : '').join('');
+      } else {
+        cardsEl.innerHTML = '';
+      }
+    });
+  }
+
+  function miniCardHTML(card) {
+    const cls = GameState.SUIT_COLOR[card.suit] === 'red' ? 'suit-red' : 'suit-black';
+    return `<span style="font-family:var(--font-mono);font-size:11px;padding:1px 4px;border:1px solid var(--line);border-radius:3px;" class="${cls}">${card.rank}${GameState.SUIT_SYMBOL[card.suit]}</span>`;
+  }
+
+  function renderBoard(state) {
+    const activeSet = new Set(
+      state.street === 'preflop' ? [] :
+      state.street === 'flop' ? [0, 1, 2] :
+      state.street === 'turn' ? [0, 1, 2, 3] : [0, 1, 2, 3, 4]
+    );
+    [0, 1, 2, 3, 4].forEach(i => {
+      const el = $(`#board-slot-${i}`);
+      const card = state.board[i];
+      const isVisible = activeSet.has(i);
+      el.style.visibility = isVisible ? 'visible' : 'hidden';
+      if (card) {
+        el.textContent = GameState.cardLabel(card);
+        el.classList.add('filled');
+        el.classList.toggle('suit-red', GameState.SUIT_COLOR[card.suit] === 'red');
+        el.classList.toggle('suit-black', GameState.SUIT_COLOR[card.suit] === 'black');
+      } else {
+        el.textContent = '?';
+        el.classList.remove('filled', 'suit-red', 'suit-black');
+      }
+    });
+    $('#pot-label').textContent = `Pote ~${state.potBB.toFixed(1)}bb`;
+  }
+
+  function renderHeroCards(state) {
+    const hero = GameState.getHero();
+    [0, 1].forEach(i => {
+      const el = $(`#hero-slot-${i}`);
+      const card = hero ? hero.cards[i] : null;
+      if (card) {
+        el.textContent = GameState.cardLabel(card);
+        el.classList.add('filled');
+        el.classList.toggle('suit-red', GameState.SUIT_COLOR[card.suit] === 'red');
+        el.classList.toggle('suit-black', GameState.SUIT_COLOR[card.suit] === 'black');
+      } else {
+        el.textContent = '?';
+        el.classList.remove('filled', 'suit-red', 'suit-black');
+      }
+    });
+  }
+
+  function renderToAct(state) {
+    const wrap = $('#toact-chips');
+    if (!state.toActQueue.length) {
+      wrap.innerHTML = `<span class="empty-hint">Ninguém pendente nesta street ainda. Preencha o board (se houver) para liberar a ação.</span>`;
+      return;
+    }
+    wrap.innerHTML = state.toActQueue.map((pos, i) => {
+      const cls = ['chip'];
+      if (i === 0) cls.push('next');
+      if (pos === armedActorPos) cls.push('armed');
+      const player = state.players.find(p => p.position === pos);
+      return `<button class="${cls.join(' ')}" data-pos="${pos}">${pos}${player?.isHero ? ' ★' : ''}</button>`;
+    }).join('');
+  }
+
+  function renderActionButtons(state) {
+    const disabled = !armedActorPos;
+    $$('#action-buttons .abtn').forEach(b => { b.disabled = disabled; });
+  }
+
+  function renderSuggestion(state) {
+    const hero = GameState.getHero();
+    const panel = $('#suggestion-panel');
+    // Painel dinâmico: aparece quando o Hero está armado OU é o próximo a agir.
+    const heroIsNext = hero && hero.position != null && state.toActQueue[0] === hero.position;
+    const isHeroTurn = hero && hero.position != null &&
+      (armedActorPos === hero.position || (!armedActorPos && heroIsNext));
+
+    if (!isHeroTurn) {
+      panel.style.display = 'none';
+      return;
+    }
+    const sugg = DecisionEngine.computeSuggestion(state);
+    if (!sugg) { panel.style.display = 'none'; return; }
+
+    panel.style.display = 'block';
+    $('#sugg-label').textContent = sugg.label;
+    $('#sugg-explain').textContent = sugg.explanation;
+    const d = sugg.details;
+    $('#sugg-metrics').innerHTML = `
+      <span><b>Stack efetivo:</b> ${d.effectiveStackBB}bb</span>
+      <span><b>SPR:</b> ${d.spr}</span>
+      <span><b>Board:</b> ${d.boardTexture}</span>
+      <span><b>Pote:</b> ${d.potType}</span>
+      <span><b>Jogadores na mão:</b> ${d.playersInHand}</span>
+      <span><b>Fase:</b> ${d.phase}</span>
+      <span><b>Score:</b> ${d.score}</span>
+    `;
+  }
+
+  function renderTimeline(state) {
+    const wrap = $('#timeline');
+    const streetsWithData = GameState.STREETS.filter(s => state.actions[s].length > 0 || s === state.street);
+    if (!streetsWithData.length) {
+      wrap.innerHTML = `<span class="tl-empty">Nenhuma ação registrada ainda.</span>`;
+      return;
+    }
+    let html = '';
+    streetsWithData.forEach(s => {
+      if (state.actions[s].length === 0 && s !== 'preflop') return;
+      html += `<div class="tl-street-header">${TableEngine.STREET_LABELS[s]}</div>`;
+      if (s !== 'preflop') {
+        const cards = (s === 'flop' ? [0, 1, 2] : s === 'turn' ? [3] : [4])
+          .map(i => state.board[i]).filter(Boolean).map(GameState.cardLabel).join(' ');
+        if (cards) html += `<div class="tl-board">${cards}</div>`;
+      }
+      state.actions[s].forEach(a => {
+        html += `<div class="tl-row ${a.isHero ? 'hero-row' : ''}">
+          <span class="tl-pos">${a.position}${a.isHero ? ' ★' : ''}</span>
+          <span class="tl-action ${a.action}">${ACTION_LABELS[a.action]}${a.amountBB ? ' ' + a.amountBB + 'bb' : ''}</span>
+        </div>`;
+      });
+    });
+    wrap.innerHTML = html || `<span class="tl-empty">Nenhuma ação registrada ainda.</span>`;
+  }
+
+  function fmtStack(n) {
+    return Number(n || 0).toLocaleString('pt-BR');
+  }
+
+  let toastTimer = null;
+  function toast(msg) {
+    let el = document.getElementById('toast');
+    if (!el) {
+      el = document.createElement('div');
+      el.id = 'toast';
+      el.style.cssText = 'position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:#1B2129;border:1px solid #D4A84A;color:#ECE9E1;padding:8px 14px;border-radius:8px;font-size:12.5px;z-index:99;';
+      document.body.appendChild(el);
+    }
+    el.textContent = msg;
+    el.style.opacity = '1';
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => { el.style.opacity = '0'; }, 2200);
+  }
+
+  function flashSaved() { toast('Progresso salvo.'); }
+
+  return { init };
+})();
+
+// ============================================================
+// main.js — inicialização
+// ============================================================
+(function () {
+  function boot() {
+    const hadSavedData = GameState.loadFromStorage();
+
+    const state = GameState.getState();
+    state._bbSize = 200;
+
+    if (!hadSavedData) {
+      PositionEngine.assignPositions(state.buttonSeat, state.players);
+    }
+
+    UIEngine.init();
+
+    TableEngine.startHandActionPhase(state);
+
+    GameState.subscribe((eventName) => {
+      if (['action-added', 'street-changed', 'hand-reset', 'stack-changed',
+        'name-changed', 'players-changed', 'meta-changed', 'hero-changed'].includes(eventName)) {
+        GameState.persist();
+      }
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', boot);
+  } else {
+    boot();
+  }
+})();
+</script>
