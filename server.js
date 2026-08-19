@@ -137,6 +137,11 @@ fbq('track', 'PageView');
 window.fbTrack = function (event, params) { fbq('track', event, params || {}); };`);
 });
 
+// Landing page do template Notion "Agency HQ" (produto separado do álbum).
+app.get('/agency-hq', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'agency-hq.html'));
+});
+
 app.get('/a/:slug', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'album.html'));
 });

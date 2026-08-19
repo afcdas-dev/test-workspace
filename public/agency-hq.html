@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agency HQ — The all-in-one Notion workspace for marketing agencies</title>
+<meta name="description" content="Clients, projects, content, team and finances — one calm Notion workspace instead of 11 scattered tools. One-time payment, instant access.">
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+<link href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    background:#fff;
+    color:#37352f;
+    font-family:'General Sans',ui-sans-serif,-apple-system,system-ui,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    line-height:1.5;
+    overflow-x:hidden;
+  }
+  a{color:#37352f;text-decoration:none}
+  a:hover{color:#000}
+  ::selection{background:#d3e5f5}
+
+  @keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+  .fu{animation:fadeUp .7s cubic-bezier(.2,.7,.2,1) both}
+
+  /* ===== Offer bar ===== */
+  .offer-bar{
+    display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;
+    background:#191919;color:#fff;padding:10px 16px;
+    font-size:13.5px;font-weight:600;text-align:center;
+  }
+  .offer-bar:hover{color:#fff}
+  .offer-bar .badge{
+    background:#2383e2;color:#fff;font-size:11px;font-weight:700;
+    padding:3px 8px;border-radius:5px;letter-spacing:.03em;
+  }
+  .offer-bar .timer{
+    font-variant-numeric:tabular-nums;background:#333;
+    padding:3px 9px;border-radius:6px;font-weight:700;
+  }
+
+  /* ===== Header ===== */
+  .site-header{
+    position:sticky;top:0;z-index:50;
+    background:rgba(255,255,255,.9);
+    -webkit-backdrop-filter:saturate(180%) blur(10px);
+    backdrop-filter:saturate(180%) blur(10px);
+    border-bottom:1px solid #ebebeb;
+  }
+  .site-header .inner{
+    max-width:1080px;margin:0 auto;padding:12px 24px;
+    display:flex;align-items:center;justify-content:space-between;gap:16px;
+  }
+  .logo{font-weight:700;font-size:19px;letter-spacing:-.01em;display:flex;align-items:center;gap:9px}
+  .btn-header{
+    display:inline-flex;align-items:center;gap:7px;
+    background:#191919;color:#fff;font-size:14px;font-weight:600;
+    padding:10px 18px;border-radius:9px;
+    transition:transform .15s,background .15s;
+  }
+  .btn-header:hover{background:#000;color:#fff;transform:translateY(-1px)}
+
+  /* ===== Hero ===== */
+  .hero{max-width:820px;margin:0 auto;padding:66px 24px 30px;text-align:center}
+  .hero .pill{
+    display:inline-flex;align-items:center;gap:10px;
+    background:#f7f7f5;border:1px solid #ebebeb;border-radius:999px;
+    padding:6px 14px;font-size:13px;font-weight:600;color:#787774;margin-bottom:24px;
+  }
+  .stars{color:#e0a43b;letter-spacing:2px}
+  .hero h1{
+    font-weight:700;font-size:58px;line-height:1.03;letter-spacing:-.03em;
+    margin:0 0 20px;text-wrap:balance;
+  }
+  .hl{background:linear-gradient(180deg,transparent 60%,#d3e5f5 60%)}
+  .hero .sub{
+    font-size:19px;line-height:1.55;color:#787774;
+    margin:0 auto 30px;max-width:540px;text-wrap:pretty;
+  }
+  .hero .cta-row{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:12px;margin-bottom:16px}
+  .btn-hero{
+    display:inline-flex;align-items:center;gap:10px;
+    background:#191919;color:#fff;font-size:17px;font-weight:600;
+    padding:16px 32px;border-radius:11px;
+    transition:transform .15s,box-shadow .15s;
+    box-shadow:0 6px 18px -6px rgba(25,25,25,.5);
+  }
+  .btn-hero:hover{color:#fff;transform:translateY(-2px);box-shadow:0 12px 26px -8px rgba(25,25,25,.55)}
+  .btn-hero s{opacity:.5;font-weight:500}
+  .hero .assurances{
+    display:flex;flex-wrap:wrap;justify-content:center;gap:18px;
+    font-size:13.5px;color:#9b9a97;font-weight:500;
+  }
+
+  /* ===== Workspace mock ===== */
+  .mock-wrap{max-width:940px;margin:0 auto;padding:14px 24px 8px}
+  .mock{
+    border-radius:16px;border:1px solid #ebebeb;background:#fff;
+    box-shadow:0 40px 80px -34px rgba(25,25,25,.3);overflow:hidden;
+  }
+  .mock-titlebar{
+    display:flex;align-items:center;gap:7px;padding:11px 14px;
+    border-bottom:1px solid #f0f0f0;background:#fafafa;
+  }
+  .dot{width:11px;height:11px;border-radius:50%}
+  .dot-r{background:#ff5f57}.dot-y{background:#febc2e}.dot-g{background:#28c840}
+  .mock-url{margin-left:10px;font-size:12px;color:#b3b2ae}
+  .mock-body{display:grid;grid-template-columns:190px 1fr}
+  .mock-sidebar{
+    border-right:1px solid #f0f0f0;background:#fafafa;padding:14px 10px;
+    display:flex;flex-direction:column;gap:2px;font-size:13px;color:#787774;
+  }
+  .mock-nav{display:flex;align-items:center;gap:8px;padding:5px 9px}
+  .mock-nav.active{border-radius:6px;background:#f0f0f0;font-weight:600;color:#37352f}
+  .mock-main{padding:22px 24px 26px}
+  .mock-icon{font-size:28px;margin-bottom:2px}
+  .mock-title{font-size:24px;font-weight:700;letter-spacing:-.02em;margin-bottom:14px}
+  .mock-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
+  .stat{background:#f5f5f4;border:1px solid #ebebeb;border-radius:9px;padding:12px}
+  .stat.blue{background:#f6fafe;border-color:#d3e5f5}
+  .stat .label{font-size:11px;color:#787774;font-weight:600}
+  .stat.blue .label{color:#2383e2}
+  .stat .value{font-size:22px;font-weight:700}
+  .mock-rows{display:flex;flex-direction:column;gap:7px}
+  .mock-row{
+    display:flex;align-items:center;gap:9px;padding:9px 12px;
+    border:1px solid #f0f0f0;border-radius:8px;font-size:13px;
+  }
+  .mock-row .name{font-weight:600}
+  .tag{margin-left:auto;font-size:11px;font-weight:600;padding:2px 8px;border-radius:5px}
+  .tag-blue{color:#2383e2;background:#e7f1fb}
+  .tag-green{color:#4c9a6c;background:#e5f0e4}
+
+  /* ===== What's inside ===== */
+  .inside{max-width:1080px;margin:0 auto;padding:70px 24px 20px}
+  .section-head{text-align:center;margin-bottom:40px}
+  .eyebrow{
+    font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+    color:#9b9a97;margin-bottom:12px;
+  }
+  .section-head h2{font-weight:700;font-size:38px;letter-spacing:-.02em;margin:0;text-wrap:balance}
+  .features{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  .feature{
+    background:#fff;border:1px solid #ebebeb;border-radius:14px;padding:22px;
+    transition:transform .18s,box-shadow .18s;
+  }
+  .feature:hover{transform:translateY(-3px);box-shadow:0 14px 30px -18px rgba(25,25,25,.22)}
+  .feature .icon{
+    width:44px;height:44px;border-radius:10px;background:#f5f5f4;
+    display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:12px;
+  }
+  .feature h3{font-size:16px;font-weight:700;margin:0 0 5px}
+  .feature p{font-size:14px;color:#787774;margin:0}
+  .inside-more{text-align:center;font-size:13.5px;color:#9b9a97;margin:20px 0 0}
+
+  /* ===== Showcase ===== */
+  .showcase-wrap{max-width:940px;margin:0 auto;padding:44px 24px}
+  .showcase{
+    border-radius:16px;border:1px solid #ebebeb;background:#fff;overflow:hidden;
+    box-shadow:0 30px 70px -32px rgba(25,25,25,.28);
+  }
+  .showcase-titlebar{
+    display:flex;align-items:center;gap:7px;padding:12px 16px;
+    border-bottom:1px solid #f0f0f0;background:#fafafa;
+  }
+  .showcase-media{aspect-ratio:16/9;position:relative;background:rgba(127,127,127,.08)}
+  .showcase-media img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .showcase-placeholder{
+    position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;
+    justify-content:center;gap:6px;text-align:center;padding:12px;
+    font-size:13px;font-weight:500;letter-spacing:.01em;color:#37352f;
+  }
+  .showcase-placeholder svg{opacity:.45}
+  .showcase-placeholder span{opacity:.75}
+
+  /* ===== Social proof ===== */
+  .proof{background:#f7f7f5;border-top:1px solid #ebebeb;border-bottom:1px solid #ebebeb}
+  .proof .inner{max-width:1080px;margin:0 auto;padding:70px 24px}
+  .proof h2{text-align:center;font-weight:700;font-size:34px;letter-spacing:-.02em;margin:0 0 6px}
+  .proof .note{text-align:center;font-size:14px;color:#9b9a97;margin:0 0 38px}
+  .reviews{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  .review{background:#fff;border:1px solid #ebebeb;border-radius:14px;padding:24px}
+  .review .stars{font-size:14px;margin-bottom:12px}
+  .review blockquote{font-size:15px;line-height:1.6;color:#37352f;margin:0 0 18px}
+  .reviewer{display:flex;align-items:center;gap:11px}
+  .avatar{
+    width:36px;height:36px;border-radius:50%;background:#f5f5f4;
+    display:flex;align-items:center;justify-content:center;font-weight:700;
+  }
+  .reviewer .name{font-weight:700;font-size:14px}
+  .reviewer .role{font-size:12.5px;color:#9b9a97}
+
+  /* ===== Pricing ===== */
+  #buy{scroll-margin-top:70px}
+  .pricing-wrap{max-width:600px;margin:0 auto;padding:80px 24px}
+  .pricing-card{
+    position:relative;background:#fff;border:1px solid #ebebeb;border-radius:20px;
+    padding:44px 40px;box-shadow:0 34px 74px -36px rgba(25,25,25,.3);text-align:center;
+  }
+  .pricing-flag{
+    position:absolute;top:-15px;left:50%;transform:translateX(-50%);
+    background:#2383e2;color:#fff;font-size:12px;font-weight:700;letter-spacing:.04em;
+    padding:6px 16px;border-radius:999px;white-space:nowrap;
+    box-shadow:0 10px 20px -8px rgba(35,131,226,.5);
+  }
+  .pricing-card .emoji{font-size:42px;margin:8px 0 8px}
+  .pricing-card h2{font-weight:700;font-size:28px;margin:0 0 6px;letter-spacing:-.01em}
+  .pricing-card .tagline{font-size:15px;color:#787774;margin:0 0 22px}
+  .price-row{display:flex;align-items:baseline;justify-content:center;gap:12px;margin-bottom:4px}
+  .price-old{font-size:26px;font-weight:600;color:#b3b2ae;text-decoration:line-through}
+  .price-now{font-size:60px;font-weight:700;line-height:1;letter-spacing:-.02em}
+  .price-unit{font-size:16px;color:#9b9a97}
+  .price-note{font-size:13.5px;color:#9b9a97;margin:0 0 26px}
+  .btn-buy{
+    display:block;background:#191919;color:#fff;font-size:17px;font-weight:700;
+    padding:16px;border-radius:12px;margin-bottom:22px;
+    transition:transform .15s,box-shadow .15s;
+    box-shadow:0 8px 20px -6px rgba(25,25,25,.5);
+  }
+  .btn-buy:hover{color:#fff;transform:translateY(-2px);box-shadow:0 14px 28px -8px rgba(25,25,25,.55)}
+  .pricing-list{list-style:none;padding:0;margin:0;text-align:left;display:grid;gap:10px}
+  .pricing-list li{display:flex;gap:10px;font-size:15px;color:#37352f}
+  .pricing-list .check{color:#2383e2}
+  .guarantee{
+    margin-top:24px;display:inline-flex;align-items:center;gap:8px;
+    font-size:13.5px;color:#787774;background:#f7f7f5;border:1px solid #ebebeb;
+    padding:9px 15px;border-radius:999px;
+  }
+
+  /* ===== FAQ ===== */
+  .faq{background:#f7f7f5;border-top:1px solid #ebebeb}
+  .faq .inner{max-width:680px;margin:0 auto;padding:70px 24px}
+  .faq h2{text-align:center;font-weight:700;font-size:32px;letter-spacing:-.02em;margin:0 0 34px}
+  .faq-list{display:flex;flex-direction:column;gap:10px}
+  .faq-item{border:1px solid #ebebeb;border-radius:12px;background:#fff;overflow:hidden}
+  .faq-q{
+    width:100%;display:flex;align-items:center;justify-content:space-between;gap:16px;
+    padding:18px 20px;background:none;border:none;cursor:pointer;text-align:left;
+    font-size:16px;font-weight:600;color:#37352f;font-family:inherit;
+  }
+  .faq-icon{font-size:20px;color:#9b9a97;transition:transform .25s;flex-shrink:0}
+  .faq-item.open .faq-icon{transform:rotate(45deg)}
+  .faq-a{padding:0 20px;max-height:0;overflow:hidden;opacity:0;transition:max-height .3s ease,opacity .3s ease}
+  .faq-a p{font-size:15px;color:#787774;margin:0 0 18px}
+
+  /* ===== Final CTA ===== */
+  .final-cta{max-width:760px;margin:0 auto;padding:84px 24px;text-align:center}
+  .final-cta .emoji{font-size:42px;margin-bottom:16px}
+  .final-cta h2{font-weight:700;font-size:44px;line-height:1.04;letter-spacing:-.03em;margin:0 0 16px;text-wrap:balance}
+  .final-cta p{font-size:18px;color:#787774;margin:0 auto 28px;max-width:480px;text-wrap:pretty}
+  .btn-final{
+    display:inline-flex;align-items:center;gap:10px;
+    background:#191919;color:#fff;font-size:17px;font-weight:700;
+    padding:16px 34px;border-radius:12px;
+    transition:transform .15s,box-shadow .15s;
+    box-shadow:0 10px 26px -8px rgba(25,25,25,.5);
+  }
+  .btn-final:hover{color:#fff;transform:translateY(-2px);box-shadow:0 16px 32px -10px rgba(25,25,25,.6)}
+  .final-cta .fine{font-size:13.5px;color:#9b9a97;margin:20px 0 0}
+
+  /* ===== Footer ===== */
+  .site-footer{background:#191919}
+  .site-footer .inner{
+    max-width:1080px;margin:0 auto;padding:26px 24px;
+    display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px;
+  }
+  .site-footer .brand{font-weight:700;font-size:17px;color:#fff}
+  .site-footer .legal{font-size:13px;color:#8a8a8a}
+
+  /* ===== Responsive ===== */
+  @media (max-width:920px){
+    .features{grid-template-columns:repeat(2,1fr)}
+    .reviews{grid-template-columns:1fr}
+    .hero h1{font-size:44px}
+    .final-cta h2{font-size:36px}
+  }
+  @media (max-width:640px){
+    .features{grid-template-columns:1fr}
+    .hero{padding-top:48px}
+    .hero h1{font-size:36px}
+    .section-head h2{font-size:30px}
+    .mock-body{grid-template-columns:1fr}
+    .mock-sidebar{display:none}
+    .pricing-card{padding:36px 24px}
+    .price-now{font-size:48px}
+  }
+</style>
+</head>
+<body>
+
+  <!-- Offer bar -->
+  <a class="offer-bar" href="#buy">
+    <span class="badge">50% OFF</span>
+    Launch price ends in
+    <span class="timer" id="countdown">47:59:32</span>
+  </a>
+
+  <header class="site-header">
+    <div class="inner">
+      <div class="logo">🗂️ Agency HQ</div>
+      <a class="btn-header" href="#buy">Get it — $49</a>
+    </div>
+  </header>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero">
+    <div class="pill fu"><span class="stars">★★★★★</span> Trusted by 300+ agency owners</div>
+    <h1 class="fu">The all-in-one Notion workspace to run your <span class="hl">marketing agency</span></h1>
+    <p class="sub fu">Clients, projects, content, team and finances — one calm place instead of 11 scattered tools. Duplicate it and run your agency today.</p>
+    <div class="cta-row fu">
+      <a class="btn-hero" href="#buy">Get Agency HQ — <span><s>$99</s> $49</span></a>
+    </div>
+    <div class="assurances fu">
+      <span>✓ One-time payment</span><span>✓ Instant Notion access</span><span>✓ 30-day money-back</span>
+    </div>
+  </section>
+
+  <!-- Workspace mock -->
+  <section class="mock-wrap">
+    <div class="mock fu">
+      <div class="mock-titlebar">
+        <span class="dot dot-r"></span><span class="dot dot-y"></span><span class="dot dot-g"></span>
+        <span class="mock-url">notion.so / agency-hq</span>
+      </div>
+      <div class="mock-body">
+        <div class="mock-sidebar">
+          <div class="mock-nav active">🏠 Home</div>
+          <div class="mock-nav">🤝 Clients CRM</div>
+          <div class="mock-nav">✅ Projects</div>
+          <div class="mock-nav">💬 Marketing</div>
+          <div class="mock-nav">📊 Finances</div>
+          <div class="mock-nav">🧠 SOPs</div>
+        </div>
+        <div class="mock-main">
+          <div class="mock-icon">🗂️</div>
+          <div class="mock-title">Agency HQ</div>
+          <div class="mock-stats">
+            <div class="stat"><div class="label">Active clients</div><div class="value">12</div></div>
+            <div class="stat blue"><div class="label">Revenue MTD</div><div class="value">$46.2k</div></div>
+            <div class="stat"><div class="label">Tasks today</div><div class="value">7</div></div>
+          </div>
+          <div class="mock-rows">
+            <div class="mock-row"><span>📣</span><span class="name">Q3 campaign — Meridian Co.</span><span class="tag tag-blue">In progress</span></div>
+            <div class="mock-row"><span>✍️</span><span class="name">Content calendar — August</span><span class="tag tag-green">On track</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== WHAT'S INSIDE ===== -->
+  <section class="inside" id="inside">
+    <div class="section-head">
+      <div class="eyebrow">Everything in one place</div>
+      <h2>Nine connected workspaces</h2>
+    </div>
+    <div class="features">
+      <div class="feature"><div class="icon">🤝</div><h3>Clients &amp; Deals CRM</h3><p>Every lead, proposal and client — status and next step at a glance.</p></div>
+      <div class="feature"><div class="icon">📊</div><h3>Finance Dashboard</h3><p>Revenue, expenses and profit per client — always know where you stand.</p></div>
+      <div class="feature"><div class="icon">✅</div><h3>Projects &amp; Planning</h3><p>Boards and timelines that keep the team aligned on what ships next.</p></div>
+      <div class="feature"><div class="icon">💬</div><h3>Content &amp; Marketing</h3><p>A content calendar and campaign hub for you and every client.</p></div>
+      <div class="feature"><div class="icon">⭐</div><h3>Brand &amp; Positioning</h3><p>Keep your identity, voice and offer clear and easy to hand off.</p></div>
+      <div class="feature"><div class="icon">🧠</div><h3>Second Brain &amp; SOPs</h3><p>Playbooks and processes so your best work becomes repeatable.</p></div>
+    </div>
+    <p class="inside-more">+ Offers &amp; Services · Meetings · Learning Hub</p>
+  </section>
+
+  <!-- Showcase -->
+  <section class="showcase-wrap">
+    <div class="showcase">
+      <div class="showcase-titlebar">
+        <span class="dot dot-r"></span><span class="dot dot-y"></span><span class="dot dot-g"></span>
+      </div>
+      <div class="showcase-media">
+        <!-- Replace this placeholder with a real screenshot/GIF of the template:
+             <img src="/img/agency-hq-showcase.png" alt="Agency HQ Notion workspace"> -->
+        <div class="showcase-placeholder">
+          <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+          <span>Wide screenshot / GIF of the Notion template</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SOCIAL PROOF ===== -->
+  <section class="proof">
+    <div class="inner">
+      <h2>Loved by agency owners</h2>
+      <p class="note">Replace with your own reviews once you launch.</p>
+      <div class="reviews">
+        <div class="review">
+          <div class="stars">★★★★★</div>
+          <blockquote>"We onboarded three new clients in a week without the usual chaos. Everything just has a place now."</blockquote>
+          <div class="reviewer"><span class="avatar">A</span><div><div class="name">Alex Rivera</div><div class="role">Founder, social agency</div></div></div>
+        </div>
+        <div class="review">
+          <div class="stars">★★★★★</div>
+          <blockquote>"The finance hub alone paid for itself. I finally know which retainers are actually worth it."</blockquote>
+          <div class="reviewer"><span class="avatar">M</span><div><div class="name">Mara Lindqvist</div><div class="role">Creative director</div></div></div>
+        </div>
+        <div class="review">
+          <div class="stars">★★★★★</div>
+          <blockquote>"Best $49 I've spent on my business. It replaced four subscriptions and a very messy spreadsheet."</blockquote>
+          <div class="reviewer"><span class="avatar">J</span><div><div class="name">Jordan Blake</div><div class="role">Agency owner</div></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PRICING ===== -->
+  <section id="buy">
+    <div class="pricing-wrap">
+      <div class="pricing-card">
+        <div class="pricing-flag">LAUNCH OFFER — 50% OFF</div>
+        <div class="emoji">🗂️</div>
+        <h2>Agency HQ — full workspace</h2>
+        <p class="tagline">Everything you need to run the agency, forever.</p>
+        <div class="price-row">
+          <span class="price-old">$99</span>
+          <span class="price-now">$49</span>
+          <span class="price-unit">one-time</span>
+        </div>
+        <p class="price-note">No subscription. Pay once, keep forever.</p>
+        <!-- Point this at your checkout (Gumroad / Lemon Squeezy / Stripe payment link) -->
+        <a class="btn-buy" href="#">Get instant access →</a>
+        <ul class="pricing-list">
+          <li><span class="check">✓</span>All 9 connected workspaces</li>
+          <li><span class="check">✓</span>CRM, finance &amp; project dashboards</li>
+          <li><span class="check">✓</span>Built-in SOPs, templates &amp; guides</li>
+          <li><span class="check">✓</span>Free lifetime updates</li>
+          <li><span class="check">✓</span>Works on any free or paid Notion plan</li>
+        </ul>
+        <div class="guarantee">🛡️ 30-day money-back guarantee</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FAQ ===== -->
+  <section class="faq">
+    <div class="inner">
+      <h2>Questions, answered</h2>
+      <div class="faq-list">
+        <div class="faq-item">
+          <button class="faq-q" type="button" aria-expanded="false">Do I need a paid Notion account?<span class="faq-icon">+</span></button>
+          <div class="faq-a"><p>No. Agency HQ works perfectly on Notion's free plan. Paid plans just add more team features.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" type="button" aria-expanded="false">How do I get it after buying?<span class="faq-icon">+</span></button>
+          <div class="faq-a"><p>Right after checkout you get a private Notion link. One click to duplicate it into your own workspace — under a minute.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" type="button" aria-expanded="false">Can I customize everything?<span class="faq-icon">+</span></button>
+          <div class="faq-a"><p>Completely. It's a native Notion workspace — rename, restructure, add or remove anything to fit your agency.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" type="button" aria-expanded="false">What if it's not for me?<span class="faq-icon">+</span></button>
+          <div class="faq-a"><p>You're covered by a 30-day money-back guarantee. If it doesn't help, email me and I'll refund you.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FINAL CTA ===== -->
+  <section class="final-cta">
+    <div class="emoji">🗂️</div>
+    <h2>Give your agency a home base.</h2>
+    <p>Stop managing chaos. Start running an agency that flows — from one Notion workspace.</p>
+    <a class="btn-final" href="#buy">Get Agency HQ — $49</a>
+    <p class="fine">One-time payment · Instant access · 30-day guarantee</p>
+  </section>
+
+  <footer class="site-footer">
+    <div class="inner">
+      <div class="brand">🗂️ Agency HQ</div>
+      <div class="legal">© 2026 Agency HQ · A Notion template for marketing agencies</div>
+    </div>
+  </footer>
+
+<script>
+  // Launch-offer countdown: starts at 47:59:32 and loops (evergreen timer).
+  (function () {
+    var el = document.getElementById('countdown');
+    var total = 47 * 3600 + 59 * 60 + 32;
+    setInterval(function () {
+      total = total > 0 ? total - 1 : 47 * 3600 + 59 * 60 + 59;
+      var h = String(Math.floor(total / 3600)).padStart(2, '0');
+      var m = String(Math.floor((total % 3600) / 60)).padStart(2, '0');
+      var s = String(total % 60).padStart(2, '0');
+      el.textContent = h + ':' + m + ':' + s;
+    }, 1000);
+  })();
+
+  // FAQ accordion
+  document.querySelectorAll('.faq-item').forEach(function (item) {
+    var btn = item.querySelector('.faq-q');
+    var ans = item.querySelector('.faq-a');
+    btn.addEventListener('click', function () {
+      var open = item.classList.toggle('open');
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      if (open) {
+        ans.style.maxHeight = ans.scrollHeight + 26 + 'px';
+        ans.style.opacity = '1';
+      } else {
+        ans.style.maxHeight = '0';
+        ans.style.opacity = '0';
+      }
+    });
+  });
+</script>
+</body>
+</html>
