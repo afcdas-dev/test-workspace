@@ -5,12 +5,14 @@ Comandos:
   resolve  <url>            Resolve um link curto pin.it para a URL completa do pin
   info     <url>            Extrai metadados do pin (título, descrição, mídia)
   download <url> [-o DIR]   Baixa o vídeo (ou imagem) do pin
-  board    <url> [--limit]  Lista os pins iniciais de um board
+  board    <url> [--render] Lista os pins de um board
+  search   <termo>          Busca pins por termo (renderiza a página no Chromium)
   batch    <arquivo> [-o]   Baixa todos os links de um arquivo (um por linha)
 
 Exemplos:
   pinterest_cli.py resolve https://pin.it/5TU9t2743
   pinterest_cli.py download https://br.pinterest.com/pin/123456/ -o refs/
+  pinterest_cli.py search principia --limit 20 > links.txt
   pinterest_cli.py batch links.txt -o refs/
 
 Notas:
@@ -29,6 +31,7 @@ import shutil
 import ssl
 import subprocess
 import sys
+import urllib.parse
 import urllib.request
 from html import unescape
 from pathlib import Path
@@ -154,11 +157,61 @@ def download_pin(url: str, out_dir: Path) -> Path:
     return dest
 
 
-def board_pins(url: str, limit: int = 25) -> list:
-    """Lista os pins presentes no HTML inicial de um board (sem paginação)."""
-    _, html = fetch(resolve_url(url))
-    ids = list(dict.fromkeys(re.findall(r'"/pin/(\d+)/?"', html)))[:limit]
+CHROMIUM_PATHS = ("/opt/pw-browsers/chromium", "/usr/bin/chromium", "/usr/bin/chromium-browser")
+
+
+def render_html(url: str, scrolls: int = 3, timeout_ms: int = 45000) -> str:
+    """Carrega uma página com Chromium e retorna o HTML após rolar a lista.
+
+    Necessário para busca e boards: o Pinterest monta esses feeds no cliente,
+    então o HTML cru vem quase vazio de pins.
+    """
+    try:
+        from playwright.sync_api import sync_playwright
+    except ImportError as exc:  # pragma: no cover - depende do ambiente
+        raise RuntimeError(
+            "Renderização exige playwright: pip install playwright "
+            "(o Chromium já vem instalado no ambiente do Claude Code)"
+        ) from exc
+
+    exe = next((p for p in CHROMIUM_PATHS if Path(p).exists()), None)
+    with sync_playwright() as pw:
+        browser = pw.chromium.launch(executable_path=exe, args=["--no-sandbox"])
+        try:
+            page = browser.new_page(user_agent=USER_AGENT, viewport={"width": 1280, "height": 2000})
+            page.goto(url, timeout=timeout_ms, wait_until="domcontentloaded")
+            page.wait_for_timeout(2500)
+            for _ in range(max(0, scrolls)):
+                page.mouse.wheel(0, 4000)
+                page.wait_for_timeout(1500)
+            return page.content()
+        finally:
+            browser.close()
+
+
+def _pin_ids(html: str, limit: int) -> list:
+    ids = list(dict.fromkeys(re.findall(r"/pin/(\d+)", html)))[:limit]
     return [f"https://www.pinterest.com/pin/{i}/" for i in ids]
+
+
+def board_pins(url: str, limit: int = 25, render: bool = False) -> list:
+    """Lista pins de um board. Com render=True, rola a página no Chromium."""
+    if render:
+        return _pin_ids(render_html(resolve_url(url)), limit)
+    _, html = fetch(resolve_url(url))
+    return _pin_ids(html, limit)
+
+
+def search_pins(query: str, limit: int = 25, scrolls: int = 3) -> list:
+    """Busca pins por termo (ou por uma URL de busca já pronta)."""
+    url = (
+        query
+        if query.startswith("http")
+        else "https://br.pinterest.com/search/pins/?q="
+        + urllib.parse.quote(query)
+        + "&rs=typed"
+    )
+    return _pin_ids(render_html(url, scrolls=scrolls), limit)
 
 
 def main(argv=None):
@@ -175,9 +228,19 @@ def main(argv=None):
     p.add_argument("url")
     p.add_argument("-o", "--out", default="pinterest_refs", help="pasta de saída")
 
-    p = sub.add_parser("board", help="lista pins iniciais de um board")
+    p = sub.add_parser("board", help="lista pins de um board")
     p.add_argument("url")
     p.add_argument("--limit", type=int, default=25)
+    p.add_argument(
+        "--render",
+        action="store_true",
+        help="renderiza com Chromium e rola a página (pega mais pins)",
+    )
+
+    p = sub.add_parser("search", help="busca pins por termo (sempre renderizado)")
+    p.add_argument("query", help="termo de busca ou URL de busca do Pinterest")
+    p.add_argument("--limit", type=int, default=25)
+    p.add_argument("--scrolls", type=int, default=3)
 
     p = sub.add_parser("batch", help="baixa todos os links de um arquivo")
     p.add_argument("file")
@@ -193,7 +256,10 @@ def main(argv=None):
             dest = download_pin(args.url, Path(args.out))
             print(f"OK {dest} ({dest.stat().st_size} bytes)")
         elif args.cmd == "board":
-            for u in board_pins(args.url, args.limit):
+            for u in board_pins(args.url, args.limit, render=args.render):
+                print(u)
+        elif args.cmd == "search":
+            for u in search_pins(args.query, args.limit, args.scrolls):
                 print(u)
         elif args.cmd == "batch":
             links = [
@@ -212,13 +278,20 @@ def main(argv=None):
                     print(f"  ERRO {e}", file=sys.stderr)
             print(f"Concluído: {ok}/{len(links)}")
             return 0 if ok == len(links) else 1
-    except urllib.error.URLError as e:
-        print(
-            f"Erro de rede: {e.reason}\n"
-            "Se estiver no Claude Code remoto, a política de rede do ambiente "
-            "precisa permitir pin.it, pinterest.com e v.pinimg.com.",
-            file=sys.stderr,
+    except Exception as e:  # noqa: BLE001 — a CLI reporta falhas, não propaga traceback
+        reason = getattr(e, "reason", e)
+        blocked = any(
+            s in str(reason) for s in ("403", "ERR_TUNNEL", "ERR_PROXY", "NS_ERROR", "Tunnel")
         )
+        print(f"Erro: {reason}", file=sys.stderr)
+        if blocked:
+            print(
+                "Parece bloqueio de rede. No Claude Code remoto, a política do "
+                "ambiente precisa permitir pin.it, pinterest.com, br.pinterest.com, "
+                "v.pinimg.com e i.pinimg.com — e a mudança só vale em uma sessão NOVA "
+                "(o contêiner atual mantém a política com que foi criado).",
+                file=sys.stderr,
+            )
         return 2
     return 0
 
