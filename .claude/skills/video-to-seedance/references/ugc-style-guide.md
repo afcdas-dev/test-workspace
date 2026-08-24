@@ -51,6 +51,25 @@ Glow/dewy (para looks de hidratação/golden hour):
 - `dense white foam with visible tiny bubbles covering the face`
 - `sunscreen stripes on both cheeks before blending`
 
+## 3.1 Física imperfeita de líquido (feedback de produção — 2026-08-24)
+
+Diagnóstico validado em outputs do Google Flow: a gota de sérum descendo em
+linha reta com velocidade constante entrega IA na hora. Líquido real na pele
+é IRREGULAR. Sempre descrever o movimento com hesitação e assimetria:
+
+- `the drop stalls for a moment, then continues in a thinner, uneven trail`
+- `the serum trail wobbles slightly, following the skin's texture instead of
+  a straight line`
+- `a smaller secondary droplet lags behind the main drop`
+- `she catches the drop mid-cheek with a fingertip before it reaches her jaw,
+  smearing it unevenly`
+- `the serum spreads in uneven streaks that slowly absorb, leaving patches
+  of shine`
+- `foam slides and partially collapses instead of holding a perfect shape`
+
+Regra: NUNCA deixar um líquido se mover sem um verbo de imperfeição
+(stall, wobble, break up, lag, smear unevenly, partially absorb).
+
 ## 4. Câmera e enquadramento (sempre explícito)
 
 Enquadramentos-assinatura do UGC real (escolher 1 por shot):
@@ -109,6 +128,12 @@ Movimento (sempre incluir um):
 - "perfect flawless skin" — mata o UGC instantaneamente.
 - Negativas ("no filter" é exceção consagrada; evitar "no blur, no artifacts").
 - Zoom dramático, travelling de cinema, iluminação tri-point — é UGC, não comercial.
+- Líquido descendo em linha reta com velocidade constante (ver §3.1) —
+  descrever hesitação/assimetria ou o shot sai animado demais.
+- Mãos/dedos que se movem em arco perfeito e contínuo: acrescentar
+  `she adjusts her grip mid-motion` ou `slight motion blur as the hand moves`.
+- Foco cravado o tempo todo: um `focus hunts for a beat before locking on
+  the label` vende câmera de celular real (usar com moderação, 1x por vídeo).
 - Não recriar marcas d'água nem legendas de vídeos de referência.
 
 ## 10. Template de prompt Seedance 2.0 (few-shot)
