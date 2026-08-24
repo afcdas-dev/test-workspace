@@ -22,6 +22,7 @@ before(async () => {
       DATA_DIR: path.join(tmpDir, 'data'),
       UPLOADS_DIR: path.join(tmpDir, 'uploads'),
       META_PIXEL_ID: '1234567890',
+      FAL_KEY: '', // garante o cenário "integração não configurada"
     },
     stdio: 'ignore',
   });
@@ -228,6 +229,34 @@ test('noivos excluem uma mídia', async () => {
   assert.equal(res.status, 200);
   const after = await fetch(`${BASE}/api/albums/${album.slug}/media`).then((r) => r.json());
   assert.equal(after.media.length, 1);
+});
+
+test('gerar imagem com IA exige login', async () => {
+  const res = await fetch(`${BASE}/api/ai/images`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ prompt: 'buquê de flores em aquarela' }),
+  });
+  assert.equal(res.status, 401);
+});
+
+test('gerar imagem com IA exige um prompt', async () => {
+  const res = await fetch(`${BASE}/api/ai/images`, {
+    method: 'POST',
+    headers: authed({ 'Content-Type': 'application/json' }),
+    body: JSON.stringify({ prompt: '   ' }),
+  });
+  assert.equal(res.status, 400);
+});
+
+test('sem FAL_KEY, a geração de imagens avisa que está indisponível', async () => {
+  const res = await fetch(`${BASE}/api/ai/images`, {
+    method: 'POST',
+    headers: authed({ 'Content-Type': 'application/json' }),
+    body: JSON.stringify({ prompt: 'buquê de flores em aquarela' }),
+  });
+  assert.equal(res.status, 503);
+  assert.match((await res.json()).error, /FAL_KEY/);
 });
 
 test('logout encerra a sessão', async () => {

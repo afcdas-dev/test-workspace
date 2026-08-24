@@ -1,3 +1,4 @@
+import './lib/env.js';
 import express from 'express';
 import multer from 'multer';
 import QRCode from 'qrcode';
@@ -7,6 +8,7 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import * as store from './lib/store.js';
+import * as fal from './lib/fal.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PORT = process.env.PORT || 3000;
@@ -350,6 +352,35 @@ app.get('/api/albums/:slug/download.zip', (req, res) => {
     }
   }
   archive.finalize();
+});
+
+// ---------- API: imagens com IA (Fal AI) ----------
+
+// Modelo de geração de imagens; troque via FAL_MODEL sem mexer no código.
+const FAL_MODEL = process.env.FAL_MODEL || 'fal-ai/flux/schnell';
+
+// Gera uma imagem a partir de um texto (ex.: arte para o convite ou capa do álbum).
+app.post('/api/ai/images', requireLogin, async (req, res) => {
+  const prompt = String(req.body?.prompt || '').trim();
+  if (!prompt) return res.status(400).json({ error: 'Descreva a imagem que você quer gerar.' });
+  if (!fal.isConfigured()) {
+    return res.status(503).json({ error: 'Geração de imagens indisponível: defina FAL_KEY no servidor.' });
+  }
+  try {
+    const result = await fal.run(FAL_MODEL, {
+      prompt: prompt.slice(0, 600),
+      image_size: 'square_hd',
+      num_images: 1,
+    });
+    const images = (result.images || []).map((img) => ({
+      url: img.url,
+      width: img.width,
+      height: img.height,
+    }));
+    res.json({ model: FAL_MODEL, images });
+  } catch (err) {
+    res.status(502).json({ error: 'Falha ao gerar a imagem no Fal AI.', detail: String(err.message).slice(0, 300) });
+  }
 });
 
 // Serve o arquivo de mídia: noivos sempre podem; convidados só depois do compartilhamento.

@@ -55,6 +55,12 @@ Variáveis de ambiente:
 | `DATA_DIR`    | `./data`                | Onde ficam os metadados dos álbuns (JSON)  |
 | `UPLOADS_DIR` | `./uploads`             | Onde ficam as fotos e vídeos enviados      |
 | `META_PIXEL_ID` | *(vazio)*             | ID do Meta Pixel (Facebook Ads); vazio desliga o rastreamento |
+| `FAL_KEY`     | *(vazio)*               | Chave da API do Fal AI (`id:segredo`); vazio desliga a geração de imagens |
+| `FAL_MODEL`   | `fal-ai/flux/schnell`   | Modelo do Fal AI usado na geração de imagens |
+
+As variáveis também podem ficar em um arquivo `.env` na raiz (ignorado pelo
+git) — copie o `.env.example` e preencha. Variáveis já definidas no ambiente
+têm prioridade sobre o arquivo.
 
 ## Testes
 
@@ -84,12 +90,29 @@ Sobe o servidor em uma porta isolada e exercita o fluxo completo: criação do
 | `DELETE` | `/api/albums/:slug/media/:id`       | só noivos         | Exclui uma mídia                   |
 | `GET`    | `/api/albums/:slug/download.zip`    | só noivos         | Baixa tudo em ZIP                  |
 | `GET`    | `/api/albums/:slug/admin-check`     | só noivos         | Confirma acesso de dono            |
+| `POST`   | `/api/ai/images`                    | logado            | Gera imagem com IA (Fal AI)        |
 
 Os noivos são autenticados pela **sessão de login** (cookie `sid`, senha com
 scrypt). Cada álbum também tem um **token reserva** (devolvido na criação como
 `backupToken`), aceito no header `x-admin-token` ou no parâmetro `?token=` —
 útil para emprestar o painel a um cerimonialista sem entregar a conta.
 Convidados nunca precisam de login.
+
+## Imagens com IA (Fal AI)
+
+Com `FAL_KEY` definida, os noivos logados podem gerar imagens com IA — por
+exemplo, uma arte para o convite ou a capa do álbum:
+
+```bash
+curl -X POST http://localhost:3000/api/ai/images \
+  -H 'Content-Type: application/json' -b 'sid=<sessão>' \
+  -d '{"prompt": "convite de casamento em aquarela com flores"}'
+```
+
+A resposta traz as URLs das imagens geradas (hospedadas pelo Fal). A chamada
+usa o endpoint síncrono `https://fal.run/<modelo>` com o modelo definido em
+`FAL_MODEL`. A chave é usada **somente no servidor** — nunca chega ao
+navegador — e deve ficar no ambiente ou no `.env` (ignorado pelo git).
 
 ## Limites e observações
 
