@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dra. Carla Britto — Biomédica Tricologista | Saúde Capilar</title>
+  <meta name="description" content="Tratamento de queda de cabelo, calvície e doenças do couro cabeludo com a Dra. Carla Britto, biomédica tricologista. Consultas online e presenciais em São Paulo. Agende sua avaliação capilar." />
+  <meta property="og:title" content="Dra. Carla Britto — Biomédica Tricologista" />
+  <meta property="og:description" content="Recupere a saúde dos seus cabelos com acompanhamento especializado. Consulta online e presencial. Agende sua avaliação." />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Jost:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    /* =============================================================
+       CONFIGURAÇÃO RÁPIDA
+       Troque o número do WhatsApp abaixo (formato: 55 + DDD + número)
+       em TODOS os links wa.me. Busque por "5511999999999".
+       ============================================================= */
+    :root {
+      --ink: #2b2320;
+      --ink-soft: #5c4f49;
+      --cream: #faf6f0;
+      --cream-deep: #f3ebdf;
+      --white: #ffffff;
+      --copper: #b06b41;
+      --copper-dark: #8f5330;
+      --green: #2e4b3f;
+      --green-deep: #22382f;
+      --gold: #c9a26b;
+      --wa: #1faa53;
+      --wa-dark: #178a43;
+      --radius: 18px;
+      --shadow-sm: 0 2px 10px rgba(43, 35, 32, 0.07);
+      --shadow-md: 0 10px 34px rgba(43, 35, 32, 0.12);
+      --space-1: 8px;
+      --space-2: 16px;
+      --space-3: 24px;
+      --space-4: 40px;
+      --space-5: 64px;
+      --space-6: 96px;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+    }
+    body {
+      font-family: "Jost", "Segoe UI", system-ui, sans-serif;
+      font-size: 17px;
+      line-height: 1.65;
+      color: var(--ink);
+      background: var(--cream);
+      -webkit-font-smoothing: antialiased;
+      touch-action: manipulation;
+    }
+    h1, h2, h3 {
+      font-family: "Fraunces", Georgia, serif;
+      font-weight: 500;
+      line-height: 1.18;
+      letter-spacing: -0.01em;
+    }
+    img, svg { max-width: 100%; display: block; }
+    a { color: inherit; }
+    .container { max-width: 1120px; margin: 0 auto; padding: 0 clamp(20px, 4vw, 32px); }
+    .eyebrow {
+      display: inline-block;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--copper);
+      margin-bottom: var(--space-2);
+    }
+    .section { padding: clamp(56px, 9vw, 104px) 0; }
+    .section-title { font-size: clamp(28px, 4.2vw, 42px); max-width: 640px; }
+    .section-sub { color: var(--ink-soft); max-width: 560px; margin-top: var(--space-2); }
+
+    /* ---------- Botões ---------- */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: 52px;
+      padding: 14px 28px;
+      border-radius: 999px;
+      font-family: inherit;
+      font-size: 16.5px;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      transition: transform 0.18s ease-out, box-shadow 0.18s ease-out, background 0.18s ease-out;
+    }
+    .btn:active { transform: scale(0.97); }
+    .btn:focus-visible { outline: 3px solid var(--copper); outline-offset: 3px; }
+    .btn-primary {
+      background: var(--wa);
+      color: #fff;
+      box-shadow: 0 8px 24px rgba(31, 170, 83, 0.32);
+    }
+    .btn-primary:hover { background: var(--wa-dark); transform: translateY(-2px); }
+    .btn-ghost {
+      background: transparent;
+      color: var(--green);
+      border: 1.5px solid rgba(46, 75, 63, 0.35);
+    }
+    .btn-ghost:hover { border-color: var(--green); background: rgba(46, 75, 63, 0.05); }
+    .btn-dark {
+      background: var(--green);
+      color: #fff;
+      box-shadow: var(--shadow-md);
+    }
+    .btn-dark:hover { background: var(--green-deep); transform: translateY(-2px); }
+
+    /* ---------- Header ---------- */
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(250, 246, 240, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(43, 35, 32, 0.07);
+    }
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-2);
+      min-height: 68px;
+    }
+    .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+    .brand-mark {
+      width: 42px; height: 42px;
+      border-radius: 50%;
+      background: var(--green);
+      color: var(--gold);
+      display: grid; place-items: center;
+      font-family: "Fraunces", serif;
+      font-size: 17px;
+      letter-spacing: 0.03em;
+    }
+    .brand-name { font-family: "Fraunces", serif; font-size: 19px; color: var(--ink); }
+    .brand-name small { display: block; font-family: "Jost", sans-serif; font-size: 11.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); }
+    .header .btn { min-height: 44px; padding: 10px 20px; font-size: 15px; }
+    .header-cta-label-sm { display: none; }
+    @media (max-width: 560px) {
+      .brand-name small { display: none; }
+      .header-cta-label { display: none; }
+      .header-cta-label-sm { display: inline; }
+    }
+
+    /* ---------- Hero ---------- */
+    .hero { overflow: hidden; position: relative; }
+    .hero-inner {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: clamp(32px, 5vw, 64px);
+      align-items: center;
+      padding: clamp(48px, 7vw, 88px) 0 clamp(48px, 7vw, 80px);
+    }
+    .hero h1 { font-size: clamp(34px, 5.4vw, 56px); }
+    .hero h1 em { font-style: italic; color: var(--copper); }
+    .hero-sub { margin-top: var(--space-3); font-size: clamp(17px, 2vw, 19px); color: var(--ink-soft); max-width: 520px; }
+    .hero-ctas { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-top: var(--space-4); }
+    .hero-trust { display: flex; flex-wrap: wrap; gap: 10px 22px; margin-top: var(--space-4); }
+    .hero-trust span { display: inline-flex; align-items: center; gap: 8px; font-size: 14.5px; color: var(--ink-soft); }
+    .hero-trust svg { width: 18px; height: 18px; stroke: var(--copper); flex-shrink: 0; }
+
+    .hero-visual { position: relative; }
+    .hero-card {
+      position: relative;
+      border-radius: 28px;
+      background: linear-gradient(160deg, var(--green) 0%, var(--green-deep) 100%);
+      color: var(--cream);
+      padding: clamp(28px, 3.5vw, 44px);
+      box-shadow: var(--shadow-md);
+      overflow: hidden;
+    }
+    .hero-card::before {
+      content: "";
+      position: absolute;
+      inset: 14px;
+      border: 1px solid rgba(201, 162, 107, 0.35);
+      border-radius: 20px;
+      pointer-events: none;
+    }
+    .hero-photo {
+      /* Substitua este bloco por uma foto real da Dra. Carla:
+         <img src="carla.jpg" alt="Dra. Carla Britto" ...> */
+      width: 120px; height: 120px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 30%, #4a6b5c, var(--green-deep));
+      border: 2px solid var(--gold);
+      display: grid; place-items: center;
+      font-family: "Fraunces", serif;
+      font-size: 38px;
+      color: var(--gold);
+      margin-bottom: var(--space-3);
+    }
+    .hero-card h2 { font-size: clamp(22px, 2.6vw, 27px); color: #fff; }
+    .hero-card p.role { color: var(--gold); font-size: 14px; letter-spacing: 0.14em; text-transform: uppercase; margin-top: 6px; }
+    .hero-card ul { list-style: none; margin-top: var(--space-3); display: grid; gap: 12px; }
+    .hero-card li { display: flex; gap: 10px; align-items: flex-start; font-size: 15.5px; color: rgba(250, 246, 240, 0.92); }
+    .hero-card li svg { width: 19px; height: 19px; stroke: var(--gold); flex-shrink: 0; margin-top: 2px; }
+    @media (max-width: 860px) {
+      .hero-inner { grid-template-columns: 1fr; }
+      .hero-visual { order: 2; }
+    }
+
+    /* ---------- Faixa de prova social ---------- */
+    .proof-bar { background: var(--green); color: var(--cream); padding: 20px 0; }
+    .proof-inner { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px 48px; }
+    .proof-item { text-align: center; }
+    .proof-item strong { display: block; font-family: "Fraunces", serif; font-size: 24px; color: var(--gold); }
+    .proof-item span { font-size: 13.5px; letter-spacing: 0.06em; text-transform: uppercase; opacity: 0.85; }
+
+    /* ---------- Dores ---------- */
+    .pains { background: var(--white); }
+    .pain-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: var(--space-2); margin-top: var(--space-4); }
+    .pain-card {
+      background: var(--cream);
+      border: 1px solid rgba(43, 35, 32, 0.06);
+      border-radius: var(--radius);
+      padding: var(--space-3);
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+    .pain-card svg { width: 26px; height: 26px; stroke: var(--copper); flex-shrink: 0; margin-top: 2px; }
+    .pain-card p { font-size: 16px; color: var(--ink-soft); }
+    .pain-card p strong { color: var(--ink); font-weight: 600; }
+    .pains-cta { margin-top: var(--space-4); text-align: center; }
+    .pains-cta p { color: var(--ink-soft); margin-bottom: var(--space-2); font-size: 18px; }
+
+    /* ---------- Método ---------- */
+    .steps-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: var(--space-3); margin-top: var(--space-4); counter-reset: step; }
+    .step {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: var(--space-4) var(--space-3) var(--space-3);
+      box-shadow: var(--shadow-sm);
+      position: relative;
+    }
+    .step::before {
+      counter-increment: step;
+      content: counter(step, decimal-leading-zero);
+      font-family: "Fraunces", serif;
+      font-size: 44px;
+      color: rgba(176, 107, 65, 0.22);
+      position: absolute;
+      top: 14px; right: 20px;
+      line-height: 1;
+    }
+    .step svg { width: 34px; height: 34px; stroke: var(--green); margin-bottom: var(--space-2); }
+    .step h3 { font-size: 21px; margin-bottom: 8px; }
+    .step p { font-size: 15.5px; color: var(--ink-soft); }
+
+    /* ---------- Tratamentos ---------- */
+    .treatments { background: var(--white); }
+    .treat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(255px, 1fr)); gap: var(--space-2); margin-top: var(--space-4); }
+    .treat-card {
+      border: 1px solid rgba(43, 35, 32, 0.08);
+      border-radius: var(--radius);
+      padding: var(--space-3);
+      background: linear-gradient(180deg, var(--cream) 0%, var(--white) 60%);
+      transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+    }
+    .treat-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+    .treat-card svg { width: 30px; height: 30px; stroke: var(--copper); margin-bottom: 14px; }
+    .treat-card h3 { font-size: 20px; margin-bottom: 8px; }
+    .treat-card p { font-size: 15px; color: var(--ink-soft); }
+
+    /* ---------- Sobre ---------- */
+    .about-inner { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: clamp(32px, 5vw, 72px); align-items: center; }
+    .about-visual {
+      background: linear-gradient(160deg, var(--cream-deep), var(--white));
+      border: 1px solid rgba(201, 162, 107, 0.4);
+      border-radius: 28px;
+      padding: clamp(28px, 4vw, 44px);
+      text-align: center;
+      box-shadow: var(--shadow-sm);
+    }
+    .about-visual .hero-photo { margin: 0 auto var(--space-3); background: radial-gradient(circle at 35% 30%, #d8c3a5, var(--gold)); color: var(--green-deep); }
+    .about-visual h3 { font-size: 24px; }
+    .about-visual p { color: var(--ink-soft); font-size: 14.5px; margin-top: 4px; }
+    .about-badges { display: grid; gap: 10px; margin-top: var(--space-3); text-align: left; }
+    .about-badges span { display: flex; align-items: center; gap: 10px; font-size: 14.5px; color: var(--ink-soft); background: var(--white); border-radius: 12px; padding: 10px 14px; border: 1px solid rgba(43,35,32,0.06); }
+    .about-badges svg { width: 18px; height: 18px; stroke: var(--green); flex-shrink: 0; }
+    .about-copy p { color: var(--ink-soft); margin-top: var(--space-2); }
+    .about-copy .btn { margin-top: var(--space-3); }
+    @media (max-width: 860px) { .about-inner { grid-template-columns: 1fr; } }
+
+    /* ---------- Depoimentos ---------- */
+    .testimonials { background: var(--green); color: var(--cream); }
+    .testimonials .eyebrow { color: var(--gold); }
+    .testimonials .section-title { color: #fff; }
+    .testi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: var(--space-2); margin-top: var(--space-4); }
+    .testi-card {
+      background: rgba(250, 246, 240, 0.06);
+      border: 1px solid rgba(201, 162, 107, 0.3);
+      border-radius: var(--radius);
+      padding: var(--space-3);
+    }
+    .stars { display: flex; gap: 3px; margin-bottom: 12px; }
+    .stars svg { width: 17px; height: 17px; fill: var(--gold); stroke: none; }
+    .testi-card blockquote { font-size: 15.5px; line-height: 1.6; color: rgba(250, 246, 240, 0.92); }
+    .testi-card cite { display: block; margin-top: 14px; font-style: normal; font-weight: 600; font-size: 14px; color: var(--gold); }
+    .testi-note { margin-top: var(--space-3); font-size: 13px; opacity: 0.65; text-align: center; }
+
+    /* ---------- FAQ ---------- */
+    .faq-list { margin-top: var(--space-4); max-width: 760px; }
+    .faq-item {
+      background: var(--white);
+      border: 1px solid rgba(43, 35, 32, 0.08);
+      border-radius: 14px;
+      margin-bottom: 12px;
+      overflow: hidden;
+    }
+    .faq-item summary {
+      list-style: none;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: var(--space-2);
+      padding: 18px 22px;
+      font-weight: 600;
+      font-size: 16.5px;
+      min-height: 44px;
+    }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item summary::after {
+      content: "+";
+      font-family: "Fraunces", serif;
+      font-size: 24px;
+      color: var(--copper);
+      transition: transform 0.2s ease-out;
+      flex-shrink: 0;
+    }
+    .faq-item[open] summary::after { transform: rotate(45deg); }
+    .faq-item p { padding: 0 22px 20px; color: var(--ink-soft); font-size: 15.5px; }
+
+    /* ---------- CTA final ---------- */
+    .final-cta {
+      background: linear-gradient(160deg, var(--green) 0%, var(--green-deep) 100%);
+      color: var(--cream);
+      text-align: center;
+      border-radius: 28px;
+      padding: clamp(48px, 7vw, 80px) clamp(24px, 5vw, 64px);
+      position: relative;
+      overflow: hidden;
+    }
+    .final-cta::before {
+      content: "";
+      position: absolute; inset: 14px;
+      border: 1px solid rgba(201, 162, 107, 0.3);
+      border-radius: 20px;
+      pointer-events: none;
+    }
+    .final-cta h2 { font-size: clamp(28px, 4.4vw, 44px); color: #fff; max-width: 640px; margin: 0 auto; }
+    .final-cta p { max-width: 520px; margin: var(--space-2) auto 0; color: rgba(250, 246, 240, 0.85); }
+    .final-cta .btn { margin-top: var(--space-4); position: relative; z-index: 1; }
+    .final-cta small { display: block; margin-top: 14px; font-size: 13.5px; opacity: 0.7; }
+
+    /* ---------- Footer ---------- */
+    .footer { padding: var(--space-5) 0 120px; }
+    .footer-inner { display: flex; flex-wrap: wrap; gap: var(--space-3) var(--space-5); justify-content: space-between; }
+    .footer h3 { font-size: 18px; margin-bottom: 8px; }
+    .footer p, .footer a { font-size: 14.5px; color: var(--ink-soft); text-decoration: none; }
+    .footer a:hover { color: var(--copper); }
+    .footer-legal { margin-top: var(--space-4); padding-top: var(--space-3); border-top: 1px solid rgba(43,35,32,0.08); font-size: 13px; color: var(--ink-soft); }
+
+    /* ---------- WhatsApp flutuante + barra mobile ---------- */
+    .wa-float {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 90;
+      width: 58px; height: 58px;
+      border-radius: 50%;
+      background: var(--wa);
+      display: grid; place-items: center;
+      box-shadow: 0 10px 28px rgba(31, 170, 83, 0.45);
+      transition: transform 0.18s ease-out;
+    }
+    .wa-float:hover { transform: scale(1.07); }
+    .wa-float svg { width: 30px; height: 30px; fill: #fff; }
+    .mobile-bar {
+      display: none;
+      position: fixed;
+      left: 0; right: 0; bottom: 0;
+      z-index: 95;
+      padding: 10px 14px calc(10px + env(safe-area-inset-bottom));
+      background: rgba(250, 246, 240, 0.95);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-top: 1px solid rgba(43,35,32,0.08);
+    }
+    .mobile-bar .btn { width: 100%; }
+    @media (max-width: 640px) {
+      .mobile-bar { display: block; }
+      .wa-float { bottom: 84px; }
+    }
+
+    /* ---------- Reveal on scroll ---------- */
+    .reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.55s ease-out, transform 0.55s ease-out; }
+    .reveal.visible { opacity: 1; transform: none; }
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity: 1; transform: none; }
+    }
+
+    .skip-link {
+      position: absolute; left: -9999px; top: 0;
+      background: var(--green); color: #fff; padding: 12px 18px; z-index: 200; border-radius: 0 0 10px 0;
+    }
+    .skip-link:focus { left: 0; }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+
+  <!-- ======================= HEADER ======================= -->
+  <header class="header">
+    <div class="container header-inner">
+      <a class="brand" href="#" aria-label="Dra. Carla Britto — início">
+        <span class="brand-mark" aria-hidden="true">CB</span>
+        <span class="brand-name">Dra. Carla Britto<small>Biomédica Tricologista</small></span>
+      </a>
+      <a class="btn btn-primary" href="https://wa.me/5511999999999?text=Ol%C3%A1%2C%20Dra.%20Carla!%20Vim%20pelo%20site%20e%20quero%20agendar%20uma%20avalia%C3%A7%C3%A3o%20capilar." target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.4 14.1c-.2.7-1.3 1.3-1.9 1.4-.5.1-1.1.2-3.3-.7-2.8-1.2-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .6l-.4.6c-.1.2-.3.4-.1.7.2.3.8 1.3 1.7 2.1 1.2 1.1 2.2 1.4 2.5 1.5.3.1.5.1.7-.1l.9-1c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.6.4 0 .1 0 .7-.3 1.7z"/></svg>
+        <span class="header-cta-label">Agendar avaliação</span>
+        <span class="header-cta-label-sm">Agendar</span>
+      </a>
+    </div>
+  </header>
+
+  <main id="conteudo">
+    <!-- ======================= HERO ======================= -->
+    <section class="hero">
+      <div class="container hero-inner">
+        <div>
+          <span class="eyebrow">Saúde capilar · Consulta online e presencial</span>
+          <h1>Seu cabelo está caindo?<br /><em>Isso tem tratamento.</em></h1>
+          <p class="hero-sub">
+            Queda de cabelo, calvície, coceira e oleosidade no couro cabeludo têm causa — e quem
+            investiga a causa consegue tratar. Agende sua avaliação com uma biomédica
+            especialista em tricologia e receba um protocolo feito para o seu caso.
+          </p>
+          <div class="hero-ctas">
+            <a class="btn btn-primary" href="https://wa.me/5511999999999?text=Ol%C3%A1%2C%20Dra.%20Carla!%20Vim%20pelo%20site%20e%20quero%20agendar%20uma%20avalia%C3%A7%C3%A3o%20capilar." target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.4 14.1c-.2.7-1.3 1.3-1.9 1.4-.5.1-1.1.2-3.3-.7-2.8-1.2-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .6l-.4.6c-.1.2-.3.4-.1.7.2.3.8 1.3 1.7 2.1 1.2 1.1 2.2 1.4 2.5 1.5.3.1.5.1.7-.1l.9-1c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.6.4 0 .1 0 .7-.3 1.7z"/></svg>
+              Quero agendar minha avaliação
+            </a>
+            <a class="btn btn-ghost" href="#tratamentos">Conhecer os tratamentos</a>
+          </div>
+          <div class="hero-trust" aria-label="Diferenciais">
+            <span>
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+              Atendimento online para todo o Brasil
+            </span>
+            <span>
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+              Consultório na Vila Mariana, São Paulo
+            </span>
+            <span>
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+              Protocolo individualizado
+            </span>
+          </div>
+        </div>
+
+        <div class="hero-visual reveal">
+          <div class="hero-card">
+            <div class="hero-photo" aria-hidden="true">CB</div>
+            <h2>Dra. Carla Britto</h2>
+            <p class="role">Biomédica · Tricologista</p>
+            <ul>
+              <li>
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2 3 7v6c0 5 4 8.4 9 9 5-.6 9-4 9-9V7l-9-5z"/><path d="m9 12 2 2 4-4"/></svg>
+                Especialista em saúde capilar e tricologia
+              </li>
+              <li>
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+                Avaliação completa com tricoscopia
+              </li>
+              <li>
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 2 .7 2.9a2 2 0 0 1-.5 2.1L8.1 10a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.9.6 2.9.7a2 2 0 0 1 1.6 2z"/></svg>
+                Acompanhamento próximo durante todo o tratamento
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================= PROVA SOCIAL ======================= -->
+    <section class="proof-bar" aria-label="Números do consultório">
+      <div class="container proof-inner">
+        <div class="proof-item"><strong>+500</strong><span>Avaliações capilares</span></div>
+        <div class="proof-item"><strong>On-line</strong><span>Atende todo o Brasil</span></div>
+        <div class="proof-item"><strong>SP</strong><span>Vila Mariana · Presencial</span></div>
+        <div class="proof-item"><strong>100%</strong><span>Protocolo individualizado</span></div>
+      </div>
+    </section>
+
+    <!-- ======================= DORES ======================= -->
+    <section class="section pains">
+      <div class="container">
+        <span class="eyebrow">Você se identifica?</span>
+        <h2 class="section-title">Sinais de que o seu couro cabeludo está pedindo ajuda</h2>
+        <div class="pain-grid">
+          <div class="pain-card reveal">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v18M5 8c2-3 12-3 14 0M6 14c2-2 10-2 12 0"/></svg>
+            <p><strong>Queda acima do normal</strong> — fios demais no travesseiro, no ralo do banho ou na escova.</p>
+          </div>
+          <div class="pain-card reveal">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9 9h.01M15 9h.01M8.5 15a4 4 0 0 1 7 0"/></svg>
+            <p><strong>Falhas e entradas</strong> que aumentam com o tempo e afetam sua autoestima.</p>
+          </div>
+          <div class="pain-card reveal">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3c-3 4-6 7-6 11a6 6 0 0 0 12 0c0-4-3-7-6-11z"/></svg>
+            <p><strong>Oleosidade excessiva</strong>, caspa ou descamação que nenhum shampoo resolve.</p>
+          </div>
+          <div class="pain-card reveal">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8v5M12 16.5v.01"/><circle cx="12" cy="12" r="9"/></svg>
+            <p><strong>Coceira, dor ou sensibilidade</strong> no couro cabeludo no dia a dia.</p>
+          </div>
+          <div class="pain-card reveal">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 17c3-6 7-9 9-9s6 3 9 9"/><path d="M8 12l-1.5 4M16 12l1.5 4"/></svg>
+            <p><strong>Fios finos, fracos e sem brilho</strong>, que quebram com facilidade.</p>
+          </div>
+          <div class="pain-card reveal">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-9-9"/><path d="M21 3 12 12"/></svg>
+            <p><strong>Já tentou de tudo</strong> — receitas caseiras, vitaminas por conta própria — e nada funcionou.</p>
+          </div>
+        </div>
+        <div class="pains-cta">
+          <p>Se você marcou mentalmente um desses sinais, o próximo passo é investigar a causa.</p>
+          <a class="btn btn-dark" href="https://wa.me/5511999999999?text=Ol%C3%A1%2C%20Dra.%20Carla!%20Me%20identifiquei%20com%20os%20sinais%20do%20site%20e%20quero%20investigar%20a%20causa%20da%20minha%20queda%20de%20cabelo." target="_blank" rel="noopener">Quero investigar a causa</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================= MÉTODO ======================= -->
+    <section class="section" id="metodo">
+      <div class="container">
+        <span class="eyebrow">Como funciona</span>
+        <h2 class="section-title">Um caminho claro para recuperar seus fios</h2>
+        <p class="section-sub">Nada de fórmulas genéricas: cada etapa é conduzida pela Dra. Carla, do diagnóstico ao resultado.</p>
+        <div class="steps-grid">
+          <div class="step reveal">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+            <h3>Avaliação completa</h3>
+            <p>Consulta detalhada com análise do histórico, hábitos, exames e tricoscopia do couro cabeludo para identificar a causa real do problema.</p>
+          </div>
+          <div class="step reveal">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 13h6M9 17h4"/></svg>
+            <h3>Protocolo individualizado</h3>
+            <p>Plano de tratamento sob medida: terapias no consultório, prescrições e ajustes de rotina que cabem na sua vida.</p>
+          </div>
+          <div class="step reveal">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 17l5-5 4 4 8-8"/><path d="M14 8h6v6"/></svg>
+            <h3>Acompanhamento até o resultado</h3>
+            <p>Retornos periódicos com fotos comparativas e ajustes do protocolo para você enxergar a evolução mês a mês.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================= TRATAMENTOS ======================= -->
+    <section class="section treatments" id="tratamentos">
+      <div class="container">
+        <span class="eyebrow">Tratamentos</span>
+        <h2 class="section-title">O que a tricologia pode fazer por você</h2>
+        <div class="treat-grid">
+          <div class="treat-card reveal">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v18M5 8c2-3 12-3 14 0"/></svg>
+            <h3>Queda de cabelo</h3>
+            <p>Investigação e tratamento do eflúvio telógeno e de quedas intensas ligadas a estresse, pós-parto, deficiências nutricionais e alterações hormonais.</p>
+          </div>
+          <div class="treat-card reveal">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="5"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg>
+            <h3>Calvície (alopecia androgenética)</h3>
+            <p>Protocolos para estabilizar a progressão da calvície feminina e masculina e estimular o crescimento de novos fios.</p>
+          </div>
+          <div class="treat-card reveal">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3c-3 4-6 7-6 11a6 6 0 0 0 12 0c0-4-3-7-6-11z"/></svg>
+            <h3>Caspa, oleosidade e dermatites</h3>
+            <p>Reequilíbrio do couro cabeludo em casos de descamação, seborreia, coceira e sensibilidade persistentes.</p>
+          </div>
+          <div class="treat-card reveal">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 1.9 5.6L20 10l-5 3.6L16.2 20 12 16.8 7.8 20 9 13.6 4 10l6.1-1.4z"/></svg>
+            <h3>Terapias capilares em consultório</h3>
+            <p>Procedimentos que potencializam o tratamento: microagulhamento, intradermoterapia, LED terapia e alta frequência, conforme o caso.</p>
+          </div>
+          <div class="treat-card reveal">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M8 21h8M12 18v3"/></svg>
+            <h3>Consulta online</h3>
+            <p>Avaliação, prescrição e acompanhamento por videochamada para quem está fora de São Paulo — com o mesmo cuidado da consulta presencial.</p>
+          </div>
+          <div class="treat-card reveal">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2 3 7v6c0 5 4 8.4 9 9 5-.6 9-4 9-9V7l-9-5z"/><path d="m9 12 2 2 4-4"/></svg>
+            <h3>Prevenção e manutenção</h3>
+            <p>Rotina capilar personalizada para quem quer fios mais fortes, saudáveis e bonitos antes que o problema apareça.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================= SOBRE ======================= -->
+    <section class="section" id="sobre">
+      <div class="container about-inner">
+        <div class="about-visual reveal">
+          <div class="hero-photo" aria-hidden="true">CB</div>
+          <h3>Dra. Carla Britto</h3>
+          <p>Biomédica tricologista · Especialista em saúde capilar</p>
+          <div class="about-badges">
+            <span>
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 10 12 5 2 10l10 5 10-5z"/><path d="M6 12v5c0 1.7 2.7 3 6 3s6-1.3 6-3v-5"/></svg>
+              Graduada em Biomedicina
+            </span>
+            <span>
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2 3 7v6c0 5 4 8.4 9 9 5-.6 9-4 9-9V7l-9-5z"/><path d="m9 12 2 2 4-4"/></svg>
+              Especialização em tricologia e saúde capilar
+            </span>
+            <span>
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              Consultório na Vila Mariana — São Paulo/SP
+            </span>
+          </div>
+        </div>
+        <div class="about-copy">
+          <span class="eyebrow">Quem vai cuidar de você</span>
+          <h2 class="section-title">Ciência e cuidado no tratamento dos seus cabelos</h2>
+          <p>
+            A Dra. Carla Britto é biomédica com atuação dedicada à tricologia — a ciência que estuda
+            os cabelos e o couro cabeludo. Com experiência na área da saúde e formação especializada,
+            ela une o rigor da análise laboratorial e da tricoscopia a um atendimento humano e próximo.
+          </p>
+          <p>
+            Cada paciente sai da consulta entendendo <strong>o que está causando</strong> a queda ou o
+            problema no couro cabeludo e <strong>qual é o plano</strong> para resolver — sem promessas
+            milagrosas, com um protocolo realista e acompanhamento de verdade.
+          </p>
+          <a class="btn btn-dark" href="https://wa.me/5511999999999?text=Ol%C3%A1%2C%20Dra.%20Carla!%20Quero%20saber%20mais%20sobre%20o%20seu%20atendimento." target="_blank" rel="noopener">Falar com a Dra. Carla</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================= DEPOIMENTOS ======================= -->
+    <section class="section testimonials">
+      <div class="container">
+        <span class="eyebrow">Resultados reais</span>
+        <h2 class="section-title">Quem já tratou, recomenda</h2>
+        <div class="testi-grid">
+          <div class="testi-card reveal">
+            <div class="stars" aria-label="5 de 5 estrelas">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2 2.9 6.6 7.1.6-5.4 4.7 1.6 7L12 17l-6.2 3.9 1.6-7L2 9.2l7.1-.6z"/></svg>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2 2.9 6.6 7.1.6-5.4 4.7 1.6 7L12 17l-6.2 3.9 1.6-7L2 9.2l7.1-.6z"/></svg>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2 2.9 6.6 7.1.6-5.4 4.7 1.6 7L12 17l-6.2 3.9 1.6-7L2 9.2l7.1-.6z"/></svg>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2 2.9 6.6 7.1.6-5.4 4.7 1.6 7L12 17l-6.2 3.9 1.6-7L2 9.2l7.1-.6z"/></svg>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2 2.9 6.6 7.1.6-5.4 4.7 1.6 7L12 17l-6.2 3.9 1.6-7L2 9.2l7.1-.6z"/></svg>
+            </div>
+            <blockquote>“Eu perdia chumaços de cabelo no banho e já não sabia mais o que fazer. Em poucos meses de tratamento a queda estabilizou e os fios novos começaram a aparecer.”</blockquote>
+            <cite>Paciente — tratamento de queda capilar</cite>
+          </div>
+          <div class="testi-card reveal">
+            <div class="stars" aria-label="5 de 5 estrelas">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2 2.9 6.6 7.1.6-5.4 4.7 1.6 7L12 17l-6.2 3.9 1.6-7L2 9.2l7.1-.6z"/></svg>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2 2.9 6.6 7.1.6-5.4 4.7 1.6 7L12 17l-6.2 3.9 1.6-7L2 9.2l7.1-.6z"/></svg>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2 2.9 6.6 7.1.6-5.4 4.7 1.6 7L12 17l-6.2 3.9 1.6-7L2 9.2l7.1-.6z"/></svg>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2 2.9 6.6 7.1.6-5.4 4.7 1.6 7L12 17l-6.2 3.9 1.6-7L2 9.2l7.1-.6z"/></svg>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2 2.9 6.6 7.1.6-5.4 4.7 1.6 7L12 17l-6.2 3.9 1.6-7L2 9.2l7.1-.6z"/></svg>
+            </div>
+            <blockquote>“A consulta foi completamente diferente de tudo que eu já tinha feito: ela investigou exames, rotina, tudo. Pela primeira vez entendi a causa da minha caspa e me livrei dela.”</blockquote>
+            <cite>Paciente — dermatite seborreica</cite>
+          </div>
+          <div class="testi-card reveal">
+            <div class="stars" aria-label="5 de 5 estrelas">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2 2.9 6.6 7.1.6-5.4 4.7 1.6 7L12 17l-6.2 3.9 1.6-7L2 9.2l7.1-.6z"/></svg>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2 2.9 6.6 7.1.6-5.4 4.7 1.6 7L12 17l-6.2 3.9 1.6-7L2 9.2l7.1-.6z"/></svg>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2 2.9 6.6 7.1.6-5.4 4.7 1.6 7L12 17l-6.2 3.9 1.6-7L2 9.2l7.1-.6z"/></svg>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2 2.9 6.6 7.1.6-5.4 4.7 1.6 7L12 17l-6.2 3.9 1.6-7L2 9.2l7.1-.6z"/></svg>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2 2.9 6.6 7.1.6-5.4 4.7 1.6 7L12 17l-6.2 3.9 1.6-7L2 9.2l7.1-.6z"/></svg>
+            </div>
+            <blockquote>“Faço o acompanhamento online de outra cidade e funciona super bem. Atenciosa, explica tudo com calma e o protocolo é fácil de seguir. Minhas entradas diminuíram visivelmente.”</blockquote>
+            <cite>Paciente — consulta online</cite>
+          </div>
+        </div>
+        <p class="testi-note">Depoimentos ilustrativos baseados em relatos típicos de pacientes. Resultados variam de pessoa para pessoa.</p>
+      </div>
+    </section>
+
+    <!-- ======================= FAQ ======================= -->
+    <section class="section" id="faq">
+      <div class="container">
+        <span class="eyebrow">Dúvidas frequentes</span>
+        <h2 class="section-title">Antes de agendar, você pode querer saber</h2>
+        <div class="faq-list">
+          <details class="faq-item">
+            <summary>Como funciona a primeira consulta?</summary>
+            <p>É uma avaliação completa: conversamos sobre seu histórico de saúde, rotina e queixas, analisamos exames e fazemos a tricoscopia (exame do couro cabeludo com aumento de imagem). Ao final, você recebe o diagnóstico e o plano de tratamento individualizado.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Atende online? Funciona mesmo?</summary>
+            <p>Sim. A consulta online é feita por videochamada, com análise de fotos, vídeos e exames laboratoriais. Para a maioria dos casos de queda, caspa e oleosidade, o acompanhamento a distância traz os mesmos resultados — e você pode fazer de qualquer lugar do Brasil.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Onde fica o consultório?</summary>
+            <p>Na Vila Mariana, em São Paulo/SP — Rua Dr. Neto de Araújo, 320, sala 910. Região de fácil acesso, próxima ao metrô.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Em quanto tempo vejo resultado?</summary>
+            <p>O ciclo do fio é lento por natureza: em geral, os primeiros sinais de melhora aparecem entre 3 e 6 meses de tratamento. Por isso o acompanhamento com fotos comparativas é tão importante — você enxerga a evolução real, mês a mês.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Biomédica pode tratar queda de cabelo?</summary>
+            <p>Sim. A biomedicina estética e a tricologia são áreas de atuação regulamentadas do biomédico, que está habilitado a avaliar o couro cabeludo, realizar procedimentos como microagulhamento e intradermoterapia capilar e conduzir protocolos de saúde capilar. Quando o caso exige, a Dra. Carla trabalha em conjunto com médicos e outros profissionais.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Quanto custa a consulta?</summary>
+            <p>O valor varia conforme o tipo de atendimento (online ou presencial). Chame no WhatsApp para receber os valores atualizados e as condições de pagamento — sem compromisso.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================= CTA FINAL ======================= -->
+    <section class="section">
+      <div class="container">
+        <div class="final-cta reveal">
+          <span class="eyebrow" style="color: var(--gold);">Vagas limitadas na agenda</span>
+          <h2>Quanto mais cedo você tratar, mais fios você salva.</h2>
+          <p>A queda de cabelo é progressiva — cada mês sem tratamento é mais difícil de reverter. Dê o primeiro passo hoje: a avaliação não dói, e a conversa no WhatsApp é sem compromisso.</p>
+          <a class="btn btn-primary" href="https://wa.me/5511999999999?text=Ol%C3%A1%2C%20Dra.%20Carla!%20Quero%20agendar%20minha%20avalia%C3%A7%C3%A3o%20capilar." target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.4 14.1c-.2.7-1.3 1.3-1.9 1.4-.5.1-1.1.2-3.3-.7-2.8-1.2-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .6l-.4.6c-.1.2-.3.4-.1.7.2.3.8 1.3 1.7 2.1 1.2 1.1 2.2 1.4 2.5 1.5.3.1.5.1.7-.1l.9-1c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.6.4 0 .1 0 .7-.3 1.7z"/></svg>
+            Agendar minha avaliação agora
+          </a>
+          <small>Resposta rápida em horário comercial · Atendimento online e presencial</small>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ======================= FOOTER ======================= -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div>
+          <h3>Dra. Carla Britto</h3>
+          <p>Biomédica tricologista · Saúde capilar</p>
+          <p><a href="https://www.instagram.com/carlabritto.biomed/" target="_blank" rel="noopener">@carlabritto.biomed</a></p>
+        </div>
+        <div>
+          <h3>Consultório</h3>
+          <p>Rua Dr. Neto de Araújo, 320 — sala 910</p>
+          <p>Vila Mariana, São Paulo/SP</p>
+        </div>
+        <div>
+          <h3>Contato</h3>
+          <p><a href="https://wa.me/5511999999999" target="_blank" rel="noopener">WhatsApp</a></p>
+          <p><a href="https://www.instagram.com/carlabritto.biomed/" target="_blank" rel="noopener">Instagram</a></p>
+        </div>
+      </div>
+      <p class="footer-legal">© <span id="ano">2026</span> Dra. Carla Britto — Todos os direitos reservados. Este site não substitui consulta profissional. Resultados variam de acordo com cada organismo.</p>
+    </div>
+  </footer>
+
+  <!-- WhatsApp flutuante -->
+  <a class="wa-float" href="https://wa.me/5511999999999?text=Ol%C3%A1%2C%20Dra.%20Carla!%20Vim%20pelo%20site." target="_blank" rel="noopener" aria-label="Conversar no WhatsApp">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.4 14.1c-.2.7-1.3 1.3-1.9 1.4-.5.1-1.1.2-3.3-.7-2.8-1.2-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .6l-.4.6c-.1.2-.3.4-.1.7.2.3.8 1.3 1.7 2.1 1.2 1.1 2.2 1.4 2.5 1.5.3.1.5.1.7-.1l.9-1c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.6.4 0 .1 0 .7-.3 1.7z"/></svg>
+  </a>
+
+  <!-- Barra fixa de CTA no mobile -->
+  <div class="mobile-bar">
+    <a class="btn btn-primary" href="https://wa.me/5511999999999?text=Ol%C3%A1%2C%20Dra.%20Carla!%20Quero%20agendar%20minha%20avalia%C3%A7%C3%A3o%20capilar." target="_blank" rel="noopener">Agendar avaliação capilar</a>
+  </div>
+
+  <script>
+    document.getElementById("ano").textContent = new Date().getFullYear();
+
+    // Revelação suave das seções ao rolar (respeita prefers-reduced-motion via CSS)
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+            observer.unobserve(entry.target);
+          }
+        }
+      },
+      { threshold: 0.15 }
+    );
+    document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
+  </script>
+</body>
+</html>
