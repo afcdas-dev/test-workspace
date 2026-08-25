@@ -70,6 +70,35 @@ linha reta com velocidade constante entrega IA na hora. Líquido real na pele
 Regra: NUNCA deixar um líquido se mover sem um verbo de imperfeição
 (stall, wobble, break up, lag, smear unevenly, partially absorb).
 
+## 3.2 Material do líquido — translucidez e molhamento (feedback 2026-08-24, outputs Google Flow)
+
+Diagnóstico de 4 outputs do Flow: a PELE saiu ótima (poros, espinhas reais,
+sardas, penugem, cílios irregulares — o vocabulário da §2 funciona). O que
+entrega IA é o SÉRUM: ele é renderizado como uma fita de gel opaco e brilhante
+POUSADA sobre a pele, não como líquido que a molha.
+
+Os cinco delatores observados:
+1. Opaco — cor chapada; não se vê poro nem sarda através do líquido.
+2. Bordas duras e envernizadas, como bala de goma / adesivo 3D.
+3. Rastro de largura constante descendo em linha reta.
+4. Formato "girino": cabeça bulbosa + cauda uniforme (assinatura de render 3D).
+5. Nunca absorve: permanece fita molhada do início ao fim.
+
+Vocabulário corretivo — usar SEMPRE que houver líquido na pele:
+- `translucent serum — pores, freckles and blemishes stay visible through the liquid`
+- `the liquid wets the skin, darkening it slightly where it spreads`
+- `the edge of the liquid is feathered and irregular where it meets the skin texture`
+- `the trail thins as it descends, narrowing to a thread and splitting into two
+  finer rivulets that stop at different heights`
+- `it dulls as it sinks in, leaving only a damp sheen and a faint tint`
+- `the drop catches on a pore and changes direction slightly`
+
+**Cor: descrever como tinta fraca em líquido claro, nunca saturada.**
+"vivid pink" / "vivid orange" produzem aparência de tinta guache. Usar:
+`a clear serum with a faint pink cast` / `pale amber, almost clear serum`.
+A cor deve aparecer na CONCENTRAÇÃO (mais forte onde acumula, quase invisível
+onde é fina) — é assim que líquido translúcido se comporta.
+
 ## 4. Câmera e enquadramento (sempre explícito)
 
 Enquadramentos-assinatura do UGC real (escolher 1 por shot):
@@ -130,6 +159,11 @@ Movimento (sempre incluir um):
 - Zoom dramático, travelling de cinema, iluminação tri-point — é UGC, não comercial.
 - Líquido descendo em linha reta com velocidade constante (ver §3.1) —
   descrever hesitação/assimetria ou o shot sai animado demais.
+- Cor de produto saturada ("vivid pink/orange", "bright red") — vira tinta
+  opaca. Descrever líquido claro com leve tom (§3.2).
+- Líquido sem translucidez nem absorção: se o prompt não disser que se vê a
+  pele ATRAVÉS do sérum e que ele afunda deixando brilho, o gerador entrega
+  uma fita de gel pousada na pele (§3.2).
 - Mãos/dedos que se movem em arco perfeito e contínuo: acrescentar
   `she adjusts her grip mid-motion` ou `slight motion blur as the hand moves`.
 - Foco cravado o tempo todo: um `focus hunts for a beat before locking on
@@ -190,6 +224,9 @@ unposed expression. Static tripod framing with natural body sway. Duration
 
 - [ ] 3–5 termos de pele natural (seção 2)?
 - [ ] Produto interagindo com a pele ou em macro (seção 3)?
+- [ ] Se há líquido: translucidez, molhamento e absorção descritos (seção 3.2)?
+- [ ] Se há líquido: verbo de imperfeição no movimento (seção 3.1)?
+- [ ] Cor do produto descrita como tom fraco em líquido claro (seção 3.2)?
 - [ ] Enquadramento + movimento de câmera explícitos (seção 4)?
 - [ ] Uma fonte de luz definida (seção 5)?
 - [ ] Detalhes de creator (unhas, joias, figurino) (seção 6)?
