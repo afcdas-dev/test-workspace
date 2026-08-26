@@ -10,37 +10,31 @@
   <meta property="og:type" content="website">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bitter:wght@500;600;700&family=Karla:wght@400;500;600;700;800&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      /* verde-mata */
-      --verde-900: #22392c;
-      --verde-700: #2c4a37;
-      --verde-500: #33603f;
-      --verde-100: #dcebd8;
-      /* creme quente */
-      --creme: #f7f1e5;
-      --creme-2: #efe6d3;
-      --branco: #fffdf7;
-      --areia: #e3d7bf;
-      --areia-2: #efe3c8;
-      /* âmbar */
-      --ambar: #c9852a;
-      --ambar-escuro: #a8681a;
-      --ambar-texto: #7c4c10;
-      --ouro: #d8b25e;
-      /* texto */
-      --texto: #2b2b25;
-      --texto-suave: #5b5847;
-      --texto-fraco: #6a6754;
-      /* whatsapp */
-      --whatsapp: #1faa53;
-      --whatsapp-escuro: #178a43;
+      /* ===== tons do cavalo — amostrados da referência ===== */
+      --couro: #3c281e;        /* marrom-couro escuro (arreios) */
+      --couro-2: #4a3526;      /* marrom médio */
+      --castanho: #8a4d2b;     /* castanho / alazão */
+      --castanho-claro: #a5673d;
+      --oliva: #5a5032;        /* verde-oliva do campo */
+      --oliva-claro: #7a6f4a;
+      --palomino: #dcc896;     /* creme dourado */
+      --papel: #f0e4cc;        /* papel creme (fundo) */
+      --papel-2: #e6d6b8;      /* papel mais tostado */
+      --creme: #faf3e4;        /* creme claro (cartões) */
+      --linha: #d8c6a4;        /* bordas */
 
-      --sombra-card: 0 18px 44px rgba(34, 57, 44, .08);
-      --sombra-alta: 0 24px 60px rgba(34, 57, 44, .28);
-      /* arco de ferradura — motivo da marca */
-      --arco: 999px 999px 26px 26px;
+      --texto: #3c281e;
+      --texto-suave: #6b5643;
+      --texto-fraco: #75634f;
+
+      --whatsapp: #15803d;
+      --whatsapp-escuro: #116630;
+
+      --sombra-card: 0 16px 40px rgba(60, 40, 30, .10);
+      --sombra-alta: 0 24px 60px rgba(60, 40, 30, .30);
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -52,43 +46,61 @@
     }
 
     body {
-      font-family: "Figtree", "Trebuchet MS", system-ui, sans-serif;
+      font-family: "Karla", "Trebuchet MS", system-ui, sans-serif;
       font-size: 1rem;
       line-height: 1.65;
       color: var(--texto);
-      background: var(--creme);
+      background: var(--papel);
       -webkit-font-smoothing: antialiased;
       touch-action: manipulation;
     }
 
+    /* grão de papel sobre a página inteira */
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: 500;
+      pointer-events: none;
+      opacity: .055;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
     h1, h2, h3 {
-      font-family: "Bricolage Grotesque", "Helvetica Neue", Arial, sans-serif;
-      line-height: 1.12;
-      letter-spacing: -.8px;
-      color: var(--verde-900);
+      font-family: "Bitter", Georgia, "Times New Roman", serif;
+      line-height: 1.16;
+      letter-spacing: -.3px;
+      color: var(--couro);
     }
 
     img, svg { max-width: 100%; display: block; }
 
     .container { max-width: 1280px; margin: 0 auto; padding: 0 clamp(20px, 5vw, 80px); }
-
     section { padding: clamp(56px, 8vw, 96px) 0; }
 
+    /* rótulo tipo papelaria: caps espaçado em máquina de escrever */
     .kicker {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      font-weight: 800;
-      font-size: .8rem;
-      letter-spacing: .13em;
+      gap: 9px;
+      font-family: "Courier Prime", "Courier New", monospace;
+      font-weight: 700;
+      font-size: .78rem;
+      letter-spacing: .18em;
       text-transform: uppercase;
-      color: var(--ambar-escuro);
+      color: var(--castanho);
     }
+    .kicker svg { flex-shrink: 0; }
 
     .section-head { display: flex; flex-direction: column; gap: 14px; max-width: 720px; }
-    .section-title { font-size: clamp(1.85rem, 4.2vw, 2.6rem); }
-    .section-sub { color: var(--texto-suave); font-size: 1.09rem; }
+    .section-title { font-size: clamp(1.8rem, 4.2vw, 2.55rem); }
+    .section-sub { color: var(--texto-suave); font-size: 1.08rem; }
     .center .section-head { align-items: center; text-align: center; margin: 0 auto; }
+
+    /* filete ornamental com estrela */
+    .filete { display: flex; align-items: center; gap: 12px; color: var(--linha); }
+    .filete::before, .filete::after { content: ""; height: 1px; background: currentColor; flex: 1; }
+    .filete svg { color: var(--castanho); flex-shrink: 0; }
 
     /* ===== Botões ===== */
     .btn {
@@ -98,7 +110,7 @@
       gap: 10px;
       font-family: inherit;
       font-weight: 800;
-      font-size: 1.05rem;
+      font-size: 1.03rem;
       text-decoration: none;
       border: none;
       border-radius: 999px;
@@ -107,60 +119,60 @@
       cursor: pointer;
       transition: transform .18s ease, box-shadow .18s ease, background-color .18s ease;
     }
-    .btn:focus-visible { outline: 3px solid var(--ambar); outline-offset: 3px; }
+    .btn:focus-visible { outline: 3px solid var(--castanho); outline-offset: 3px; }
     .btn svg { flex-shrink: 0; }
 
     .btn-whatsapp {
       background: var(--whatsapp);
       color: #fff;
-      box-shadow: 0 12px 28px rgba(31, 170, 83, .35);
+      box-shadow: 0 12px 26px rgba(21, 128, 61, .34);
     }
     .btn-whatsapp:hover { background: var(--whatsapp-escuro); transform: translateY(-2px); }
     .btn-whatsapp:active { transform: translateY(0) scale(.98); }
 
-    .btn-escuro {
-      background: var(--verde-900);
-      color: var(--creme);
-      font-size: .97rem;
+    .btn-couro {
+      background: var(--couro);
+      color: var(--palomino);
+      font-size: .96rem;
       padding: 14px 26px;
       min-height: 48px;
     }
-    .btn-escuro:hover { background: var(--verde-700); transform: translateY(-2px); }
+    .btn-couro:hover { background: var(--couro-2); transform: translateY(-2px); }
 
     .btn-contorno {
       background: transparent;
-      color: var(--verde-900);
-      border: 2px solid var(--verde-900);
-      font-size: .97rem;
+      color: var(--couro);
+      border: 2px solid var(--couro);
+      font-size: .96rem;
       padding: 12px 24px;
       min-height: 48px;
     }
-    .btn-contorno:hover { background: var(--verde-100); }
+    .btn-contorno:hover { background: var(--papel-2); }
 
     .link-seta {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      color: var(--verde-500);
+      color: var(--castanho);
       font-weight: 700;
       font-size: 1rem;
       text-decoration: none;
-      border-bottom: 2px solid var(--verde-500);
+      border-bottom: 2px solid var(--castanho);
       padding: 6px 2px;
       min-height: 44px;
       box-sizing: content-box;
     }
-    .link-seta:hover { color: var(--verde-900); border-color: var(--verde-900); }
-    .link-seta:focus-visible { outline: 3px solid var(--ambar); outline-offset: 3px; }
+    .link-seta:hover { color: var(--couro); border-color: var(--couro); }
+    .link-seta:focus-visible { outline: 3px solid var(--castanho); outline-offset: 3px; }
 
     /* ===== Header ===== */
     .header {
       position: sticky;
       top: 0;
       z-index: 100;
-      background: rgba(247, 241, 229, .92);
+      background: rgba(240, 228, 204, .93);
       backdrop-filter: blur(10px);
-      border-bottom: 1px solid var(--areia);
+      border-bottom: 1px solid var(--linha);
     }
     .header-inner {
       display: flex;
@@ -176,36 +188,38 @@
       align-items: center;
       gap: 12px;
       text-decoration: none;
-      color: var(--verde-900);
-      font-family: "Bricolage Grotesque", "Helvetica Neue", Arial, sans-serif;
+      color: var(--couro);
+      font-family: "Bitter", Georgia, serif;
       font-weight: 700;
-      font-size: 1.28rem;
-      letter-spacing: -.3px;
+      font-size: 1.22rem;
+      letter-spacing: -.2px;
     }
-    .logo:focus-visible { outline: 3px solid var(--ambar); outline-offset: 4px; border-radius: 8px; }
+    .logo:focus-visible { outline: 3px solid var(--castanho); outline-offset: 4px; border-radius: 8px; }
+    /* selo em arco — a forma da marca, vinda da referência */
     .logo-badge {
-      width: 46px;
-      height: 46px;
-      border-radius: 999px 999px 6px 6px;
-      background: var(--verde-900);
+      width: 44px;
+      height: 48px;
+      border-radius: 999px 999px 7px 7px;
+      background: var(--couro);
+      color: var(--palomino);
       display: flex;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
     }
     .nav { display: flex; align-items: center; gap: 34px; }
-    .nav-links { display: flex; gap: 32px; }
+    .nav-links { display: flex; gap: 30px; }
     .nav-links a {
       text-decoration: none;
-      color: #3d3a30;
+      color: var(--texto-suave);
       font-weight: 600;
-      font-size: .95rem;
+      font-size: .94rem;
       padding: 10px 2px;
     }
-    .nav-links a:hover { color: var(--verde-500); }
-    .nav-links a:focus-visible { outline: 3px solid var(--ambar); outline-offset: 2px; border-radius: 4px; }
-    .header .btn-whatsapp { padding: 12px 24px; min-height: 46px; font-size: .95rem; box-shadow: 0 8px 20px rgba(31, 170, 83, .32); white-space: nowrap; }
-    /* alterna rótulos longos/curtos conforme a largura */
+    .nav-links a:hover { color: var(--castanho); }
+    .nav-links a:focus-visible { outline: 3px solid var(--castanho); outline-offset: 2px; border-radius: 4px; }
+    .header .btn-whatsapp { padding: 12px 24px; min-height: 46px; font-size: .93rem; box-shadow: 0 8px 18px rgba(21, 128, 61, .32); white-space: nowrap; }
+
     .so-larga { display: inline; }
     .so-estreita { display: none; }
     @media (max-width: 900px) { .nav-links { display: none; } }
@@ -213,56 +227,47 @@
       .so-larga { display: none; }
       .so-estreita { display: inline; }
       .header-inner { padding-top: 11px; padding-bottom: 11px; }
-      .logo { font-size: 1.02rem; gap: 9px; }
-      .logo-badge { width: 38px; height: 38px; }
-      .logo-badge svg { width: 21px; height: 21px; }
-      .header .btn-whatsapp { padding: 11px 18px; min-height: 44px; font-size: .88rem; gap: 8px; }
+      .logo { font-size: 1rem; gap: 9px; }
+      .logo-badge { width: 36px; height: 40px; }
+      .logo-badge svg { width: 20px; height: 20px; }
+      .header .btn-whatsapp { padding: 11px 18px; min-height: 44px; font-size: .87rem; gap: 8px; }
     }
 
     /* ===== Hero ===== */
-    .hero { padding: clamp(36px, 5vw, 72px) 0 clamp(52px, 7vw, 88px); }
-    .hero-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 72px;
-      align-items: center;
-    }
-    .hero-copy { display: flex; flex-direction: column; align-items: flex-start; gap: 26px; }
-    .hero .kicker {
-      background: var(--areia-2);
-      color: var(--ambar-texto);
-      border-radius: 999px;
-      padding: 8px 18px;
-      font-size: .78rem;
-    }
-    .hero h1 { font-size: clamp(2.3rem, 5.4vw, 3.9rem); letter-spacing: -1.5px; }
-    .hero h1 em { font-style: normal; color: var(--ambar); }
-    .hero .lead { font-size: 1.19rem; color: var(--texto-suave); max-width: 520px; }
+    .hero { padding: clamp(36px, 5vw, 68px) 0 clamp(52px, 7vw, 88px); }
+    .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: center; }
+    .hero-copy { display: flex; flex-direction: column; align-items: flex-start; gap: 24px; }
+    .hero h1 { font-size: clamp(2.2rem, 5.2vw, 3.7rem); letter-spacing: -1.2px; }
+    .hero h1 em { font-style: normal; color: var(--castanho); }
+    .hero .lead { font-size: 1.17rem; color: var(--texto-suave); max-width: 520px; }
     .hero-ctas { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; }
+
     .nota {
       display: flex;
       align-items: flex-start;
       gap: 8px;
-      font-size: .88rem;
+      font-size: .87rem;
       color: var(--texto-fraco);
       font-weight: 600;
     }
     .nota svg { flex-shrink: 0; margin-top: 4px; }
+
     .hero-badges { display: flex; flex-wrap: wrap; gap: 10px; }
     .badge {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      background: var(--branco);
-      border: 1px solid var(--areia);
+      background: var(--creme);
+      border: 1px solid var(--linha);
       border-radius: 999px;
       padding: 9px 18px;
-      font-size: .84rem;
+      font-size: .83rem;
       font-weight: 700;
-      color: var(--verde-700);
+      color: var(--couro);
     }
+    .badge svg { color: var(--oliva); }
 
-    /* composição em arco */
+    /* composição em arco, como as etiquetas da referência */
     .hero-art { position: relative; height: 620px; }
     .hero-arco {
       position: absolute;
@@ -270,82 +275,115 @@
       top: 0;
       width: min(470px, 100%);
       height: 580px;
-      border-radius: 999px 999px 28px 28px;
-      background: linear-gradient(168deg, var(--verde-700) 0%, var(--verde-900) 78%);
+      border-radius: 999px 999px 20px 20px;
+      background: var(--couro);
+      /* losangos, como o papel kraft da referência */
+      background-image:
+        repeating-linear-gradient(45deg, transparent 0 20px, rgba(220, 200, 150, .045) 20px 21px),
+        repeating-linear-gradient(-45deg, transparent 0 20px, rgba(220, 200, 150, .045) 20px 21px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      box-shadow: var(--sombra-alta);
+      overflow: hidden;
+      /* moldura dupla, como a impressão em papel */
+      outline: 1px solid rgba(220, 200, 150, .3);
+      outline-offset: -14px;
+    }
+    .hero-emblema { display: flex; align-items: center; gap: 26px; color: var(--palomino); }
+    .hero-emblema > svg:nth-child(2) { width: 116px; }
+    .hero-marca {
+      font-family: "Bitter", Georgia, serif;
+      font-weight: 700;
+      font-size: .82rem;
+      letter-spacing: .32em;
+      text-transform: uppercase;
+      color: var(--palomino);
+      text-align: center;
+      padding: 0 24px;
+    }
+    .hero-marca span {
+      display: block;
+      font-family: "Courier Prime", monospace;
+      font-size: .68rem;
+      letter-spacing: .2em;
+      color: rgba(220, 200, 150, .62);
+      margin-top: 6px;
+    }
+
+    /* selo de cera */
+    .hero-selo {
+      position: absolute;
+      right: 0;
+      top: 40px;
+      width: 98px;
+      height: 98px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 34% 30%, var(--castanho-claro), var(--castanho) 62%, #6f3c20);
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: var(--sombra-alta);
-      overflow: hidden;
-    }
-    .hero-arco svg { width: 340px; height: auto; }
-    .hero-sol {
-      position: absolute;
-      right: 0;
-      top: 42px;
-      width: 96px;
-      height: 96px;
-      border-radius: 50%;
-      background: var(--ambar);
-      opacity: .9;
-    }
-    .hero-contorno {
-      position: absolute;
-      left: 0;
-      bottom: 96px;
-      width: 150px;
-      height: 150px;
-      border-radius: 999px 999px 12px 12px;
-      border: 2px dashed #c9a75e;
-      opacity: .7;
+      color: var(--palomino);
+      box-shadow: 0 10px 24px rgba(60, 40, 30, .35);
     }
     .hero-card {
       position: absolute;
       left: 18px;
       bottom: 0;
       right: 90px;
-      background: var(--branco);
-      border: 1px solid var(--areia);
-      border-radius: 18px;
+      background: var(--creme);
+      border: 1px solid var(--linha);
+      border-radius: 14px;
       padding: 18px 22px;
       display: flex;
       align-items: center;
       gap: 14px;
-      box-shadow: 0 16px 36px rgba(34, 57, 44, .14);
+      box-shadow: 0 16px 34px rgba(60, 40, 30, .16);
       font-weight: 700;
-      font-size: .95rem;
-      color: var(--verde-900);
+      font-size: .94rem;
+      color: var(--couro);
       line-height: 1.4;
     }
     .icone-arco {
       border-radius: 999px 999px 8px 8px;
-      background: var(--areia-2);
       display: flex;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
     }
-    .hero-card .icone-arco { width: 44px; height: 48px; border-radius: 12px; }
+    .hero-card .icone-arco { width: 44px; height: 46px; background: var(--papel-2); color: var(--castanho); }
 
     @media (max-width: 980px) {
       .hero-grid { grid-template-columns: 1fr; gap: 40px; }
-      .hero-art { height: 460px; max-width: 470px; }
-      .hero-arco { right: 0; height: 420px; width: min(400px, 100%); }
-      .hero-arco svg { width: 250px; }
-      .hero-sol { width: 72px; height: 72px; top: 20px; }
-      .hero-contorno { display: none; }
+      .hero-art { height: 470px; max-width: 470px; }
+      .hero-arco { right: 0; height: 430px; width: min(400px, 100%); }
+      .hero-emblema { gap: 20px; }
+      .hero-emblema > svg:nth-child(2) { width: 92px; }
+      .hero-selo { width: 76px; height: 76px; top: 18px; }
+      .hero-selo svg { width: 34px; height: 34px; }
       .hero-card { right: 40px; }
     }
     @media (max-width: 560px) {
-      .hero-art { height: 400px; }
-      .hero-arco { height: 340px; }
-      .hero-arco svg { width: 200px; }
-      .hero-card { right: 20px; left: 8px; font-size: .88rem; padding: 15px 18px; }
+      .hero-art { height: 410px; }
+      .hero-arco { height: 350px; }
+      .hero-emblema { gap: 16px; }
+      .hero-emblema > svg:nth-child(2) { width: 74px; }
+      .hero-card { right: 18px; left: 6px; font-size: .87rem; padding: 15px 18px; }
       .hero-ctas .btn-whatsapp { width: 100%; }
     }
 
-    /* ===== Faixa de números ===== */
-    .faixa { background: var(--verde-900); padding: 40px 0; }
+    /* ===== Faixa de números — carimbos em papel kraft ===== */
+    .faixa {
+      background: var(--couro);
+      background-image:
+        repeating-linear-gradient(45deg, transparent 0 22px, rgba(220, 200, 150, .04) 22px 23px),
+        repeating-linear-gradient(-45deg, transparent 0 22px, rgba(220, 200, 150, .04) 22px 23px);
+      padding: 44px 0;
+      border-top: 3px double rgba(220, 200, 150, .3);
+      border-bottom: 3px double rgba(220, 200, 150, .3);
+    }
     .faixa-grid { display: grid; grid-template-columns: repeat(3, 1fr); }
     .faixa-item {
       display: flex;
@@ -354,17 +392,21 @@
       text-align: center;
       gap: 4px;
       padding: 0 20px;
-      border-right: 1px solid rgba(233, 220, 192, .18);
+      border-right: 1px dashed rgba(220, 200, 150, .28);
     }
     .faixa-item:last-child { border-right: none; }
     .faixa-item strong {
-      font-family: "Bricolage Grotesque", "Helvetica Neue", Arial, sans-serif;
+      font-family: "Bitter", Georgia, serif;
       font-weight: 700;
       font-size: clamp(1.9rem, 4vw, 2.5rem);
-      color: #e9dcc0;
-      letter-spacing: -1px;
+      color: var(--palomino);
+      letter-spacing: -.5px;
     }
-    .faixa-item span { color: rgba(247, 241, 229, .75); font-size: .9rem; font-weight: 600; }
+    .faixa-item span {
+      color: rgba(220, 200, 150, .72);
+      font-size: .89rem;
+      font-weight: 600;
+    }
     @media (max-width: 720px) {
       .faixa-grid { grid-template-columns: 1fr; gap: 18px; }
       .faixa-item {
@@ -373,7 +415,7 @@
         text-align: left;
         gap: 14px;
         border-right: none;
-        border-bottom: 1px solid rgba(233, 220, 192, .18);
+        border-bottom: 1px dashed rgba(220, 200, 150, .28);
         padding: 0 0 16px;
       }
       .faixa-item:last-child { border-bottom: none; padding-bottom: 0; }
@@ -383,21 +425,21 @@
     /* ===== Serviços ===== */
     .cards { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-top: 48px; }
     .card {
-      background: var(--branco);
-      border: 1px solid var(--areia);
-      border-radius: 26px;
+      background: var(--creme);
+      border: 1px solid var(--linha);
+      border-radius: 20px;
       padding: 44px 40px;
       box-shadow: var(--sombra-card);
       display: flex;
       flex-direction: column;
       gap: 20px;
     }
-    .card > .icone-arco { width: 66px; height: 74px; border-radius: var(--arco); }
-    .card h3 { font-size: 1.7rem; letter-spacing: -.5px; }
+    .card > .icone-arco { width: 66px; height: 72px; }
+    .card h3 { font-size: 1.62rem; }
     .card p { color: var(--texto-suave); }
     .card ul { list-style: none; display: flex; flex-direction: column; gap: 12px; }
-    .card ul li { display: flex; gap: 10px; align-items: flex-start; font-weight: 600; font-size: .96rem; color: #3d3a30; }
-    .card ul li svg { flex-shrink: 0; margin-top: 3px; }
+    .card ul li { display: flex; gap: 10px; align-items: flex-start; font-weight: 600; font-size: .95rem; color: var(--texto-suave); }
+    .card ul li svg { flex-shrink: 0; margin-top: 3px; color: var(--castanho); }
     .card .btn { align-self: flex-start; margin-top: auto; }
     @media (max-width: 900px) {
       .cards { grid-template-columns: 1fr; gap: 24px; }
@@ -405,99 +447,158 @@
       .card .btn { width: 100%; }
     }
 
-    /* ===== Benefícios ===== */
-    .beneficios { background: var(--creme-2); }
+    /* ===== Benefícios — fundo xadrez, como o tecido da referência ===== */
+    .beneficios {
+      background-color: var(--papel-2);
+      background-image:
+        repeating-linear-gradient(0deg, rgba(138, 77, 43, .055) 0 22px, transparent 22px 44px),
+        repeating-linear-gradient(90deg, rgba(138, 77, 43, .055) 0 22px, transparent 22px 44px);
+    }
     .bene-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 48px; }
     .bene {
-      background: var(--branco);
-      border: 1px solid var(--areia);
-      border-radius: 20px;
+      background: var(--creme);
+      border: 1px solid var(--linha);
+      border-radius: 18px;
       padding: 30px 28px;
       display: flex;
       flex-direction: column;
       gap: 12px;
     }
-    .bene .icone-arco { width: 50px; height: 50px; border-radius: 14px; background: var(--verde-100); }
-    .bene h3 { font-size: 1.2rem; letter-spacing: -.3px; }
-    .bene p { font-size: .95rem; color: var(--texto-suave); }
+    .bene .icone-arco { width: 50px; height: 54px; background: var(--papel-2); color: var(--oliva); }
+    .bene h3 { font-size: 1.18rem; }
+    .bene p { font-size: .94rem; color: var(--texto-suave); }
     @media (max-width: 940px) { .bene-grid { grid-template-columns: 1fr 1fr; } }
     @media (max-width: 620px) { .bene-grid { grid-template-columns: 1fr; } }
 
-    /* ===== Como funciona ===== */
-    .passos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; margin: 48px 0 0; }
-    .passo {
-      background: var(--branco);
-      border: 1px solid var(--areia);
+    /* ===== Como funciona — cartão de carimbos ===== */
+    .cartao {
+      margin-top: 48px;
+      background: var(--creme);
+      border: 2px dashed var(--castanho);
       border-radius: 22px;
-      padding: 36px 30px;
+      padding: clamp(28px, 4vw, 44px);
+      box-shadow: var(--sombra-card);
+    }
+    .cartao-topo {
       display: flex;
-      flex-direction: column;
-      gap: 12px;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      font-family: "Courier Prime", monospace;
+      font-weight: 700;
+      font-size: .8rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--castanho);
+      padding-bottom: 24px;
+      border-bottom: 1px dashed var(--linha);
+      text-align: center;
     }
-    .passo-num {
-      font-family: "Bricolage Grotesque", "Helvetica Neue", Arial, sans-serif;
-      font-weight: 800;
-      font-size: 3.25rem;
-      line-height: 1;
-      color: var(--ambar);
-      letter-spacing: -2px;
+    .passos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; padding-top: 32px; }
+    .passo { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 12px; }
+    /* carimbo circular */
+    .carimbo {
+      position: relative;
+      width: 88px;
+      height: 88px;
+      border-radius: 50%;
+      background: var(--couro);
+      color: var(--palomino);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      box-shadow: 0 8px 18px rgba(60, 40, 30, .22);
     }
-    .passo h3 { font-size: 1.32rem; letter-spacing: -.3px; }
-    .passo p { font-size: .97rem; color: var(--texto-suave); }
-    .passos-cta { display: flex; justify-content: center; margin-top: 48px; }
-    @media (max-width: 900px) { .passos { grid-template-columns: 1fr; gap: 20px; } }
+    .carimbo::after {
+      content: "";
+      position: absolute;
+      inset: 5px;
+      border-radius: 50%;
+      border: 1px dashed rgba(220, 200, 150, .45);
+    }
+    .carimbo-num {
+      position: absolute;
+      right: -6px;
+      bottom: -4px;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: var(--castanho);
+      color: var(--creme);
+      font-family: "Bitter", Georgia, serif;
+      font-weight: 700;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid var(--creme);
+    }
+    .passo h3 { font-size: 1.22rem; }
+    .passo p { font-size: .95rem; color: var(--texto-suave); }
+    .passos-cta { display: flex; justify-content: center; margin-top: 44px; }
+    @media (max-width: 900px) { .passos { grid-template-columns: 1fr; gap: 34px; } }
     @media (max-width: 560px) { .passos-cta .btn { width: 100%; } }
 
     /* ===== Depoimentos ===== */
-    .depo { background: var(--verde-900); }
-    .depo .kicker { color: var(--ouro); }
+    .depo {
+      background: var(--couro);
+      background-image:
+        repeating-linear-gradient(45deg, transparent 0 22px, rgba(220, 200, 150, .035) 22px 23px),
+        repeating-linear-gradient(-45deg, transparent 0 22px, rgba(220, 200, 150, .035) 22px 23px);
+    }
+    .depo .kicker { color: var(--palomino); }
     .depo .section-title { color: var(--creme); }
-    .depo .section-sub { color: rgba(247, 241, 229, .75); }
-    .depo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; margin-top: 48px; }
+    .depo .section-sub { color: rgba(220, 200, 150, .78); }
+    .depo .filete { color: rgba(220, 200, 150, .3); }
+    .depo .filete svg { color: var(--palomino); }
+    .depo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; margin-top: 44px; }
     .depo-card {
-      background: rgba(247, 241, 229, .06);
-      border: 1px solid rgba(233, 220, 192, .22);
-      border-radius: 22px;
+      background: rgba(250, 243, 228, .055);
+      border: 1px solid rgba(220, 200, 150, .24);
+      border-radius: 18px;
       padding: 32px 28px;
       display: flex;
       flex-direction: column;
       gap: 18px;
     }
-    .estrelas { display: flex; gap: 4px; }
-    .depo-card blockquote { color: rgba(247, 241, 229, .92); font-size: .97rem; line-height: 1.65; }
+    .estrelas { display: flex; gap: 4px; color: var(--palomino); }
+    .depo-card blockquote { color: rgba(250, 243, 228, .9); font-size: .96rem; line-height: 1.65; }
     .depo-autor { display: flex; align-items: center; gap: 12px; margin-top: auto; }
     .depo-avatar {
       width: 42px;
-      height: 48px;
-      border-radius: 999px 999px 8px 8px;
-      background: #e9dcc0;
-      color: var(--verde-900);
-      font-weight: 800;
+      height: 46px;
+      border-radius: 999px 999px 7px 7px;
+      background: var(--palomino);
+      color: var(--couro);
+      font-family: "Bitter", Georgia, serif;
+      font-weight: 700;
       font-size: 1.05rem;
       display: flex;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
     }
-    .depo-autor strong { display: block; color: var(--creme); font-size: .95rem; }
-    .depo-autor span { color: rgba(247, 241, 229, .62); font-size: .82rem; }
+    .depo-autor strong { display: block; color: var(--creme); font-size: .94rem; }
+    .depo-autor span { color: rgba(220, 200, 150, .62); font-size: .81rem; }
     @media (max-width: 940px) { .depo-grid { grid-template-columns: 1fr; } }
 
     /* ===== FAQ ===== */
     .faq-list { max-width: 800px; margin: 44px auto 0; display: flex; flex-direction: column; gap: 14px; }
     .faq-item {
-      background: var(--branco);
-      border: 1px solid var(--areia);
-      border-radius: 16px;
+      background: var(--creme);
+      border: 1px solid var(--linha);
+      border-radius: 14px;
       overflow: hidden;
     }
     .faq-item summary {
       list-style: none;
       cursor: pointer;
       padding: 24px 28px;
-      font-weight: 800;
-      font-size: 1.03rem;
-      color: var(--verde-900);
+      font-family: "Bitter", Georgia, serif;
+      font-weight: 600;
+      font-size: 1.02rem;
+      color: var(--couro);
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -509,81 +610,86 @@
       content: "";
       width: 11px;
       height: 11px;
-      border-right: 2.4px solid var(--ambar-escuro);
-      border-bottom: 2.4px solid var(--ambar-escuro);
+      border-right: 2.4px solid var(--castanho);
+      border-bottom: 2.4px solid var(--castanho);
       transform: rotate(45deg) translate(-2px, -2px);
       transition: transform .2s ease;
       flex-shrink: 0;
     }
     .faq-item[open] summary::after { transform: rotate(-135deg); }
-    .faq-item summary:focus-visible { outline: 3px solid var(--ambar); outline-offset: -3px; }
-    .faq-item p { padding: 0 28px 24px; color: var(--texto-suave); font-size: .98rem; }
+    .faq-item summary:focus-visible { outline: 3px solid var(--castanho); outline-offset: -3px; }
+    .faq-item p { padding: 0 28px 24px; color: var(--texto-suave); font-size: .97rem; }
 
     /* ===== CTA final ===== */
     .cta-final {
-      background: linear-gradient(160deg, var(--verde-700) 0%, var(--verde-900) 70%);
-      border-radius: 999px 999px 32px 32px;
-      padding: clamp(56px, 8vw, 96px) clamp(24px, 5vw, 80px) clamp(40px, 5vw, 72px);
+      background: var(--couro);
+      background-image:
+        repeating-linear-gradient(45deg, transparent 0 20px, rgba(220, 200, 150, .05) 20px 21px),
+        repeating-linear-gradient(-45deg, transparent 0 20px, rgba(220, 200, 150, .05) 20px 21px);
+      border-radius: 999px 999px 24px 24px;
+      padding: clamp(56px, 8vw, 92px) clamp(24px, 5vw, 80px) clamp(40px, 5vw, 68px);
       display: flex;
       flex-direction: column;
       align-items: center;
       text-align: center;
-      gap: 22px;
+      gap: 20px;
       box-shadow: var(--sombra-alta);
+      outline: 1px solid rgba(220, 200, 150, .26);
+      outline-offset: -16px;
     }
-    .cta-final h2 { color: var(--creme); font-size: clamp(1.75rem, 4vw, 2.5rem); max-width: 720px; letter-spacing: -.6px; }
-    .cta-final p { color: rgba(247, 241, 229, .82); max-width: 560px; font-size: 1.09rem; }
-    .cta-final .nota { color: rgba(247, 241, 229, .72); }
-    @media (max-width: 560px) { .cta-final .btn-whatsapp { width: 100%; font-size: .95rem; padding: 17px 20px; } }
+    .cta-final .kicker { color: var(--palomino); }
+    .cta-final h2 { color: var(--creme); font-size: clamp(1.7rem, 4vw, 2.45rem); max-width: 700px; }
+    .cta-final p { color: rgba(220, 200, 150, .8); max-width: 560px; font-size: 1.07rem; }
+    .cta-final .nota { color: rgba(220, 200, 150, .68); }
+    .cta-final .nota svg { color: var(--palomino); }
+    @media (max-width: 560px) { .cta-final .btn-whatsapp { width: 100%; font-size: .93rem; padding: 17px 18px; } }
 
     /* ===== Contato ===== */
     .contato-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; margin-top: 44px; }
     .contato-lista { list-style: none; display: flex; flex-direction: column; gap: 22px; }
     .contato-lista li { display: flex; gap: 16px; align-items: center; }
-    .contato-lista .icone-arco { width: 50px; height: 50px; border-radius: 14px; background: var(--verde-100); }
-    .contato-lista strong { display: block; color: var(--verde-900); font-size: 1rem; }
-    .contato-lista span { color: var(--texto-suave); font-size: .92rem; }
-    .contato-lista a { color: var(--verde-500); font-weight: 700; font-size: .92rem; text-decoration: none; }
+    .contato-lista .icone-arco { width: 50px; height: 54px; background: var(--papel-2); color: var(--oliva); }
+    .contato-lista strong { display: block; color: var(--couro); font-size: 1rem; }
+    .contato-lista span { color: var(--texto-suave); font-size: .91rem; }
+    .contato-lista a { color: var(--castanho); font-weight: 700; font-size: .91rem; text-decoration: none; }
     .contato-lista a:hover { text-decoration: underline; }
-    .contato-lista a:focus-visible { outline: 3px solid var(--ambar); outline-offset: 3px; border-radius: 4px; }
+    .contato-lista a:focus-visible { outline: 3px solid var(--castanho); outline-offset: 3px; border-radius: 4px; }
     .visita-box {
-      background: var(--creme-2);
-      border: 1px solid var(--areia);
-      border-radius: 999px 999px 22px 22px;
-      padding: 56px 36px 36px;
+      background: var(--papel-2);
+      border: 1px solid var(--linha);
+      border-radius: 999px 999px 18px 18px;
+      padding: 52px 36px 36px;
       display: flex;
       flex-direction: column;
       align-items: flex-start;
       gap: 12px;
     }
-    .visita-box h3 { font-size: 1.45rem; letter-spacing: -.4px; }
-    .visita-box p { color: var(--texto-suave); font-size: .97rem; }
+    .visita-box h3 { font-size: 1.4rem; }
+    .visita-box p { color: var(--texto-suave); font-size: .96rem; }
     .visita-box .btn { margin-top: 8px; }
     @media (max-width: 900px) { .contato-grid { grid-template-columns: 1fr; gap: 28px; } }
 
     /* ===== Footer ===== */
-    .footer { background: var(--verde-900); padding: 36px 0; }
-    .footer-inner {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 18px;
-      align-items: center;
-      justify-content: space-between;
+    .footer {
+      background: var(--couro);
+      padding: 36px 0;
+      border-top: 3px double rgba(220, 200, 150, .3);
     }
-    .footer p { color: rgba(247, 241, 229, .7); font-size: .88rem; }
-    .footer .logo { color: var(--creme); font-size: 1.05rem; }
-    .footer .logo-badge { width: 36px; height: 36px; border-radius: 999px 999px 5px 5px; background: rgba(233, 220, 192, .16); }
+    .footer-inner { display: flex; flex-wrap: wrap; gap: 18px; align-items: center; justify-content: space-between; }
+    .footer p { color: rgba(220, 200, 150, .7); font-size: .86rem; }
+    .footer .logo { color: var(--creme); font-size: 1.02rem; }
+    .footer .logo-badge { width: 36px; height: 40px; background: rgba(220, 200, 150, .15); }
     .footer-links { display: flex; gap: 18px; }
-    .footer-links a { color: #e9dcc0; font-weight: 700; font-size: .88rem; text-decoration: none; }
+    .footer-links a { color: var(--palomino); font-weight: 700; font-size: .86rem; text-decoration: none; }
     .footer-links a:hover { text-decoration: underline; }
-    .footer-links a:focus-visible { outline: 3px solid var(--ambar); outline-offset: 3px; border-radius: 4px; }
+    .footer-links a:focus-visible { outline: 3px solid var(--castanho); outline-offset: 3px; border-radius: 4px; }
 
     /* ===== WhatsApp flutuante ===== */
     .whats-float {
       position: fixed;
       right: 18px;
       bottom: 18px;
-      z-index: 200;
+      z-index: 600;
       width: 60px;
       height: 60px;
       border-radius: 50%;
@@ -591,13 +697,12 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 10px 26px rgba(31, 170, 83, .45);
+      box-shadow: 0 10px 26px rgba(21, 128, 61, .45);
       transition: transform .18s ease, background-color .18s ease;
     }
     .whats-float:hover { background: var(--whatsapp-escuro); transform: scale(1.07); }
-    .whats-float:focus-visible { outline: 3px solid var(--ambar); outline-offset: 3px; }
+    .whats-float:focus-visible { outline: 3px solid var(--castanho); outline-offset: 3px; }
 
-    /* entrada sutil */
     @keyframes subir {
       from { opacity: 0; transform: translateY(18px); }
       to { opacity: 1; transform: translateY(0); }
@@ -614,7 +719,7 @@
     <div class="container header-inner">
       <a class="logo" href="#inicio">
         <span class="logo-badge" aria-hidden="true">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#e9dcc0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20c0-6 3-11 8-13l2-3 3 2c2 1 3 3 3 5l-2 1-2-2c-3 2-5 5-5 10"/><path d="M9 20v-3"/></svg>
+          <svg width="24" height="24" viewBox="0 0 100 100" fill="currentColor" aria-hidden="true"><g transform="translate(0,12)"><path d="M50 10c-19 0-34 15-34 34 0 10 3 17 3 25 0 7-3 12-8 16l-9-7c4-3 6-6 6-11 0-7-4-14-4-23C4 19 25 0 50 0s46 19 46 44c0 9-4 16-4 23 0 5 2 8 6 11l-9 7c-5-4-8-9-8-16 0-8 3-15 3-25 0-19-15-34-34-34z"/></g></svg>
         </span>
         Crescendo a Cavalo
       </a>
@@ -640,7 +745,7 @@
       <div class="container hero-grid">
         <div class="hero-copy">
           <span class="kicker anima">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-5.3-7-11a7 7 0 0 1 14 0c0 5.7-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+            <svg width="16" height="16" viewBox="0 0 100 100" fill="currentColor" aria-hidden="true"><g transform="translate(0,12)"><path d="M50 10c-19 0-34 15-34 34 0 10 3 17 3 25 0 7-3 12-8 16l-9-7c4-3 6-6 6-11 0-7-4-14-4-23C4 19 25 0 50 0s46 19 46 44c0 9-4 16-4 23 0 5 2 8 6 11l-9 7c-5-4-8-9-8-16 0-8 3-15 3-25 0-19-15-34-34-34z"/></g></svg>
             <span class="so-larga">Equoterapia e Equitação Lúdica · São Carlos-SP</span><span class="so-estreita">Equoterapia · São Carlos-SP</span>
           </span>
           <h1 id="titulo-hero" class="anima">Seu filho crescendo com <em>confiança, equilíbrio e alegria</em> — a cavalo</h1>
@@ -656,7 +761,7 @@
             </a>
           </div>
           <p class="nota anima anima-3">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#33603f" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8a4d2b" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
             Resposta rápida pelo WhatsApp · Sem compromisso
           </p>
           <div class="hero-badges anima anima-3">
@@ -665,7 +770,7 @@
               Centro Hípico Damha
             </span>
             <span class="badge">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l2.5 5 5.5.8-4 3.9.9 5.5-4.9-2.6-4.9 2.6.9-5.5-4-3.9L9.5 8z"/></svg>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.5l2.9 6.2 6.8.8-5 4.6 1.3 6.7L12 17.5l-6 3.3 1.3-6.7-5-4.6 6.8-.8z"/></svg>
               Atendimento individualizado
             </span>
             <span class="badge">
@@ -677,20 +782,15 @@
 
         <div class="hero-art anima anima-2">
           <div class="hero-arco" role="img" aria-label="Ilustração de uma criança montando um cavalo">
-            <svg viewBox="0 0 200 200" fill="none" aria-hidden="true">
-              <circle cx="100" cy="86" r="66" fill="#e9dcc0" opacity=".10"/>
-              <circle cx="100" cy="86" r="46" fill="#e9dcc0" opacity=".10"/>
-              <path d="M48 150c2-26 12-48 34-58l22-8 12-20 16 10c9 5 14 14 14 24l-10 4-10-9c-2 8-8 14-15 18-12 7-18 19-19 39" stroke="#e9dcc0" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M70 150v-16M120 150v-14" stroke="#e9dcc0" stroke-width="6" stroke-linecap="round"/>
-              <circle cx="96" cy="52" r="10" fill="#c9852a"/>
-              <path d="M96 64c-8 4-10 12-8 20" stroke="#c9852a" stroke-width="6" stroke-linecap="round"/>
-            </svg>
+            <div class="hero-emblema" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.5l2.9 6.2 6.8.8-5 4.6 1.3 6.7L12 17.5l-6 3.3 1.3-6.7-5-4.6 6.8-.8z"/></svg><svg viewBox="0 0 100 100" fill="currentColor"><g transform="translate(0,12)"><path d="M50 10c-19 0-34 15-34 34 0 10 3 17 3 25 0 7-3 12-8 16l-9-7c4-3 6-6 6-11 0-7-4-14-4-23C4 19 25 0 50 0s46 19 46 44c0 9-4 16-4 23 0 5 2 8 6 11l-9 7c-5-4-8-9-8-16 0-8 3-15 3-25 0-19-15-34-34-34z"/></g></svg><svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.5l2.9 6.2 6.8.8-5 4.6 1.3 6.7L12 17.5l-6 3.3 1.3-6.7-5-4.6 6.8-.8z"/></svg></div>
+            <p class="hero-marca">Crescendo a Cavalo<span>São Carlos · SP</span></p>
           </div>
-          <span class="hero-sol" aria-hidden="true"></span>
-          <span class="hero-contorno" aria-hidden="true"></span>
+          <span class="hero-selo" aria-hidden="true">
+            <svg width="46" height="46" viewBox="0 0 100 100" fill="currentColor" aria-hidden="true"><g transform="translate(0,12)"><path d="M50 10c-19 0-34 15-34 34 0 10 3 17 3 25 0 7-3 12-8 16l-9-7c4-3 6-6 6-11 0-7-4-14-4-23C4 19 25 0 50 0s46 19 46 44c0 9-4 16-4 23 0 5 2 8 6 11l-9 7c-5-4-8-9-8-16 0-8 3-15 3-25 0-19-15-34-34-34z"/></g></svg>
+          </span>
           <div class="hero-card">
             <span class="icone-arco" aria-hidden="true">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#a8681a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7.5-4.6-9.3-9.3C1.2 7.8 3.9 4.5 7.4 4.5c2 0 3.6 1 4.6 2.6 1-1.6 2.6-2.6 4.6-2.6 3.5 0 6.2 3.3 4.7 7.2C19.5 16.4 12 21 12 21z"/></svg>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7.5-4.6-9.3-9.3C1.2 7.8 3.9 4.5 7.4 4.5c2 0 3.6 1 4.6 2.6 1-1.6 2.6-2.6 4.6-2.6 3.5 0 6.2 3.3 4.7 7.2C19.5 16.4 12 21 12 21z"/></svg>
             </span>
             Desenvolvimento motor, emocional e social em cada sessão
           </div>
@@ -718,34 +818,34 @@
 
         <div class="cards">
           <article class="card">
-            <span class="icone-arco" style="background: var(--verde-100)" aria-hidden="true">
-              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#33603f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7.5-4.6-9.3-9.3C1.2 7.8 3.9 4.5 7.4 4.5c2 0 3.6 1 4.6 2.6 1-1.6 2.6-2.6 4.6-2.6 3.5 0 6.2 3.3 4.7 7.2C19.5 16.4 12 21 12 21z"/></svg>
+            <span class="icone-arco" style="background: var(--papel-2); color: var(--oliva)" aria-hidden="true">
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7.5-4.6-9.3-9.3C1.2 7.8 3.9 4.5 7.4 4.5c2 0 3.6 1 4.6 2.6 1-1.6 2.6-2.6 4.6-2.6 3.5 0 6.2 3.3 4.7 7.2C19.5 16.4 12 21 12 21z"/></svg>
             </span>
             <h3>Equoterapia</h3>
             <p>Método terapêutico reconhecido que utiliza o cavalo para promover ganhos físicos, emocionais e sociais — indicado para crianças com autismo, síndrome de Down, paralisia cerebral, atrasos no desenvolvimento e muito mais.</p>
             <ul>
-              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c9852a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Estímulo ao tônus muscular, postura e equilíbrio</li>
-              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c9852a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Desenvolvimento da comunicação e do vínculo afetivo</li>
-              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c9852a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Sessões planejadas conforme a necessidade de cada criança</li>
+              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Estímulo ao tônus muscular, postura e equilíbrio</li>
+              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Desenvolvimento da comunicação e do vínculo afetivo</li>
+              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Sessões planejadas conforme a necessidade de cada criança</li>
             </ul>
-            <a class="btn btn-escuro" href="https://wa.me/5516996357978?text=Ol%C3%A1!%20Quero%20saber%20mais%20sobre%20a%20equoterapia." target="_blank" rel="noopener">
+            <a class="btn btn-couro" href="https://wa.me/5516996357978?text=Ol%C3%A1!%20Quero%20saber%20mais%20sobre%20a%20equoterapia." target="_blank" rel="noopener">
               <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.6-6.1c-.3-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4 0-.5.2-.7l.4-.5c.1-.2.2-.3.1-.5l-.8-1.9c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.9.9-1.2 2.2-.3 3.9a12 12 0 0 0 4.6 4.4c1.8.9 2.6.8 3.4.7.6-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2 0-.2-.2-.2-.5-.4z"/></svg>
               Saber mais sobre equoterapia
             </a>
           </article>
 
           <article class="card">
-            <span class="icone-arco" aria-hidden="true">
-              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#a8681a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg>
+            <span class="icone-arco" style="background: var(--papel-2); color: var(--castanho)" aria-hidden="true">
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg>
             </span>
             <h3>Equitação Lúdica</h3>
             <p>Aulas de montaria pensadas para crianças: brincadeiras, contato com a natureza e aprendizado no ritmo delas. Uma atividade ao ar livre que troca as telas por experiências reais.</p>
             <ul>
-              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c9852a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Primeiro contato com o cavalo de forma leve e divertida</li>
-              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c9852a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Disciplina, responsabilidade e autoconfiança na prática</li>
-              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c9852a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Turmas e horários flexíveis durante a semana</li>
+              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Primeiro contato com o cavalo de forma leve e divertida</li>
+              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Disciplina, responsabilidade e autoconfiança na prática</li>
+              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Turmas e horários flexíveis durante a semana</li>
             </ul>
-            <a class="btn btn-escuro" href="https://wa.me/5516996357978?text=Ol%C3%A1!%20Quero%20saber%20mais%20sobre%20as%20aulas%20de%20equita%C3%A7%C3%A3o%20l%C3%BAdica." target="_blank" rel="noopener">
+            <a class="btn btn-couro" href="https://wa.me/5516996357978?text=Ol%C3%A1!%20Quero%20saber%20mais%20sobre%20as%20aulas%20de%20equita%C3%A7%C3%A3o%20l%C3%BAdica." target="_blank" rel="noopener">
               <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.6-6.1c-.3-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4 0-.5.2-.7l.4-.5c.1-.2.2-.3.1-.5l-.8-1.9c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.9.9-1.2 2.2-.3 3.9a12 12 0 0 0 4.6 4.4c1.8.9 2.6.8 3.4.7.6-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2 0-.2-.2-.2-.5-.4z"/></svg>
               Saber mais sobre equitação
             </a>
@@ -765,32 +865,32 @@
 
         <div class="bene-grid" style="text-align:left">
           <div class="bene">
-            <span class="icone-arco" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#33603f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/><circle cx="12" cy="12" r="3.5"/></svg></span>
+            <span class="icone-arco" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/><circle cx="12" cy="12" r="3.5"/></svg></span>
             <h3>Coordenação e equilíbrio</h3>
             <p>O passo do cavalo trabalha músculos, postura e noção corporal em cada sessão.</p>
           </div>
           <div class="bene">
-            <span class="icone-arco" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#33603f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7.5-4.6-9.3-9.3C1.2 7.8 3.9 4.5 7.4 4.5c2 0 3.6 1 4.6 2.6 1-1.6 2.6-2.6 4.6-2.6 3.5 0 6.2 3.3 4.7 7.2C19.5 16.4 12 21 12 21z"/></svg></span>
+            <span class="icone-arco" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7.5-4.6-9.3-9.3C1.2 7.8 3.9 4.5 7.4 4.5c2 0 3.6 1 4.6 2.6 1-1.6 2.6-2.6 4.6-2.6 3.5 0 6.2 3.3 4.7 7.2C19.5 16.4 12 21 12 21z"/></svg></span>
             <h3>Vínculo e afeto</h3>
             <p>Cuidar de um animal ensina empatia, paciência e responsabilidade de verdade.</p>
           </div>
           <div class="bene">
-            <span class="icone-arco" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#33603f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 3 4 14h6l-1 7 9-11h-6z"/></svg></span>
+            <span class="icone-arco" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 3 4 14h6l-1 7 9-11h-6z"/></svg></span>
             <h3>Autoconfiança</h3>
             <p>Cada conquista em cima do cavalo vira coragem para os desafios do dia a dia.</p>
           </div>
           <div class="bene">
-            <span class="icone-arco" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#33603f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="10" r="2.5"/><path d="M3 20c.6-3.4 3-5.5 6-5.5s5.4 2.1 6 5.5M14.5 15c2.6.2 4.6 2 5.2 5"/></svg></span>
+            <span class="icone-arco" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="10" r="2.5"/><path d="M3 20c.6-3.4 3-5.5 6-5.5s5.4 2.1 6 5.5M14.5 15c2.6.2 4.6 2 5.2 5"/></svg></span>
             <h3>Socialização</h3>
             <p>Contato com outras crianças, instrutores e a equipe em um ambiente acolhedor.</p>
           </div>
           <div class="bene">
-            <span class="icone-arco" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#33603f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c-4 4-7 7.6-7 11a7 7 0 0 0 14 0c0-3.4-3-7-7-11z"/></svg></span>
+            <span class="icone-arco" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c-4 4-7 7.6-7 11a7 7 0 0 0 14 0c0-3.4-3-7-7-11z"/></svg></span>
             <h3>Menos telas, mais natureza</h3>
             <p>Ar livre, animais e movimento: o antídoto saudável para o excesso de telas.</p>
           </div>
           <div class="bene">
-            <span class="icone-arco" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#33603f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 14s1.5 2 4 2 4-2 4-2M9 9h.01M15 9h.01"/><circle cx="12" cy="12" r="9"/></svg></span>
+            <span class="icone-arco" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 14s1.5 2 4 2 4-2 4-2M9 9h.01M15 9h.01"/><circle cx="12" cy="12" r="9"/></svg></span>
             <h3>Bem-estar emocional</h3>
             <p>Redução da ansiedade e do estresse com uma atividade prazerosa e regulada.</p>
           </div>
@@ -807,21 +907,38 @@
           <p class="section-sub">Do primeiro contato à primeira montaria, a gente cuida de tudo com você.</p>
         </div>
 
-        <div class="passos" style="text-align:left">
-          <div class="passo">
-            <span class="passo-num" aria-hidden="true">01</span>
-            <h3>Chame no WhatsApp</h3>
-            <p>Envie uma mensagem contando um pouco sobre seu filho. Respondemos rapidinho e tiramos todas as suas dúvidas.</p>
-          </div>
-          <div class="passo">
-            <span class="passo-num" aria-hidden="true">02</span>
-            <h3>Agende a aula experimental</h3>
-            <p>Marcamos um horário para vocês conhecerem o espaço, a equipe e os cavalos — sem pressa e sem compromisso.</p>
-          </div>
-          <div class="passo">
-            <span class="passo-num" aria-hidden="true">03</span>
-            <h3>Veja seu filho florescer</h3>
-            <p>Montamos um plano no ritmo da criança e você acompanha de perto cada evolução, sessão após sessão.</p>
+        <div class="cartao">
+          <p class="cartao-topo">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.5l2.9 6.2 6.8.8-5 4.6 1.3 6.7L12 17.5l-6 3.3 1.3-6.7-5-4.6 6.8-.8z"/></svg>
+            Do primeiro contato à primeira montaria
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.5l2.9 6.2 6.8.8-5 4.6 1.3 6.7L12 17.5l-6 3.3 1.3-6.7-5-4.6 6.8-.8z"/></svg>
+          </p>
+
+          <div class="passos">
+            <div class="passo">
+              <span class="carimbo" aria-hidden="true">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2z"/></svg>
+                <span class="carimbo-num">1</span>
+              </span>
+              <h3>Chame no WhatsApp</h3>
+              <p>Envie uma mensagem contando um pouco sobre seu filho. Respondemos rapidinho e tiramos todas as suas dúvidas.</p>
+            </div>
+            <div class="passo">
+              <span class="carimbo" aria-hidden="true">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 11h18"/><path d="M11 15l1.5 1.5L16 13" stroke-width="2"/></svg>
+                <span class="carimbo-num">2</span>
+              </span>
+              <h3>Agende a aula experimental</h3>
+              <p>Marcamos um horário para vocês conhecerem o espaço, a equipe e os cavalos — sem pressa e sem compromisso.</p>
+            </div>
+            <div class="passo">
+              <span class="carimbo" aria-hidden="true">
+                <svg width="40" height="40" viewBox="0 0 100 100" fill="currentColor" aria-hidden="true"><g transform="translate(0,12)"><path d="M50 10c-19 0-34 15-34 34 0 10 3 17 3 25 0 7-3 12-8 16l-9-7c4-3 6-6 6-11 0-7-4-14-4-23C4 19 25 0 50 0s46 19 46 44c0 9-4 16-4 23 0 5 2 8 6 11l-9 7c-5-4-8-9-8-16 0-8 3-15 3-25 0-19-15-34-34-34z"/></g></svg>
+                <span class="carimbo-num">3</span>
+              </span>
+              <h3>Veja seu filho florescer</h3>
+              <p>Montamos um plano no ritmo da criança e você acompanha de perto cada evolução, sessão após sessão.</p>
+            </div>
           </div>
         </div>
 
@@ -846,11 +963,11 @@
         <div class="depo-grid" style="text-align:left">
           <article class="depo-card">
             <div class="estrelas" aria-label="5 de 5 estrelas">
-              <svg width="17" height="17" viewBox="0 0 24 24" fill="#d8b25e" aria-hidden="true"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.6 1.4 6.8L12 17l-6.1 3.5 1.4-6.8L2.2 9.1l6.9-.8z"/></svg>
-              <svg width="17" height="17" viewBox="0 0 24 24" fill="#d8b25e" aria-hidden="true"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.6 1.4 6.8L12 17l-6.1 3.5 1.4-6.8L2.2 9.1l6.9-.8z"/></svg>
-              <svg width="17" height="17" viewBox="0 0 24 24" fill="#d8b25e" aria-hidden="true"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.6 1.4 6.8L12 17l-6.1 3.5 1.4-6.8L2.2 9.1l6.9-.8z"/></svg>
-              <svg width="17" height="17" viewBox="0 0 24 24" fill="#d8b25e" aria-hidden="true"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.6 1.4 6.8L12 17l-6.1 3.5 1.4-6.8L2.2 9.1l6.9-.8z"/></svg>
-              <svg width="17" height="17" viewBox="0 0 24 24" fill="#d8b25e" aria-hidden="true"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.6 1.4 6.8L12 17l-6.1 3.5 1.4-6.8L2.2 9.1l6.9-.8z"/></svg>
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.5l2.9 6.2 6.8.8-5 4.6 1.3 6.7L12 17.5l-6 3.3 1.3-6.7-5-4.6 6.8-.8z"/></svg>
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.5l2.9 6.2 6.8.8-5 4.6 1.3 6.7L12 17.5l-6 3.3 1.3-6.7-5-4.6 6.8-.8z"/></svg>
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.5l2.9 6.2 6.8.8-5 4.6 1.3 6.7L12 17.5l-6 3.3 1.3-6.7-5-4.6 6.8-.8z"/></svg>
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.5l2.9 6.2 6.8.8-5 4.6 1.3 6.7L12 17.5l-6 3.3 1.3-6.7-5-4.6 6.8-.8z"/></svg>
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.5l2.9 6.2 6.8.8-5 4.6 1.3 6.7L12 17.5l-6 3.3 1.3-6.7-5-4.6 6.8-.8z"/></svg>
             </div>
             <blockquote>“Meu filho esperava a semana inteira pelo dia da equoterapia. A evolução na fala e no contato visual foi visível já nos primeiros meses.”</blockquote>
             <div class="depo-autor">
@@ -861,11 +978,11 @@
 
           <article class="depo-card">
             <div class="estrelas" aria-label="5 de 5 estrelas">
-              <svg width="17" height="17" viewBox="0 0 24 24" fill="#d8b25e" aria-hidden="true"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.6 1.4 6.8L12 17l-6.1 3.5 1.4-6.8L2.2 9.1l6.9-.8z"/></svg>
-              <svg width="17" height="17" viewBox="0 0 24 24" fill="#d8b25e" aria-hidden="true"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.6 1.4 6.8L12 17l-6.1 3.5 1.4-6.8L2.2 9.1l6.9-.8z"/></svg>
-              <svg width="17" height="17" viewBox="0 0 24 24" fill="#d8b25e" aria-hidden="true"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.6 1.4 6.8L12 17l-6.1 3.5 1.4-6.8L2.2 9.1l6.9-.8z"/></svg>
-              <svg width="17" height="17" viewBox="0 0 24 24" fill="#d8b25e" aria-hidden="true"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.6 1.4 6.8L12 17l-6.1 3.5 1.4-6.8L2.2 9.1l6.9-.8z"/></svg>
-              <svg width="17" height="17" viewBox="0 0 24 24" fill="#d8b25e" aria-hidden="true"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.6 1.4 6.8L12 17l-6.1 3.5 1.4-6.8L2.2 9.1l6.9-.8z"/></svg>
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.5l2.9 6.2 6.8.8-5 4.6 1.3 6.7L12 17.5l-6 3.3 1.3-6.7-5-4.6 6.8-.8z"/></svg>
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.5l2.9 6.2 6.8.8-5 4.6 1.3 6.7L12 17.5l-6 3.3 1.3-6.7-5-4.6 6.8-.8z"/></svg>
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.5l2.9 6.2 6.8.8-5 4.6 1.3 6.7L12 17.5l-6 3.3 1.3-6.7-5-4.6 6.8-.8z"/></svg>
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.5l2.9 6.2 6.8.8-5 4.6 1.3 6.7L12 17.5l-6 3.3 1.3-6.7-5-4.6 6.8-.8z"/></svg>
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.5l2.9 6.2 6.8.8-5 4.6 1.3 6.7L12 17.5l-6 3.3 1.3-6.7-5-4.6 6.8-.8z"/></svg>
             </div>
             <blockquote>“A equipe é de um cuidado impressionante. Minha filha era tímida e hoje sobe no cavalo sorrindo, cumprimentando todo mundo pelo nome.”</blockquote>
             <div class="depo-autor">
@@ -876,11 +993,11 @@
 
           <article class="depo-card">
             <div class="estrelas" aria-label="5 de 5 estrelas">
-              <svg width="17" height="17" viewBox="0 0 24 24" fill="#d8b25e" aria-hidden="true"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.6 1.4 6.8L12 17l-6.1 3.5 1.4-6.8L2.2 9.1l6.9-.8z"/></svg>
-              <svg width="17" height="17" viewBox="0 0 24 24" fill="#d8b25e" aria-hidden="true"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.6 1.4 6.8L12 17l-6.1 3.5 1.4-6.8L2.2 9.1l6.9-.8z"/></svg>
-              <svg width="17" height="17" viewBox="0 0 24 24" fill="#d8b25e" aria-hidden="true"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.6 1.4 6.8L12 17l-6.1 3.5 1.4-6.8L2.2 9.1l6.9-.8z"/></svg>
-              <svg width="17" height="17" viewBox="0 0 24 24" fill="#d8b25e" aria-hidden="true"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.6 1.4 6.8L12 17l-6.1 3.5 1.4-6.8L2.2 9.1l6.9-.8z"/></svg>
-              <svg width="17" height="17" viewBox="0 0 24 24" fill="#d8b25e" aria-hidden="true"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.6 1.4 6.8L12 17l-6.1 3.5 1.4-6.8L2.2 9.1l6.9-.8z"/></svg>
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.5l2.9 6.2 6.8.8-5 4.6 1.3 6.7L12 17.5l-6 3.3 1.3-6.7-5-4.6 6.8-.8z"/></svg>
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.5l2.9 6.2 6.8.8-5 4.6 1.3 6.7L12 17.5l-6 3.3 1.3-6.7-5-4.6 6.8-.8z"/></svg>
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.5l2.9 6.2 6.8.8-5 4.6 1.3 6.7L12 17.5l-6 3.3 1.3-6.7-5-4.6 6.8-.8z"/></svg>
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.5l2.9 6.2 6.8.8-5 4.6 1.3 6.7L12 17.5l-6 3.3 1.3-6.7-5-4.6 6.8-.8z"/></svg>
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.5l2.9 6.2 6.8.8-5 4.6 1.3 6.7L12 17.5l-6 3.3 1.3-6.7-5-4.6 6.8-.8z"/></svg>
             </div>
             <blockquote>“Procurávamos uma atividade longe das telas. Encontramos muito mais: disciplina, carinho pelos animais e um filho mais confiante.”</blockquote>
             <div class="depo-autor">
@@ -933,14 +1050,15 @@
     <section style="padding-top: 0" aria-labelledby="titulo-cta">
       <div class="container">
         <div class="cta-final">
+          <span class="kicker">Vagas limitadas por semana</span>
           <h2 id="titulo-cta">A infância passa rápido. Essa experiência fica para sempre.</h2>
-          <p>Agende agora uma aula experimental e venha viver uma tarde inesquecível com seu filho no meio da natureza. Vagas limitadas por semana.</p>
+          <p>Agende agora uma aula experimental e venha viver uma tarde inesquecível com seu filho no meio da natureza.</p>
           <a class="btn btn-whatsapp" href="https://wa.me/5516996357978?text=Ol%C3%A1!%20Quero%20garantir%20uma%20aula%20experimental%20para%20meu%20filho." target="_blank" rel="noopener">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.6-6.1c-.3-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4 0-.5.2-.7l.4-.5c.1-.2.2-.3.1-.5l-.8-1.9c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.9.9-1.2 2.2-.3 3.9a12 12 0 0 0 4.6 4.4c1.8.9 2.6.8 3.4.7.6-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2 0-.2-.2-.2-.5-.4z"/></svg>
             Agendar pelo WhatsApp — (16) 99635-7978
           </a>
           <p class="nota">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#e9dcc0" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
             Sem compromisso · Resposta rápida · Atendimento humano
           </p>
         </div>
@@ -958,21 +1076,21 @@
         <div class="contato-grid">
           <ul class="contato-lista">
             <li>
-              <span class="icone-arco" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#33603f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-5.3-7-11a7 7 0 0 1 14 0c0 5.7-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></span>
+              <span class="icone-arco" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-5.3-7-11a7 7 0 0 1 14 0c0 5.7-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></span>
               <div>
                 <strong>Centro Hípico Damha</strong>
                 <span>São Carlos - SP</span>
               </div>
             </li>
             <li>
-              <span class="icone-arco" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#33603f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3 19.4 19.4 0 0 1-6-6 19.8 19.8 0 0 1-3-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 2 .7 2.9a2 2 0 0 1-.5 2.1L8 10a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.9.6 2.9.7a2 2 0 0 1 1.7 2z"/></svg></span>
+              <span class="icone-arco" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3 19.4 19.4 0 0 1-6-6 19.8 19.8 0 0 1-3-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 2 .7 2.9a2 2 0 0 1-.5 2.1L8 10a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.9.6 2.9.7a2 2 0 0 1 1.7 2z"/></svg></span>
               <div>
                 <strong>WhatsApp</strong>
                 <a href="https://wa.me/5516996357978" target="_blank" rel="noopener">(16) 99635-7978</a>
               </div>
             </li>
             <li>
-              <span class="icone-arco" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#33603f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1" fill="#33603f" stroke="none"/></svg></span>
+              <span class="icone-arco" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1" fill="currentColor" stroke="none"/></svg></span>
               <div>
                 <strong>Instagram</strong>
                 <a href="https://www.instagram.com/crescendo_a_cavalo/" target="_blank" rel="noopener">@crescendo_a_cavalo</a>
@@ -998,7 +1116,7 @@
     <div class="container footer-inner">
       <a class="logo" href="#inicio">
         <span class="logo-badge" aria-hidden="true">
-          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#e9dcc0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20c0-6 3-11 8-13l2-3 3 2c2 1 3 3 3 5l-2 1-2-2c-3 2-5 5-5 10"/><path d="M9 20v-3"/></svg>
+          <svg width="19" height="19" viewBox="0 0 100 100" fill="currentColor" aria-hidden="true"><g transform="translate(0,12)"><path d="M50 10c-19 0-34 15-34 34 0 10 3 17 3 25 0 7-3 12-8 16l-9-7c4-3 6-6 6-11 0-7-4-14-4-23C4 19 25 0 50 0s46 19 46 44c0 9-4 16-4 23 0 5 2 8 6 11l-9 7c-5-4-8-9-8-16 0-8 3-15 3-25 0-19-15-34-34-34z"/></g></svg>
         </span>
         Crescendo a Cavalo
       </a>
