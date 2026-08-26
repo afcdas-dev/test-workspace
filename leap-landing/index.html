@@ -4,577 +4,572 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Leap Agência</title>
-<meta name="description" content="Agência de marketing de performance. Tráfego pago, social media e funis que transformam seguidores em clientes. Peça um diagnóstico gratuito.">
+<meta name="description" content="Agência de marketing de performance. Tráfego pago, conteúdo e funis que transformam seguidores em clientes. Peça um diagnóstico gratuito.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Anton+SC&family=Instrument+Sans:wght@400;500;600;700&display=swap">
 <style>
-  :root {
-    --ink: #0B0E16;
-    --ink-2: #111624;
-    --ink-3: #171E30;
-    --line: #232B3F;
-    --paper: #EDEFF4;
-    --muted: #97A0B5;
-    --accent: #FF5A1F;
-    --accent-hover: #FF7038;
-    --accent-ink: #170A05;
-    --display: "Archivo", "Arial Black", sans-serif;
-    --body: "Instrument Sans", "Helvetica Neue", Arial, sans-serif;
-    --mono: "IBM Plex Mono", "Courier New", monospace;
-  }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
-  body {
-    background: var(--ink);
-    color: var(--paper);
-    font-family: var(--body);
-    font-size: 1.0625rem;
-    line-height: 1.6;
-    -webkit-font-smoothing: antialiased;
-  }
-  ::selection { background: var(--accent); color: #FFF4EE; }
+:root{
+  --pop:#FF5C29;
+  --ink:#101208;
+  --ink-2:#191C10;
+  --cream:#FFF6EC;
+  --clay:#2B1608;
+  --display:"Anton","Arial Narrow",Impact,sans-serif;
+  --displaysc:"Anton SC","Anton",Impact,sans-serif;
+  --body:"Instrument Sans","Helvetica Neue",Arial,sans-serif;
+  --pad:4px;
+  --r:16px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--pop);
+  color:var(--ink);
+  font-family:var(--body);
+  font-size:17px;
+  line-height:1.5;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+::selection{background:var(--ink);color:var(--pop)}
+img{max-width:100%;display:block}
+a{color:inherit}
 
-  h1, h2, h3 { text-wrap: balance; }
-  a { color: inherit; }
-  img { max-width: 100%; }
+/* ---------- type ---------- */
+.display{
+  font-family:var(--display);
+  font-weight:400;
+  text-transform:uppercase;
+  line-height:.92;
+  letter-spacing:0;
+}
+.giant{font-size:clamp(64px,17.5vw,300px);font-size:clamp(64px,calc(17.5vw * var(--fit,1)),300px)}
+.big{font-size:clamp(38px,7vw,86px);line-height:1.02}
+.mid{font-family:var(--displaysc);font-size:clamp(28px,4vw,52px);line-height:1.05;text-transform:uppercase}
+.lede{font-family:var(--display);font-size:clamp(28px,4.6vw,72px);line-height:1.06;text-transform:uppercase;text-wrap:balance}
+.eyebrow{
+  font-family:var(--display);
+  text-transform:uppercase;
+  font-size:clamp(20px,2.2vw,32px);
+  line-height:1;
+  display:flex;align-items:center;gap:10px;
+}
+.eyebrow::before{content:"";width:20px;height:20px;border-radius:50%;background:currentColor;flex:none}
+.kicker{font-family:var(--display);text-transform:uppercase;font-size:14px;letter-spacing:.08em}
 
-  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+/* ---------- split text animation ---------- */
+.word{display:inline-block;white-space:nowrap}
+.ch{display:inline-block;will-change:transform,opacity}
+[data-split="rise"] .word{overflow:hidden;padding-bottom:.14em;margin-bottom:-.14em}
+[data-split="rise"] .ch{transform:translateY(115%) rotate(4deg);transition:transform .9s cubic-bezier(.16,1,.3,1)}
+[data-split="rise"].in .ch{transform:none}
+[data-split="pop"] .ch{opacity:0;transform:scale(0) rotateY(10deg);transition:opacity .5s ease,transform .5s cubic-bezier(.2,1.2,.3,1)}
+[data-split="pop"].in .ch{opacity:1;transform:none}
 
-  .eyebrow {
-    font-family: var(--mono);
-    font-size: 0.75rem;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--accent);
-  }
+.rise-up{opacity:0;transform:translateY(46px);transition:opacity .8s ease,transform .8s cubic-bezier(.16,1,.3,1)}
+.rise-up.in{opacity:1;transform:none}
+.tilt-in{opacity:0;transform:scale(.72) rotate(var(--tilt,-16deg));transition:opacity .7s ease,transform .8s cubic-bezier(.16,1,.3,1)}
+.tilt-in.in{opacity:1;transform:none}
 
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    font-family: var(--display);
-    font-weight: 700;
-    font-size: 1rem;
-    letter-spacing: 0.01em;
-    text-decoration: none;
-    padding: 16px 28px;
-    border-radius: 999px;
-    transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease;
-  }
-  .btn:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
-  .btn-primary { background: var(--accent); color: var(--accent-ink); }
-  .btn-primary:hover { background: var(--accent-hover); transform: translateY(-2px); }
-  .btn-ghost { border: 1px solid var(--line); color: var(--paper); }
-  .btn-ghost:hover { border-color: var(--accent); }
-  .btn .arrow { font-family: var(--body); font-weight: 700; }
+/* ---------- layout shells ---------- */
+.shell{padding:0 var(--pad) var(--pad)}
+.shell:first-of-type{padding-top:var(--pad)}
+.panel{border-radius:var(--r);overflow:hidden;position:relative}
+.panel.dark{background:var(--ink);color:var(--cream)}
+.panel.cream{background:var(--cream);color:var(--ink)}
+.panel.pop{background:var(--pop);color:var(--ink)}
+.pad{padding:clamp(56px,9vw,160px) clamp(16px,4vw,60px)}
+.wrap{width:100%;max-width:1800px;margin:0 auto}
 
-  /* ---------- topbar ---------- */
-  header.topbar {
-    position: sticky; top: 0; z-index: 50;
-    background: color-mix(in srgb, var(--ink) 86%, transparent);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--line);
-  }
-  .topbar-inner {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 14px 24px; max-width: 1120px; margin: 0 auto;
-  }
-  .logo {
-    font-family: var(--display);
-    font-weight: 900;
-    font-stretch: 125%;
-    font-style: italic;
-    font-size: 1.35rem;
-    letter-spacing: -0.02em;
-    text-decoration: none;
-  }
-  .logo em { font-style: italic; color: var(--accent); }
-  .topbar .btn { padding: 10px 20px; font-size: 0.9rem; }
-  .topbar nav { display: flex; align-items: center; gap: 28px; }
-  .topbar nav a.navlink {
-    text-decoration: none; font-size: 0.95rem; color: var(--muted);
-  }
-  .topbar nav a.navlink:hover { color: var(--paper); }
-  @media (max-width: 720px) { .topbar nav a.navlink { display: none; } }
+/* ---------- nav ---------- */
+.nav{position:fixed;top:10px;left:50%;transform:translateX(-50%);z-index:60;width:100%;padding:12px 20px;display:flex;justify-content:center}
+.nav-inner{width:100%;max-width:1074px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{font-family:var(--display);font-size:clamp(24px,2.4vw,34px);line-height:1;text-decoration:none;color:var(--pop);
+  text-transform:uppercase;background:var(--ink);border:2px solid var(--pop);border-radius:var(--r);padding:10px 16px 8px}
+.brand:focus-visible{outline:3px solid var(--cream);outline-offset:3px}
+.nav-pill{display:flex;align-items:center;gap:28px;padding:12px 20px;border:2px solid var(--pop);background:var(--ink);border-radius:var(--r)}
+.flip{display:inline-block;height:24px;overflow:visible;perspective:1200px;text-decoration:none}
+.flip-in{display:flex;flex-direction:column;align-items:center;height:24px;transform-origin:50% 0;transition:transform .45s cubic-bezier(.44,0,.56,1);transform-style:preserve-3d}
+.flip span{display:block;font-family:var(--display);font-size:20px;line-height:24px;color:var(--pop);text-transform:uppercase;white-space:nowrap}
+.flip span+span{transform:rotateX(90deg);transform-origin:50% 0}
+.flip:hover .flip-in,.flip:focus-visible .flip-in{transform:rotateX(-90deg)}
+.flip:focus-visible{outline:2px solid var(--pop);outline-offset:4px;border-radius:4px}
+.nav-links{display:flex;gap:30px;align-items:center}
+.burger{display:none;width:40px;height:40px;border-radius:50%;background:var(--pop);border:none;position:relative;cursor:pointer}
+.burger i{position:absolute;left:50%;width:18px;height:2px;background:var(--cream);transform:translateX(-50%);transition:transform .3s ease,opacity .3s ease}
+.burger i:nth-child(1){top:16px}
+.burger i:nth-child(2){bottom:16px}
+.burger[aria-expanded="true"] i:nth-child(1){transform:translateX(-50%) translateY(3px) rotate(45deg)}
+.burger[aria-expanded="true"] i:nth-child(2){transform:translateX(-50%) translateY(-3px) rotate(-45deg)}
+@media(max-width:900px){
+  .nav-links{display:none;position:absolute;top:calc(100% + 10px);right:0;background:var(--ink);border:2px solid var(--pop);border-radius:var(--r);flex-direction:column;align-items:flex-end;gap:16px;padding:20px 22px}
+  .nav-links.open{display:flex}
+  .nav-pill{position:relative}
+  .burger{display:block}
+}
 
-  /* ---------- hero ---------- */
-  .hero { position: relative; overflow: hidden; padding: 96px 0 72px; }
-  .hero-arc {
-    position: absolute; inset: 0; width: 100%; height: 100%;
-    pointer-events: none;
-  }
-  .hero-grid { position: relative; display: grid; gap: 32px; }
-  .hero h1 {
-    font-family: var(--display);
-    font-stretch: 118%;
-    font-weight: 850;
-    font-size: clamp(2.6rem, 7vw, 5.2rem);
-    line-height: 1.02;
-    letter-spacing: -0.025em;
-    max-width: 17ch;
-  }
-  .hero h1 .leap {
-    font-style: italic;
-    color: var(--accent);
-    white-space: nowrap;
-  }
-  .hero p.lead {
-    max-width: 56ch;
-    font-size: clamp(1.05rem, 2vw, 1.25rem);
-    color: var(--muted);
-  }
-  .hero p.lead strong { color: var(--paper); font-weight: 600; }
-  .hero-ctas { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; }
-  .hero-note { font-size: 0.85rem; color: var(--muted); font-family: var(--mono); }
+/* ---------- hero ---------- */
+.hero{height:100svh;min-height:600px;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;padding-bottom:clamp(24px,4vh,40px)}
+.hero-top{flex:1;min-height:22vh}
+.hero-mark{width:100%;text-align:center;color:var(--pop);-webkit-text-stroke:clamp(2px,.5vw,5px) var(--ink);padding:0 8px}
+.hero-mark .arrow{-webkit-text-stroke:0;color:var(--ink)}
+.hero-sub{width:min(1200px,88%);margin:clamp(10px,2vh,26px) auto 0;text-align:center;color:var(--cream)}
+.hero-bottom{width:100%;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:clamp(20px,4vh,40px) clamp(16px,4vw,60px) 0;color:var(--cream)}
+.meta{display:flex;align-items:center;gap:8px;font-family:var(--display);text-transform:uppercase;font-size:15px;letter-spacing:.02em}
+.dot{width:5px;height:5px;border-radius:50%;background:var(--cream)}
+.scroll-cue{display:flex;flex-direction:column;align-items:center;gap:10px}
+.scroll-bar{width:3px;height:34px;background:var(--cream);position:relative;overflow:hidden}
+.scroll-bar::after{content:"";position:absolute;inset:0 0 auto 0;height:14px;background:var(--ink);animation:cue 1.8s ease-in-out infinite}
+@keyframes cue{0%{transform:translateY(-100%)}60%,100%{transform:translateY(240%)}}
+.scroll-cue span{font-family:var(--display);font-size:13px;letter-spacing:.1em}
+@media(max-width:760px){.scroll-cue{display:none}.hero-bottom{justify-content:center}}
 
-  .metrics {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1px;
-    background: var(--line);
-    border: 1px solid var(--line);
-    border-radius: 16px;
-    overflow: hidden;
-    margin-top: 40px;
-  }
-  .metric { background: var(--ink-2); padding: 22px 24px; }
-  .metric b {
-    display: block;
-    font-family: var(--display);
-    font-stretch: 110%;
-    font-weight: 800;
-    font-size: clamp(1.5rem, 3.4vw, 2.2rem);
-    font-variant-numeric: tabular-nums;
-    letter-spacing: -0.02em;
-  }
-  .metric b sup { color: var(--accent); font-size: 0.55em; }
-  .metric span { font-size: 0.85rem; color: var(--muted); }
-  @media (max-width: 720px) { .metrics { grid-template-columns: 1fr; } }
+/* ---------- metrics ---------- */
+.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--pad)}
+.metric{background:var(--cream);color:var(--ink);border-radius:var(--r);padding:clamp(22px,3vw,40px)}
+.metric b{display:block;font-family:var(--display);font-size:clamp(40px,6vw,96px);line-height:1;font-variant-numeric:tabular-nums}
+.metric b sup{font-size:.4em;vertical-align:super;color:var(--pop);-webkit-text-stroke:1px var(--ink)}
+.metric span{display:block;margin-top:8px;font-size:clamp(14px,1.2vw,17px);max-width:26ch}
+@media(max-width:860px){.metrics{grid-template-columns:1fr}}
 
-  /* ---------- sections ---------- */
-  section { padding: 88px 0; border-top: 1px solid var(--line); }
-  .sec-head { display: grid; gap: 14px; margin-bottom: 48px; max-width: 62ch; }
-  .sec-head h2 {
-    font-family: var(--display);
-    font-stretch: 115%;
-    font-weight: 820;
-    font-size: clamp(1.9rem, 4.5vw, 3rem);
-    line-height: 1.08;
-    letter-spacing: -0.02em;
-  }
-  .sec-head h2 em { font-style: italic; color: var(--accent); }
-  .sec-head p { color: var(--muted); }
+/* ---------- sticky giant ---------- */
+.sticky-wrap{position:relative}
+.sticky-head{position:sticky;top:0;height:100svh;display:flex;align-items:center;justify-content:center;overflow:hidden;pointer-events:none}
+.sticky-head h2{color:var(--pop);-webkit-text-stroke:clamp(2px,.4vw,4px) var(--cream);text-align:center;width:100%}
 
-  /* pain / promise */
-  .truth {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start;
-  }
-  .truth-claim {
-    font-family: var(--display);
-    font-stretch: 118%;
-    font-weight: 850;
-    font-style: italic;
-    font-size: clamp(1.8rem, 4vw, 2.8rem);
-    line-height: 1.1;
-    letter-spacing: -0.02em;
-  }
-  .truth-claim mark {
-    background: none; color: var(--accent);
-  }
-  .truth-body { display: grid; gap: 18px; color: var(--muted); max-width: 58ch; }
-  .truth-body strong { color: var(--paper); }
-  @media (max-width: 860px) { .truth { grid-template-columns: 1fr; } }
+/* ---------- services ---------- */
+.svc-list{position:relative;z-index:2;display:grid;gap:clamp(60px,10vh,140px);padding:0 clamp(16px,4vw,60px) clamp(60px,10vh,160px)}
+.svc-row{display:flex;gap:clamp(20px,4vw,60px)}
+.svc-row:nth-child(even){justify-content:flex-end}
+.svc{width:min(560px,100%);background:var(--cream);color:var(--ink);border-radius:var(--r);padding:clamp(22px,2.6vw,34px);display:grid;gap:14px;align-content:start;border:3px solid var(--ink)}
+.svc .num{font-family:var(--display);font-size:14px;letter-spacing:.14em;color:var(--pop);-webkit-text-stroke:.6px var(--ink)}
+.svc h3{font-family:var(--displaysc);font-size:clamp(26px,3.4vw,48px);line-height:1.02;text-transform:uppercase}
+.svc p{font-size:clamp(15px,1.15vw,18px);max-width:46ch}
+.svc ul{list-style:none;display:flex;flex-wrap:wrap;gap:8px;margin-top:2px}
+.svc li{font-family:var(--display);text-transform:uppercase;font-size:13px;letter-spacing:.06em;border:2px solid var(--ink);border-radius:99px;padding:5px 12px}
 
-  /* services */
-  .services {
-    display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;
-  }
-  .service {
-    border: 1px solid var(--line);
-    border-radius: 16px;
-    padding: 28px;
-    background: var(--ink-2);
-    display: grid;
-    gap: 12px;
-    align-content: start;
-    transition: border-color 0.2s ease, transform 0.2s ease;
-  }
-  .service:hover { border-color: var(--accent); transform: translateY(-3px); }
-  .service .tag {
-    font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.16em;
-    text-transform: uppercase; color: var(--accent);
-  }
-  .service h3 {
-    font-family: var(--display); font-stretch: 112%; font-weight: 800;
-    font-size: 1.35rem; letter-spacing: -0.015em;
-  }
-  .service p { color: var(--muted); font-size: 0.98rem; }
-  @media (max-width: 860px) { .services { grid-template-columns: 1fr; } }
+/* ---------- snake band ---------- */
+.snake{height:clamp(320px,58vh,620px);position:relative;background:var(--cream)}
+.snake svg{width:100%;height:100%;display:block;overflow:visible}
 
-  /* process */
-  .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; counter-reset: step; }
-  .step {
-    border-top: 2px solid var(--line);
-    padding-top: 20px;
-    display: grid; gap: 10px; align-content: start;
-    counter-increment: step;
-  }
-  .step::before {
-    content: "0" counter(step);
-    font-family: var(--mono);
-    font-size: 0.8rem;
-    color: var(--accent);
-    letter-spacing: 0.12em;
-  }
-  .step h3 {
-    font-family: var(--display); font-stretch: 112%; font-weight: 800;
-    font-size: 1.15rem; letter-spacing: -0.01em;
-  }
-  .step p { color: var(--muted); font-size: 0.95rem; }
-  @media (max-width: 860px) { .steps { grid-template-columns: 1fr 1fr; } }
-  @media (max-width: 560px) { .steps { grid-template-columns: 1fr; } }
+/* ---------- process ---------- */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--pad)}
+.step{background:var(--ink);color:var(--cream);border-radius:var(--r);padding:clamp(22px,2.4vw,34px);display:grid;gap:12px;align-content:start;border:3px solid var(--ink)}
+.step .n{font-family:var(--display);font-size:clamp(46px,5vw,86px);line-height:.9;color:var(--pop)}
+.step h3{font-family:var(--displaysc);font-size:clamp(20px,1.7vw,28px);text-transform:uppercase;line-height:1.05}
+.step p{font-size:15px;color:#D9D3C6}
+@media(max-width:1000px){.steps{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:620px){.steps{grid-template-columns:1fr}}
 
-  /* testimonials */
-  .quotes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-  .quote {
-    background: var(--ink-2);
-    border: 1px solid var(--line);
-    border-radius: 16px;
-    padding: 28px;
-    display: grid; gap: 16px; align-content: space-between;
-  }
-  .quote p { font-size: 1rem; }
-  .quote p::before { content: "“"; color: var(--accent); font-family: var(--display); font-weight: 900; }
-  .quote p::after { content: "”"; color: var(--accent); font-family: var(--display); font-weight: 900; }
-  .quote footer { font-family: var(--mono); font-size: 0.78rem; color: var(--muted); letter-spacing: 0.06em; }
-  .quote footer b { color: var(--paper); font-weight: 500; display: block; }
-  @media (max-width: 860px) { .quotes { grid-template-columns: 1fr; } }
+/* ---------- ticker ---------- */
+.ticker{overflow:hidden;width:100%;-webkit-mask:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.track{display:flex;width:max-content;gap:clamp(20px,3vw,60px);animation:slide var(--dur,46s) linear infinite}
+.ticker:hover .track{animation-play-state:paused}
+@keyframes slide{to{transform:translateX(-50%)}}
+.quote{width:clamp(300px,32vw,460px);flex:none;background:var(--cream);color:var(--ink);border-radius:var(--r);border:3px solid var(--ink);padding:clamp(20px,2vw,28px);display:grid;gap:14px;align-content:space-between}
+.quote p{font-family:var(--display);text-transform:uppercase;font-size:clamp(19px,1.6vw,26px);line-height:1.12}
+.quote footer{font-size:14px;display:flex;align-items:center;gap:10px}
+.avatar{width:44px;height:44px;border-radius:50%;background:var(--pop);border:2px solid var(--ink);display:grid;place-items:center;font-family:var(--display);font-size:18px;flex:none}
+.quote footer b{display:block;font-family:var(--display);text-transform:uppercase;font-size:16px;letter-spacing:.02em}
+.quote footer span{opacity:.7;font-size:13px}
+.logo-chip{flex:none;font-family:var(--display);text-transform:uppercase;font-size:clamp(26px,3vw,48px);color:var(--cream);opacity:.85;white-space:nowrap}
 
-  /* FAQ */
-  .faq { max-width: 760px; }
-  .faq details {
-    border-bottom: 1px solid var(--line);
-    padding: 4px 0;
-  }
-  .faq summary {
-    cursor: pointer;
-    list-style: none;
-    display: flex; justify-content: space-between; align-items: center; gap: 16px;
-    padding: 18px 0;
-    font-family: var(--display); font-stretch: 110%; font-weight: 700;
-    font-size: 1.08rem;
-  }
-  .faq summary::-webkit-details-marker { display: none; }
-  .faq summary::after {
-    content: "+";
-    font-family: var(--mono);
-    color: var(--accent);
-    font-size: 1.2rem;
-    transition: transform 0.2s ease;
-    flex: none;
-  }
-  .faq details[open] summary::after { transform: rotate(45deg); }
-  .faq details p { color: var(--muted); padding: 0 0 20px; max-width: 60ch; }
-  .faq summary:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; border-radius: 6px; }
+/* ---------- faq ---------- */
+.faq{max-width:1104px;margin:0 auto;display:grid;gap:16px}
+.faq details{border:2px solid var(--pop);border-radius:var(--r);background:var(--ink);color:var(--cream);overflow:hidden}
+.faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:20px;padding:clamp(18px,2vw,26px);font-family:var(--display);text-transform:uppercase;font-size:clamp(18px,1.8vw,26px);line-height:1.1;color:var(--pop)}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary i{flex:none;width:34px;height:34px;border-radius:50%;border:2px solid var(--pop);display:grid;place-items:center;font-style:normal;font-family:var(--body);font-weight:700;transition:transform .3s ease}
+.faq details[open] summary i{transform:rotate(45deg)}
+.faq .ans{padding:0 clamp(18px,2vw,26px) clamp(20px,2vw,28px);max-width:70ch;color:#D9D3C6}
+.faq summary:focus-visible{outline:2px solid var(--cream);outline-offset:-6px}
 
-  /* final CTA */
-  .cta-final { text-align: left; }
-  .cta-final .panel {
-    border: 1px solid var(--line);
-    border-radius: 24px;
-    background:
-      radial-gradient(120% 160% at 100% 0%, color-mix(in srgb, var(--accent) 16%, transparent) 0%, transparent 55%),
-      var(--ink-2);
-    padding: clamp(36px, 6vw, 72px);
-    display: grid; gap: 24px;
-  }
-  .cta-final h2 {
-    font-family: var(--display);
-    font-stretch: 118%;
-    font-weight: 850;
-    font-size: clamp(2rem, 5vw, 3.4rem);
-    line-height: 1.05;
-    letter-spacing: -0.02em;
-    max-width: 20ch;
-  }
-  .cta-final h2 em { font-style: italic; color: var(--accent); }
-  .cta-final p { color: var(--muted); max-width: 54ch; }
+/* ---------- cta / footer ---------- */
+.btn{display:inline-flex;align-items:center;gap:10px;font-family:var(--display);text-transform:uppercase;font-size:clamp(18px,1.6vw,24px);line-height:1;text-decoration:none;padding:14px 20px;border-radius:10px;border:3px solid var(--pop);background:var(--ink);color:var(--pop);transition:transform .2s ease,background .2s ease,color .2s ease}
+.btn:hover{transform:translateY(-3px)}
+.btn.solid{background:var(--pop);color:var(--ink);border-color:var(--ink)}
+.btn:focus-visible{outline:3px solid var(--cream);outline-offset:3px}
+.cta-actions{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin-top:clamp(24px,4vw,44px)}
+.mail{font-family:var(--display);font-size:clamp(34px,7.4vw,110px);line-height:1;text-transform:uppercase;text-decoration:none;color:var(--pop);-webkit-text-stroke:2px var(--ink);word-break:break-word}
+.foot-grid{display:flex;flex-wrap:wrap;gap:30px;justify-content:space-between;align-items:flex-start;padding:clamp(30px,5vw,60px) clamp(16px,4vw,60px) 20px}
+.foot-links{display:flex;flex-direction:column;gap:6px;align-items:flex-end}
+@media(max-width:760px){.foot-links{align-items:flex-start}}
+.legal{display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;padding:0 clamp(16px,4vw,60px) clamp(30px,4vw,50px);font-size:13px}
+.sticky-cta{position:fixed;left:10px;right:10px;bottom:10px;z-index:55;display:none}
+.sticky-cta .btn{width:100%;justify-content:center}
+@media(max-width:760px){.sticky-cta{display:block}.legal{padding-bottom:96px}}
 
-  /* footer */
-  footer.site {
-    border-top: 1px solid var(--line);
-    padding: 40px 0 96px;
-    color: var(--muted);
-    font-size: 0.9rem;
-  }
-  .footer-inner {
-    display: flex; flex-wrap: wrap; gap: 24px;
-    justify-content: space-between; align-items: center;
-  }
-  footer.site a { color: var(--paper); text-decoration: none; }
-  footer.site a:hover { color: var(--accent); }
-
-  /* sticky mobile CTA */
-  .sticky-cta {
-    position: fixed; left: 16px; right: 16px; bottom: 16px; z-index: 60;
-    display: none;
-  }
-  .sticky-cta .btn { width: 100%; justify-content: center; box-shadow: 0 10px 30px rgba(0,0,0,0.45); }
-  @media (max-width: 720px) { .sticky-cta { display: block; } footer.site { padding-bottom: 120px; } }
-
-  /* reveal animation */
-  .reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.6s ease, transform 0.6s ease; }
-  .reveal.in { opacity: 1; transform: none; }
-  @media (prefers-reduced-motion: reduce) {
-    html { scroll-behavior: auto; }
-    .reveal { opacity: 1; transform: none; transition: none; }
-    .btn, .service { transition: none; }
-  }
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .track{animation:none}
+  .scroll-bar::after{animation:none}
+  [data-split] .ch,.rise-up,.tilt-in{opacity:1!important;transform:none!important;transition:none!important}
+}
 </style>
 </head>
 <body>
 
-<header class="topbar">
-  <div class="topbar-inner">
-    <a class="logo" href="#top">LEAP<em>.</em></a>
-    <nav>
-      <a class="navlink" href="#servicos">Serviços</a>
-      <a class="navlink" href="#metodo">Método</a>
-      <a class="navlink" href="#resultados">Resultados</a>
-      <a class="navlink" href="#faq">FAQ</a>
-      <a class="btn btn-primary" href="#contato">Diagnóstico gratuito</a>
+<header class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="#top">LEAP</a>
+    <nav class="nav-pill">
+      <div class="nav-links" id="navlinks">
+        <a class="flip" href="#servicos"><span class="flip-in"><span>Serviços</span><span>Serviços</span></span></a>
+        <a class="flip" href="#metodo"><span class="flip-in"><span>Método</span><span>Método</span></span></a>
+        <a class="flip" href="#resultados"><span class="flip-in"><span>Resultados</span><span>Resultados</span></span></a>
+        <a class="flip" href="#contato"><span class="flip-in"><span>Contato</span><span>Contato</span></span></a>
+      </div>
+      <button class="burger" id="burger" aria-expanded="false" aria-controls="navlinks" aria-label="Abrir menu"><i></i><i></i></button>
     </nav>
   </div>
 </header>
 
 <main id="top">
 
-  <!-- ============ HERO ============ -->
-  <div class="hero">
-    <svg class="hero-arc" viewBox="0 0 1440 720" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
-      <path d="M -80 700 Q 620 -140 1520 340" fill="none" stroke="#FF5A1F" stroke-opacity="0.28" stroke-width="2" stroke-dasharray="2 14" stroke-linecap="round"/>
-      <path d="M -80 760 Q 640 -40 1520 420" fill="none" stroke="#232B3F" stroke-width="1.5"/>
-      <circle cx="1215" cy="278" r="5" fill="#FF5A1F"/>
-    </svg>
-    <div class="wrap hero-grid">
-      <span class="eyebrow">Leap · Agência de marketing de performance</span>
-      <h1>Sua marca está a um <span class="leap">salto ↗</span> dos resultados que ela merece.</h1>
-      <p class="lead">Tráfego pago, conteúdo estratégico e funis de venda que transformam
-        seguidores em clientes. <strong>Sem promessa mágica:</strong> método, dados e
-        execução — todos os dias.</p>
-      <div class="hero-ctas">
-        <a class="btn btn-primary" href="#contato">Quero um diagnóstico gratuito <span class="arrow">↗</span></a>
-        <a class="btn btn-ghost" href="https://www.instagram.com/leapagencia/" target="_blank" rel="noopener">@leapagencia</a>
-      </div>
-      <span class="hero-note">// resposta em até 1 dia útil · sem compromisso</span>
-
-      <div class="metrics reveal">
-        <div class="metric"><b>R$ 12M<sup>+</sup></b><span>em vendas geradas para clientes</span></div>
-        <div class="metric"><b>120<sup>+</sup></b><span>marcas aceleradas desde o início</span></div>
-        <div class="metric"><b>4,8x</b><span>ROAS médio nas contas ativas</span></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ============ PAIN / PROMISE ============ -->
-  <section>
-    <div class="wrap truth">
-      <p class="truth-claim reveal">Seguidor não paga boleto. <mark>Cliente, sim.</mark></p>
-      <div class="truth-body reveal">
-        <p>Postar todos os dias, correr atrás de trend e ver o alcance despencar no dia
-          seguinte: se essa é a sua rotina, o problema não é esforço — <strong>é a falta
-          de um sistema de aquisição.</strong></p>
-        <p>Na Leap, cada post, anúncio e página tem um papel dentro de um funil que a
-          gente desenha, mede e otimiza. Você para de "fazer marketing" e passa a
-          <strong>comprar crescimento de forma previsível.</strong></p>
+  <!-- ================= HERO ================= -->
+  <section class="shell">
+    <div class="panel dark hero">
+      <div class="hero-top"></div>
+      <h1 class="display giant hero-mark" data-split="rise">Leap</h1>
+      <p class="lede hero-sub" data-split="pop">Sua marca está a um salto dos resultados que ela merece.</p>
+      <div class="hero-bottom">
+        <div class="meta"><span>São Paulo</span><span class="dot"></span><span id="clock">--:--</span></div>
+        <div class="scroll-cue"><div class="scroll-bar"></div><span>SCROLL</span></div>
+        <div class="meta"><span>Marketing de performance</span></div>
       </div>
     </div>
   </section>
 
-  <!-- ============ SERVICES ============ -->
-  <section id="servicos">
-    <div class="wrap">
-      <div class="sec-head reveal">
-        <span class="eyebrow">O que fazemos</span>
-        <h2>Tudo que a sua marca precisa para <em>vender todo dia</em>.</h2>
-        <p>Contrate a esteira completa ou comece pelo que resolve sua maior dor agora.</p>
-      </div>
-      <div class="services">
-        <article class="service reveal">
-          <span class="tag">Aquisição</span>
-          <h3>Tráfego pago</h3>
-          <p>Campanhas em Meta e Google com gestão diária, testes criativos constantes e
-            relatórios que mostram o que importa: custo por venda, não curtida.</p>
-        </article>
-        <article class="service reveal">
-          <span class="tag">Autoridade</span>
-          <h3>Social media estratégico</h3>
-          <p>Linha editorial, roteiros e criativos pensados para converter — do Reels ao
-            direct. Conteúdo que constrói desejo, não só presença.</p>
-        </article>
-        <article class="service reveal">
-          <span class="tag">Conversão</span>
-          <h3>Landing pages &amp; funis</h3>
-          <p>Páginas rápidas e persuasivas, integradas a WhatsApp e CRM, com testes A/B
-            contínuos para espremer cada real investido em mídia.</p>
-        </article>
-        <article class="service reveal">
-          <span class="tag">Posicionamento</span>
-          <h3>Branding &amp; oferta</h3>
-          <p>Identidade, mensagem e construção de oferta: o alicerce que faz o anúncio
-            custar menos e o cliente escolher você — antes de ver o preço.</p>
-        </article>
-      </div>
+  <!-- ================= MANIFESTO ================= -->
+  <section class="shell">
+    <div class="panel pop pad">
+      <p class="display big wrap" data-split="pop" style="max-width:1200px;margin:0 auto;text-align:center">
+        Seguidor não paga boleto. Cliente, sim. A gente constrói o sistema que transforma atenção em venda todo santo dia.
+      </p>
     </div>
   </section>
 
-  <!-- ============ PROCESS ============ -->
-  <section id="metodo">
-    <div class="wrap">
-      <div class="sec-head reveal">
-        <span class="eyebrow">Como funciona</span>
-        <h2>O método Leap, do diagnóstico à <em>escala</em>.</h2>
-      </div>
-      <div class="steps">
-        <div class="step reveal">
-          <h3>Diagnóstico</h3>
-          <p>Analisamos seu funil, concorrência e histórico de mídia. Você recebe um
-            plano claro — mesmo que não feche com a gente.</p>
+  <!-- ================= SERVIÇOS ================= -->
+  <section class="shell" id="servicos">
+    <div class="panel dark sticky-wrap">
+      <div class="sticky-head"><h2 class="display giant" data-split="rise">Serviços</h2></div>
+      <div class="svc-list">
+        <div class="svc-row">
+          <article class="svc rise-up">
+            <span class="num">01 / AQUISIÇÃO</span>
+            <h3>Tráfego pago</h3>
+            <p>Campanhas em Meta e Google com gestão diária, testes criativos constantes e relatório que mostra o que importa: custo por venda, não curtida.</p>
+            <ul><li>Meta Ads</li><li>Google Ads</li><li>Criativos</li></ul>
+          </article>
         </div>
-        <div class="step reveal">
-          <h3>Plano de voo</h3>
-          <p>Definimos metas, canais, verba e criativos. Tudo documentado, com
-            previsão de resultado e marcos de validação.</p>
+        <div class="svc-row">
+          <article class="svc rise-up">
+            <span class="num">02 / AUTORIDADE</span>
+            <h3>Social media</h3>
+            <p>Linha editorial, roteiros e conteúdo pensados para converter — do Reels ao direct. Presença que constrói desejo, não só volume de post.</p>
+            <ul><li>Reels</li><li>Roteiro</li><li>Design</li></ul>
+          </article>
         </div>
-        <div class="step reveal">
-          <h3>Execução</h3>
-          <p>Campanhas no ar em até 15 dias. Otimização diária e reuniões quinzenais
-            de resultado — sem relatório de vaidade.</p>
+        <div class="svc-row">
+          <article class="svc rise-up">
+            <span class="num">03 / CONVERSÃO</span>
+            <h3>Landing &amp; funis</h3>
+            <p>Páginas rápidas e persuasivas, integradas a WhatsApp e CRM, com teste A/B contínuo para espremer cada real investido em mídia.</p>
+            <ul><li>Landing pages</li><li>CRM</li><li>Teste A/B</li></ul>
+          </article>
         </div>
-        <div class="step reveal">
-          <h3>Escala</h3>
-          <p>Com o custo por venda validado, aumentamos a verba com segurança e
-            abrimos novos canais e ofertas.</p>
+        <div class="svc-row">
+          <article class="svc rise-up">
+            <span class="num">04 / POSICIONAMENTO</span>
+            <h3>Branding &amp; oferta</h3>
+            <p>Identidade, mensagem e construção de oferta: o alicerce que faz o anúncio custar menos e o cliente escolher você antes de ver o preço.</p>
+            <ul><li>Identidade</li><li>Oferta</li><li>Narrativa</li></ul>
+          </article>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ============ RESULTS / TESTIMONIALS ============ -->
-  <section id="resultados">
-    <div class="wrap">
-      <div class="sec-head reveal">
-        <span class="eyebrow">Prova, não promessa</span>
-        <h2>Quem deu o salto com a <em>Leap</em>.</h2>
-      </div>
-      <div class="quotes">
-        <blockquote class="quote reveal">
-          <p>Em 4 meses saímos de 30 para 210 pedidos/mês vindos do digital. O
-            investimento em anúncio se paga na primeira semana do mês.</p>
-          <footer><b>Mariana R.</b> e-commerce de moda · cliente há 1 ano</footer>
-        </blockquote>
-        <blockquote class="quote reveal">
-          <p>A agenda da clínica lotou com 45 dias de campanha. Hoje o desafio é outro:
-            contratar mais gente para atender.</p>
-          <footer><b>Dr. Felipe A.</b> clínica odontológica · cliente há 8 meses</footer>
-        </blockquote>
-        <blockquote class="quote reveal">
-          <p>Já tinha passado por 3 agências. A diferença da Leap é que eles olham o
-            funil inteiro — do anúncio ao fechamento no WhatsApp.</p>
-          <footer><b>Camila S.</b> infoproduto de educação · cliente há 6 meses</footer>
-        </blockquote>
-      </div>
+  <!-- ================= SNAKE BAND ================= -->
+  <section class="shell">
+    <div class="panel cream snake">
+      <svg viewBox="0 0 1600 800" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+        <path id="leap-path" d="M -100 650 L 400 650 A 100 100 0 0 0 400 450 L 200 450 A 100 100 0 0 1 200 250 L 700 250 A 100 100 0 0 1 800 350 L 800 550 A 100 100 0 0 0 900 650 L 1100 650 A 100 100 0 0 0 1200 550 L 1200 200 A 100 100 0 0 1 1400 200 L 1400 550 A 100 100 0 0 0 1500 650 L 1700 650"
+          fill="none" stroke="#101208" stroke-width="100" stroke-linecap="square" stroke-linejoin="round"/>
+        <text fill="#FF5C29" style="font-family:Anton,Impact,sans-serif;font-size:50px;letter-spacing:.03em" dy="20">
+          <textPath href="#leap-path" startOffset="0%">
+            OS MELHORES PLANOS COMEÇAM COM DADOS. &#160; OS MELHORES PLANOS COMEÇAM COM DADOS. &#160; OS MELHORES PLANOS COMEÇAM COM DADOS. &#160; OS MELHORES PLANOS COMEÇAM COM DADOS. &#160; OS MELHORES PLANOS COMEÇAM COM DADOS. &#160; OS MELHORES PLANOS COMEÇAM COM DADOS. &#160; OS MELHORES PLANOS COMEÇAM COM DADOS. &#160; OS MELHORES PLANOS COMEÇAM COM DADOS. &#160; OS MELHORES PLANOS COMEÇAM COM DADOS. &#160; OS MELHORES PLANOS COMEÇAM COM DADOS. &#160;
+            <animate attributeName="startOffset" from="0%" to="-30%" dur="26s" repeatCount="indefinite"/>
+          </textPath>
+        </text>
+      </svg>
     </div>
   </section>
 
-  <!-- ============ FAQ ============ -->
-  <section id="faq">
-    <div class="wrap">
-      <div class="sec-head reveal">
-        <span class="eyebrow">Perguntas frequentes</span>
-        <h2>Antes de dar o salto.</h2>
-      </div>
-      <div class="faq reveal">
-        <details>
-          <summary>Quanto preciso investir em anúncios?</summary>
-          <p>Depende do seu mercado e da meta, mas trabalhamos com verbas a partir de
-            R$ 1.500/mês em mídia. No diagnóstico gratuito indicamos o valor ideal para
-            o seu caso — e somos honestos quando ainda não é o momento de anunciar.</p>
-        </details>
-        <details>
-          <summary>Em quanto tempo vejo resultado?</summary>
-          <p>As primeiras vendas costumam aparecer nas primeiras semanas de campanha.
-            A validação do custo por venda leva de 30 a 90 dias, e é a partir daí que
-            escalamos com previsibilidade.</p>
-        </details>
-        <details>
-          <summary>Vocês atendem meu segmento?</summary>
-          <p>Atendemos e-commerce, serviços locais, clínicas e negócios digitais. No
-            diagnóstico avaliamos se conseguimos gerar resultado no seu mercado — se
-            não for o caso, dizemos na hora.</p>
-        </details>
-        <details>
-          <summary>Existe fidelidade ou multa de contrato?</summary>
-          <p>Trabalhamos com ciclos trimestrais e renovação por resultado. Se não fizer
-            sentido continuar, você encerra ao fim do ciclo, sem multa e levando todos
-            os acessos e aprendizados documentados.</p>
-        </details>
-        <details>
-          <summary>O diagnóstico é gratuito mesmo?</summary>
-          <p>Sim. É uma análise real do seu funil e da sua presença digital, com
-            recomendações práticas. Usamos esse encontro para saber se podemos gerar
-            resultado juntos — sem pressão de venda.</p>
-        </details>
-      </div>
+  <!-- ================= NÚMEROS ================= -->
+  <section class="shell">
+    <div class="metrics">
+      <div class="metric rise-up"><b>R$ 12M<sup>+</sup></b><span>em vendas geradas para clientes</span></div>
+      <div class="metric rise-up"><b>120<sup>+</sup></b><span>marcas aceleradas desde o início</span></div>
+      <div class="metric rise-up"><b>4,8x</b><span>ROAS médio nas contas ativas</span></div>
     </div>
   </section>
 
-  <!-- ============ FINAL CTA ============ -->
-  <section id="contato" class="cta-final">
-    <div class="wrap">
-      <div class="panel reveal">
-        <span class="eyebrow">Vagas limitadas · abrimos 5 contas novas por mês</span>
-        <h2>Pronto para o <em>próximo salto ↗</em> da sua marca?</h2>
-        <p>Peça seu diagnóstico gratuito. Em uma call de 30 minutos, você sai com um
-          plano claro do que fazer — com ou sem a gente.</p>
-        <div class="hero-ctas">
-          <a class="btn btn-primary" href="https://wa.me/5500000000000?text=Ol%C3%A1%2C%20vim%20pela%20p%C3%A1gina%20da%20Leap%20e%20quero%20um%20diagn%C3%B3stico%20gratuito!" target="_blank" rel="noopener">Chamar no WhatsApp <span class="arrow">↗</span></a>
-          <a class="btn btn-ghost" href="https://www.instagram.com/leapagencia/" target="_blank" rel="noopener">Seguir no Instagram</a>
+  <!-- ================= MÉTODO ================= -->
+  <section class="shell" id="metodo">
+    <div class="panel cream pad">
+      <div class="wrap" style="display:grid;gap:clamp(30px,5vw,60px)">
+        <span class="eyebrow" style="color:var(--pop)">O MÉTODO LEAP</span>
+        <p class="display big" data-split="rise" style="max-width:16ch">Do diagnóstico à escala.</p>
+        <div class="steps">
+          <div class="step rise-up"><span class="n">01</span><h3>Diagnóstico</h3><p>Analisamos seu funil, concorrência e histórico de mídia. Você recebe um plano claro — mesmo que não feche com a gente.</p></div>
+          <div class="step rise-up"><span class="n">02</span><h3>Plano de voo</h3><p>Metas, canais, verba e criativos documentados, com previsão de resultado e marcos de validação.</p></div>
+          <div class="step rise-up"><span class="n">03</span><h3>Execução</h3><p>Campanhas no ar em até 15 dias. Otimização diária e reunião quinzenal de resultado — sem relatório de vaidade.</p></div>
+          <div class="step rise-up"><span class="n">04</span><h3>Escala</h3><p>Com o custo por venda validado, aumentamos a verba com segurança e abrimos novos canais e ofertas.</p></div>
         </div>
       </div>
     </div>
   </section>
+
+  <!-- ================= RESULTADOS ================= -->
+  <section class="shell" id="resultados">
+    <div class="panel pop sticky-wrap">
+      <div class="sticky-head"><h2 class="display giant" style="color:var(--ink);-webkit-text-stroke:0" data-split="rise">Resultados</h2></div>
+      <div style="position:relative;z-index:2;padding:0 clamp(16px,4vw,60px) clamp(60px,10vh,160px);display:grid;gap:clamp(30px,6vh,90px)">
+        <div style="display:flex;justify-content:flex-start">
+          <blockquote class="quote tilt-in" style="--tilt:-14deg">
+            <p>“Em 4 meses saímos de 30 para 210 pedidos por mês vindos do digital.”</p>
+            <footer><span class="avatar">M</span><span><b>Mariana R.</b><span>e-commerce de moda · cliente há 1 ano</span></span></footer>
+          </blockquote>
+        </div>
+        <div style="display:flex;justify-content:flex-end">
+          <blockquote class="quote tilt-in" style="--tilt:14deg">
+            <p>“A agenda da clínica lotou com 45 dias de campanha. Hoje o desafio é contratar mais gente.”</p>
+            <footer><span class="avatar">F</span><span><b>Dr. Felipe A.</b><span>clínica odontológica · cliente há 8 meses</span></span></footer>
+          </blockquote>
+        </div>
+        <div style="display:flex;justify-content:flex-start">
+          <blockquote class="quote tilt-in" style="--tilt:-10deg">
+            <p>“Já passei por 3 agências. A Leap olha o funil inteiro — do anúncio ao fechamento no WhatsApp.”</p>
+            <footer><span class="avatar">C</span><span><b>Camila S.</b><span>infoproduto de educação · cliente há 6 meses</span></span></footer>
+          </blockquote>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= TICKER DE SEGMENTOS ================= -->
+  <section class="shell">
+    <div class="panel dark" style="padding:clamp(30px,5vw,60px) 0">
+      <div class="ticker" style="--dur:38s">
+        <div class="track" data-loop>
+          <span class="logo-chip">E-COMMERCE ✳</span><span class="logo-chip">CLÍNICAS ✳</span><span class="logo-chip">INFOPRODUTOS ✳</span>
+          <span class="logo-chip">SERVIÇOS LOCAIS ✳</span><span class="logo-chip">IMOBILIÁRIO ✳</span><span class="logo-chip">MODA ✳</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= DEPOIMENTOS TICKER ================= -->
+  <section class="shell">
+    <div class="panel pop" style="padding:clamp(50px,7vw,110px) 0">
+      <div style="padding:0 clamp(16px,4vw,60px) clamp(30px,4vw,50px)">
+        <span class="eyebrow" style="color:var(--ink)">QUEM DEU O SALTO</span>
+      </div>
+      <div class="ticker" style="--dur:52s">
+        <div class="track" data-loop>
+          <blockquote class="quote"><p>“O custo por lead caiu 41% no segundo mês.”</p><footer><span class="avatar">R</span><span><b>Rafael T.</b><span>serviços locais</span></span></footer></blockquote>
+          <blockquote class="quote"><p>“Parei de postar no escuro. Hoje sei o que cada peça gera.”</p><footer><span class="avatar">J</span><span><b>Juliana P.</b><span>moda autoral</span></span></footer></blockquote>
+          <blockquote class="quote"><p>“Escalamos a verba 3x sem perder margem.”</p><footer><span class="avatar">A</span><span><b>André L.</b><span>e-commerce de casa</span></span></footer></blockquote>
+          <blockquote class="quote"><p>“Reunião quinzenal com número na mesa. Simples assim.”</p><footer><span class="avatar">P</span><span><b>Patrícia M.</b><span>clínica estética</span></span></footer></blockquote>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FAQ ================= -->
+  <section class="shell" id="faq">
+    <div class="panel dark pad">
+      <div class="wrap" style="display:grid;gap:clamp(30px,5vw,60px)">
+        <span class="eyebrow" style="color:var(--pop)">PERGUNTAS FREQUENTES</span>
+        <p class="display big" data-split="rise" style="color:var(--pop);max-width:14ch">Antes de dar o salto.</p>
+        <div class="faq">
+          <details><summary>Quanto preciso investir em anúncios?<i>+</i></summary><p class="ans">Depende do mercado e da meta, mas trabalhamos com verbas a partir de R$ 1.500/mês em mídia. No diagnóstico gratuito indicamos o valor ideal para o seu caso — e somos honestos quando ainda não é o momento de anunciar.</p></details>
+          <details><summary>Em quanto tempo vejo resultado?<i>+</i></summary><p class="ans">As primeiras vendas costumam aparecer nas primeiras semanas de campanha. A validação do custo por venda leva de 30 a 90 dias, e é a partir daí que escalamos com previsibilidade.</p></details>
+          <details><summary>Vocês atendem meu segmento?<i>+</i></summary><p class="ans">Atendemos e-commerce, serviços locais, clínicas e negócios digitais. No diagnóstico avaliamos se conseguimos gerar resultado no seu mercado — se não for o caso, dizemos na hora.</p></details>
+          <details><summary>Existe fidelidade ou multa de contrato?<i>+</i></summary><p class="ans">Trabalhamos com ciclos trimestrais e renovação por resultado. Se não fizer sentido continuar, você encerra ao fim do ciclo, sem multa e levando todos os acessos e aprendizados documentados.</p></details>
+          <details><summary>O diagnóstico é gratuito mesmo?<i>+</i></summary><p class="ans">Sim. É uma análise real do seu funil e da sua presença digital, com recomendações práticas. Usamos esse encontro para saber se podemos gerar resultado juntos — sem pressão de venda.</p></details>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CTA ================= -->
+  <section class="shell" id="contato">
+    <div class="panel cream pad" style="text-align:center">
+      <div class="wrap" style="display:grid;gap:clamp(20px,3vw,36px);justify-items:center">
+        <span class="kicker" style="color:var(--pop)">VAGAS LIMITADAS · 5 CONTAS NOVAS POR MÊS</span>
+        <p class="display giant" style="color:var(--pop);-webkit-text-stroke:clamp(2px,.4vw,4px) var(--ink)" data-split="rise">Salto</p>
+        <p class="lede" style="max-width:22ch">Pronto para o próximo salto da sua marca?</p>
+        <p style="max-width:52ch">Em uma call de 30 minutos você sai com um plano claro do que fazer — com ou sem a gente.</p>
+        <div class="cta-actions">
+          <a class="btn solid" href="https://wa.me/5500000000000?text=Ol%C3%A1%2C%20vim%20pela%20p%C3%A1gina%20da%20Leap%20e%20quero%20um%20diagn%C3%B3stico%20gratuito!" target="_blank" rel="noopener">Chamar no WhatsApp ↗</a>
+          <a class="btn" href="https://www.instagram.com/leapagencia/" target="_blank" rel="noopener">@leapagencia ↗</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="shell">
+    <div class="panel dark">
+      <div class="foot-grid">
+        <div style="display:grid;gap:18px">
+          <a class="mail" href="mailto:contato@leapagencia.com.br">contato@leapagencia.com.br</a>
+          <div style="display:flex;gap:14px;flex-wrap:wrap">
+            <a class="btn" href="https://www.instagram.com/leapagencia/" target="_blank" rel="noopener">Instagram ↗</a>
+            <a class="btn" href="https://wa.me/5500000000000" target="_blank" rel="noopener">WhatsApp ↗</a>
+          </div>
+        </div>
+        <div class="foot-links">
+          <a class="flip" href="#top"><span class="flip-in"><span>Home</span><span>Home</span></span></a>
+          <a class="flip" href="#servicos"><span class="flip-in"><span>Serviços</span><span>Serviços</span></span></a>
+          <a class="flip" href="#metodo"><span class="flip-in"><span>Método</span><span>Método</span></span></a>
+          <a class="flip" href="#faq"><span class="flip-in"><span>FAQ</span><span>FAQ</span></span></a>
+        </div>
+      </div>
+      <div class="legal" style="color:#B9B2A5">
+        <span>© 2026 Leap Agência</span>
+        <span>São Paulo · Brasil</span>
+      </div>
+    </div>
+  </footer>
 </main>
 
-<footer class="site">
-  <div class="wrap footer-inner">
-    <span><a class="logo" href="#top">LEAP<em>.</em></a></span>
-    <span>© 2026 Leap Agência · Todos os direitos reservados</span>
-    <span><a href="https://www.instagram.com/leapagencia/" target="_blank" rel="noopener">Instagram ↗</a></span>
-  </div>
-</footer>
-
-<div class="sticky-cta">
-  <a class="btn btn-primary" href="#contato">Quero meu diagnóstico gratuito ↗</a>
-</div>
+<div class="sticky-cta"><a class="btn solid" href="#contato">Quero meu diagnóstico ↗</a></div>
 
 <script>
-  (function () {
-    var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    var items = document.querySelectorAll(".reveal");
-    if (reduced || !("IntersectionObserver" in window)) {
-      items.forEach(function (el) { el.classList.add("in"); });
-      return;
-    }
+(function () {
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---- split text into words + characters (OCHA-style letter animations) ---- */
+  function split(el) {
+    var text = el.textContent;
+    el.textContent = '';
+    text.split(/(\s+)/).forEach(function (chunk) {
+      if (chunk === '') return;
+      if (/^\s+$/.test(chunk)) { el.appendChild(document.createTextNode(' ')); return; }
+      var word = document.createElement('span');
+      word.className = 'word';
+      Array.from(chunk).forEach(function (c) {
+        var s = document.createElement('span');
+        s.className = 'ch';
+        s.textContent = c;
+        word.appendChild(s);
+      });
+      el.appendChild(word);
+    });
+  }
+
+  var splits = document.querySelectorAll('[data-split]');
+  splits.forEach(function (el) {
+    split(el);
+    var step = el.dataset.split === 'rise' ? 0.045 : 0.012;
+    el.querySelectorAll('.ch').forEach(function (ch, i) {
+      ch.style.transitionDelay = (i * step).toFixed(3) + 's';
+    });
+  });
+
+  /* ---- reveal on scroll ---- */
+  var targets = document.querySelectorAll('[data-split], .rise-up, .tilt-in');
+  if (reduced || !('IntersectionObserver' in window)) {
+    targets.forEach(function (el) { el.classList.add('in'); });
+  } else {
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (e) {
-        if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
+        if (!e.isIntersecting) return;
+        e.target.classList.add('in');
+        io.unobserve(e.target);
       });
-    }, { threshold: 0.15 });
-    items.forEach(function (el) { io.observe(el); });
-  })();
-</script>
+    }, { threshold: 0.2, rootMargin: '0px 0px -8% 0px' });
+    targets.forEach(function (el) { io.observe(el); });
+  }
 
+  /* ---- seamless marquees: duplicate the row once ---- */
+  document.querySelectorAll('[data-loop]').forEach(function (track) {
+    if (reduced) { track.style.animation = 'none'; return; }
+    track.innerHTML += track.innerHTML;
+  });
+
+  /* ---- sticky giant headings drift with scroll ---- */
+  var stickies = Array.prototype.slice.call(document.querySelectorAll('.sticky-wrap'));
+  if (!reduced && stickies.length) {
+    var ticking = false;
+    var onScroll = function () {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(function () {
+        stickies.forEach(function (wrap) {
+          var head = wrap.querySelector('.sticky-head h2');
+          if (!head) return;
+          var r = wrap.getBoundingClientRect();
+          var total = r.height - window.innerHeight;
+          if (total <= 0) return;
+          var p = Math.min(1, Math.max(0, -r.top / total));
+          head.style.transform = 'scale(' + (1 + p * 0.12) + ') translateY(' + (p * -6) + 'vh)';
+          head.style.opacity = String(1 - p * 0.45);
+        });
+        ticking = false;
+      });
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
+
+  /* ---- keep giant display type inside its panel ---- */
+  var giants = document.querySelectorAll('.giant');
+  function fit() {
+    giants.forEach(function (el) {
+      el.style.setProperty('--fit', '1');
+      var avail = (el.parentElement ? el.parentElement.clientWidth : window.innerWidth) - 16;
+      var w = el.scrollWidth;
+      if (w > avail) el.style.setProperty('--fit', (avail / w).toFixed(3));
+    });
+  }
+  fit();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
+  window.addEventListener('resize', fit);
+
+  /* ---- live clock (São Paulo) ---- */
+  var clock = document.getElementById('clock');
+  if (clock) {
+    var tick = function () {
+      clock.textContent = new Date().toLocaleTimeString('pt-BR', {
+        timeZone: 'America/Sao_Paulo', hour: '2-digit', minute: '2-digit'
+      });
+    };
+    tick();
+    setInterval(tick, 15000);
+  }
+
+  /* ---- mobile menu ---- */
+  var burger = document.getElementById('burger');
+  var links = document.getElementById('navlinks');
+  if (burger && links) {
+    burger.addEventListener('click', function () {
+      var open = links.classList.toggle('open');
+      burger.setAttribute('aria-expanded', String(open));
+      burger.setAttribute('aria-label', open ? 'Fechar menu' : 'Abrir menu');
+    });
+    links.addEventListener('click', function (e) {
+      if (e.target.closest('a')) {
+        links.classList.remove('open');
+        burger.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+})();
+</script>
 </body>
 </html>
