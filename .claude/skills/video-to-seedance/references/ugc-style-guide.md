@@ -1,8 +1,13 @@
-# UGC Style Guide — Skincare hiper-realista (Seedance 2.0)
+# UGC Style Guide — Skincare hiper-realista (Google Flow, Seedance 2.0, Kling, Veo)
 
 Destilado de 15 vídeos UGC reais de skincare (Principia, Cleardew, Curél,
 LEES; PT-BR e FR). Este guia é a referência obrigatória ao gerar prompts de
 vídeo UGC. Objetivo: pele que parece FILMADA, não gerada.
+
+Este arquivo cobre PELE, PRODUTO-NA-PELE, LUZ, CENÁRIO e ANTI-PADRÕES.
+Movimento, câmera e física estão em `motion-realism.md`; estrutura do prompt e
+timeline em `prompt-structure.md`; identidade entre shots em
+`character-consistency.md`; correção de frame em `frame-editing.md`.
 
 ---
 
@@ -35,6 +40,20 @@ Imperfeições (escolher conforme o talento):
 - `slight under-eye darkness and fine lines`
 - `individual brow hairs and baby hairs along the hairline`
 - `lashes with slightly clumped mascara`
+
+Assimetria e variação (o que separa pele real de textura aplicada):
+- `varied pore sizes — larger around the nose, finer on the cheeks`
+- `natural facial asymmetry, the two sides of the face are not identical`
+- `realistic under-eye texture with fine crepey lines`
+- `subtle tonal variation across the face, not a uniform complexion`
+
+**Nunca interpretar "pele bonita" como pele lisa.** Em close-up, preservar a
+textura autêntica é o que faz o rosto parecer filmado. Pele sem poro é o
+primeiro sinal de IA, mesmo quando todo o resto está certo.
+
+Evitar sempre: `flawless skin`, `porcelain skin`, `plastic skin`, `airbrushed`,
+`beauty filter`, `excessive glow`, `uniform complexion`, `artificial
+sharpening`, `CGI skin`, `perfect symmetry`.
 
 Glow/dewy (para looks de hidratação/golden hour):
 - `dewy glowing skin with specular highlights on cheekbones and forehead`
@@ -222,13 +241,33 @@ unposed expression. Static tripod framing with natural body sway. Duration
 
 ## 11. Checklist final antes de entregar um prompt
 
-- [ ] 3–5 termos de pele natural (seção 2)?
-- [ ] Produto interagindo com a pele ou em macro (seção 3)?
-- [ ] Se há líquido: translucidez, molhamento e absorção descritos (seção 3.2)?
-- [ ] Se há líquido: verbo de imperfeição no movimento (seção 3.1)?
-- [ ] Cor do produto descrita como tom fraco em líquido claro (seção 3.2)?
-- [ ] Enquadramento + movimento de câmera explícitos (seção 4)?
-- [ ] Uma fonte de luz definida (seção 5)?
-- [ ] Detalhes de creator (unhas, joias, figurino) (seção 6)?
-- [ ] Zero anti-padrões (seção 9)?
-- [ ] Duração e 9:16 declarados?
+**Pele e produto (este arquivo)**
+- [ ] 3–5 termos de pele natural, incluindo uma assimetria (§2)?
+- [ ] Nenhum termo da lista de "evitar sempre" (§2)?
+- [ ] Produto interagindo com a pele ou em macro (§3)?
+- [ ] Se há líquido: translucidez, molhamento e absorção descritos (§3.2)?
+- [ ] Se há líquido: verbo de imperfeição no movimento (§3.1)?
+- [ ] Cor do produto como tom fraco em líquido claro (§3.2)?
+- [ ] Uma fonte de luz definida (§5)?
+- [ ] Detalhes de creator: unhas, joias, figurino (§6)?
+- [ ] Zero anti-padrões (§9)?
+
+**Movimento (`motion-realism.md`)**
+- [ ] Zero ocorrências de "natural/realistic/smooth movement"?
+- [ ] Regra da imobilidade incluída literalmente?
+- [ ] Mão decomposta em APPROACH→HESITATION→CONTACT→PRESSURE→ADJUSTMENT→RELEASE?
+- [ ] Micro-movimento facial sutil, sem sorriso constante nem olhar fixo?
+- [ ] Câmera com micro-tremor e correção de enquadramento, sem gimbal?
+- [ ] Gestos repetidos com variação de trajetória/velocidade/pressão?
+
+**Estrutura (`prompt-structure.md`)**
+- [ ] Todos os blocos presentes (CAMERA…NEGATIVE CONSTRAINTS)?
+- [ ] Acima de ~4s: timeline com beats, cada um dizendo o que fica PARADO?
+- [ ] Restrições negativas escolhidas para os riscos desta cena?
+
+**Identidade (`character-consistency.md`)**
+- [ ] Mais de um shot: lista de travamento no início de cada prompt?
+- [ ] Descrição da personagem idêntica palavra por palavra entre shots?
+
+**Básico**
+- [ ] Inglês, verbos concretos, duração e 9:16 declarados?
