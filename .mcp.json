@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "pinterest": {
+      "type": "stdio",
+      "command": "python3",
+      "args": ["tools/pinterest_mcp.py"],
+      "env": {}
+    }
+  }
+}

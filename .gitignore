@@ -3,3 +3,5 @@ data/
 uploads/
 *.log
 .env
+__pycache__/
+*.pyc
