@@ -118,6 +118,34 @@ Vocabulário corretivo — usar SEMPRE que houver líquido na pele:
 A cor deve aparecer na CONCENTRAÇÃO (mais forte onde acumula, quase invisível
 onde é fina) — é assim que líquido translúcido se comporta.
 
+## 3.3 Pastas opacas — argila, máscaras e cremes espessos
+
+As §3.1 e §3.2 tratam de LÍQUIDO. Pasta espessa é o oposto e aplicar o
+vocabulário de sérum nela produz erro: argila **não escorre, não é
+translúcida e não molha a pele** — ela se deposita, segura relevo e SECA.
+
+Referência real: `analises/` → ugc-40 (macro de creme opaco com sulcos de
+espátula, swatch no dorso da mão com borda definida).
+
+Comportamento a descrever:
+- `the paste is fully opaque and matte — it sits on the skin and hides the
+  texture underneath instead of revealing it`
+- `it holds the ridges left by her fingertips instead of levelling out`
+- `the layer is uneven — thicker in the middle of the stroke, thinner and
+  patchy at the edges, with a ragged irregular border`
+- `a thin string of paste stretches between her fingertip and her cheek, then
+  breaks` (ao levantar o dedo)
+- `where the paste was applied first it has already dulled and lightened as it
+  dries, while the fresh stroke is darker and slightly damp`
+- `fine hairline cracks begin to appear in the driest area` (se o clipe for longo)
+- `the skin under the dried edge looks slightly taut`
+
+**Nunca** usar com pasta: `translucent`, `wets the skin`, `runs down`,
+`rivulets`, `drips`, `glistening trail`. Pasta que escorre parece tinta.
+
+**Cor**: argila rosa é `dusty rose, muted and slightly greyish, matte` — não
+`vivid pink`. O anti-padrão de saturação da §3.2 vale igual.
+
 ## 4. Câmera e enquadramento (sempre explícito)
 
 Enquadramentos-assinatura do UGC real (escolher 1 por shot):
@@ -246,6 +274,7 @@ unposed expression. Static tripod framing with natural body sway. Duration
 - [ ] Nenhum termo da lista de "evitar sempre" (§2)?
 - [ ] Produto interagindo com a pele ou em macro (§3)?
 - [ ] Se há líquido: translucidez, molhamento e absorção descritos (§3.2)?
+- [ ] Se há pasta/argila: opacidade, relevo mantido, borda irregular e secagem (§3.3)?
 - [ ] Se há líquido: verbo de imperfeição no movimento (§3.1)?
 - [ ] Cor do produto como tom fraco em líquido claro (§3.2)?
 - [ ] Uma fonte de luz definida (§5)?
